@@ -1,0 +1,33 @@
+# Dependencias
+**/node_modules/
+
+# Variables de entorno (NUNCA versionar — contienen credenciales MySQL)
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+# Builds
+**/dist/
+**/.next/
+**/out/
+**/build/
+
+# Prisma
+**/prisma/*.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Caché
+**/.turbo/
+**/coverage/

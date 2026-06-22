@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CARWEB — Sistema de Diseño · Diagnóstico Automotriz
+   ============================================================ */
+:root {
+  /* Fondos */
+  --bg-900: #020617;
+  --bg-800: #071126;
+  --bg-700: #0b1220;
+  --bg-600: #111827;
+
+  /* Acentos tecnológicos */
+  --neon: #00d4ff;        /* Neón tecnológico */
+  --diag: #00ff88;        /* Verde diagnóstico */
+  --warn: #ff8c42;        /* Naranja advertencia */
+  --crit: #ff4d4d;        /* Rojo crítico */
+
+  /* Texto */
+  --t-100: #ffffff;
+  --t-300: #cbd5e1;
+  --t-500: #94a3b8;
+
+  /* Compat con clases legacy primary-* (mapeadas al neón) */
+  --primary-400: #38d4ff;
+  --primary-500: #00d4ff;
+  --primary-600: #00a3c4;
+  --accent-400: #ff8c42;
+  --accent-500: #ff7a29;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-900);
+  color: var(--t-300);
+}
+
+/* ============================================================
+   Utilidades de color CARWEB
+   ============================================================ */
+@layer utilities {
+  /* Texto */
+  .text-neon { color: var(--neon); }
+  .text-diag { color: var(--diag); }
+  .text-warn { color: var(--warn); }
+  .text-crit { color: var(--crit); }
+
+  /* Fondos sólidos */
+  .bg-cw-900 { background-color: var(--bg-900); }
+  .bg-cw-800 { background-color: var(--bg-800); }
+  .bg-cw-700 { background-color: var(--bg-700); }
+  .bg-cw-600 { background-color: var(--bg-600); }
+  .bg-neon { background-color: var(--neon); }
+  .bg-diag { background-color: var(--diag); }
+
+  /* Bordes */
+  .border-neon { border-color: var(--neon); }
+  .border-neon\/30 { border-color: rgba(0, 212, 255, 0.3); }
+  .border-neon\/50 { border-color: rgba(0, 212, 255, 0.5); }
+
+  /* Compat legacy primary-* */
+  .text-primary-400 { color: var(--primary-400); }
+  .bg-primary-500 { background-color: var(--primary-500); }
+  .from-primary-400 { --tw-gradient-from: var(--primary-400); }
+  .from-primary-500 { --tw-gradient-from: var(--primary-500); }
+  .to-primary-500 { --tw-gradient-to: var(--primary-500); }
+  .to-primary-600 { --tw-gradient-to: var(--primary-600); }
+  .from-accent-400 { --tw-gradient-from: var(--accent-400); }
+  .to-accent-400 { --tw-gradient-to: var(--accent-400); }
+  .from-accent-500 { --tw-gradient-from: var(--accent-500); }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(11, 18, 32, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+  }
+  .glass-strong {
+    background: rgba(7, 17, 38, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+  }
+
+  /* Glows */
+  .glow-neon { box-shadow: 0 0 24px rgba(0, 212, 255, 0.35); }
+  .glow-neon-lg { box-shadow: 0 0 60px rgba(0, 212, 255, 0.28); }
+  .glow-diag { box-shadow: 0 0 24px rgba(0, 255, 136, 0.35); }
+  .glow-warn { box-shadow: 0 0 24px rgba(255, 140, 66, 0.35); }
+  .glow-crit { box-shadow: 0 0 24px rgba(255, 77, 77, 0.35); }
+  .text-glow-neon { text-shadow: 0 0 18px rgba(0, 212, 255, 0.55); }
+
+  /* Gradiente de texto holográfico */
+  .holo-text {
+    background: linear-gradient(135deg, #00d4ff 0%, #6ee7ff 40%, #00ff88 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ============================================================
+   Fondos tecnológicos
+   ============================================================ */
+.cw-grid {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.cw-grid-fade {
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+}
+
+.cw-radial {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.12), transparent 45%),
+    radial-gradient(circle at 15% 75%, rgba(0, 255, 136, 0.08), transparent 45%);
+}
+
+/* ============================================================
+   Animaciones
+   ============================================================ */
+@keyframes cw-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float { animation: cw-float 6s ease-in-out infinite; }
+
+@keyframes cw-float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.animate-float-soft { animation: cw-float-soft 4s ease-in-out infinite; }
+
+@keyframes cw-pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.animate-pulse-glow { animation: cw-pulse-glow 2.4s ease-in-out infinite; }
+
+@keyframes cw-scan {
+  0% { transform: translateY(-120%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+.animate-scan { animation: cw-scan 3.5s ease-in-out infinite; }
+
+@keyframes cw-grid-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 48px 48px; }
+}
+.animate-grid { animation: cw-grid-move 8s linear infinite; }
+
+@keyframes cw-dash {
+  to { stroke-dashoffset: -1000; }
+}
+.animate-dash { animation: cw-dash 18s linear infinite; }
+
+@keyframes cw-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+.animate-blink { animation: cw-blink 1.6s ease-in-out infinite; }
+
+/* Carrusel infinito (marquee) — mueve la pista -50% (2 copias) */
+@keyframes cw-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee { animation: cw-marquee 32s linear infinite; }
+/* Pausar al pasar el mouse */
+.marquee-group:hover .animate-marquee { animation-play-state: paused; }
+
+/* ============================================================
+   Utilidades varias
+   ============================================================ */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Ocultar scrollbar (carrusel arrastrable) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: #fff;
+}
+
+/* ============================================================
+   Accesibilidad — foco visible con teclado
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+/* No mostrar el anillo al hacer click con mouse */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================================
+   prefers-reduced-motion — desactiva animaciones decorativas
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .animate-float,
+  .animate-float-soft,
+  .animate-pulse-glow,
+  .animate-scan,
+  .animate-grid,
+  .animate-dash,
+  .animate-blink,
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
+/* Scrollbar tecnológica */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-800); }
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.25);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.45); }

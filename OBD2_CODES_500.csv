@@ -1,0 +1,381 @@
+code,title,description,symptoms,causes,solutions,severity
+P0100,Sensor MAF (Flujo de Masa de Aire) Falla,El sensor MAF mide la cantidad de aire que entra al motor. Cuando falla, la computadora no puede calcular correctamente la mezcla aire-combustible.,Ralentí inestable, pérdida de potencia, consumo excesivo de combustible, dificultad para arrancar, aceleración irregular,Sensor MAF defectuoso, conexiones eléctricas sueltas o corroídas, fugas en el sistema de admisión, filtro de aire muy sucio,Limpiar el sensor MAF con limpiador específico, Verificar conexiones eléctricas, Revisar fugas de aire en la admisión, Cambiar filtro de aire, Reemplazar sensor si persiste,Moderada
+P0101,Rango/Rendimiento Incorrecto del Sensor MAF,El sensor MAF envía señales fuera del rango esperado por la computadora del vehículo, indicando lecturas incorrectas del flujo de aire.,Aceleración deficiente, humo negro del escape, consumo elevado de gasolina, motor ahogado,Sensor MAF contaminado o defectuoso, fugas de vacío, filtro de aire obstruido, tubo de admisión roto,Limpiar el sensor MAF con limpiador electrónico, Inspeccionar tubo de admisión, Revisar el sistema de vacío, Reemplazar sensor si es necesario,Moderada
+P0102,Bajo Flujo de Aire Detectado,El sensor MAF detecta menos aire del esperado para las condiciones de funcionamiento del motor.,Motor lento, aceleración débil, dificultad para arrancar en frío,Sensor MAF defectuoso o muy sucio, restricción en el filtro de aire, fuga de vacío,Limpiar o reemplazar sensor MAF, Cambiar filtro de aire, Buscar fugas de vacío,Moderada
+P0103,Alto Flujo de Aire Detectado,El sensor MAF reporta más aire del que debería entrar al motor.,Ralentí elevado, vibraciones del motor, consumo excesivo,Sensor MAF con calibración incorrecta, fugas después del sensor MAF, tubo roto,Reemplazar sensor MAF, Reparar fugas en el sistema de admisión,Moderada
+P0110,Sensor de Temperatura de Aire de Admisión (IAT) Mal Funcionamiento,El sensor IAT mide la temperatura del aire que entra al motor para ajustar la inyección de combustible.,Ralentí inestable, encendido difícil, luces de advertencia,Sensor IAT defectuoso, conectores sueltos, cableado dañado,Limpiar conexiones, Reemplazar sensor IAT,Moderada
+P0111,Rango/Rendimiento de Sensor IAT,El sensor de temperatura de aire envía lecturas fuera de rango.,Motor tembloroso, combustión anormal, luz Check Engine,Sensor defectuoso, falla en circuito eléctrico,Verificar voltaje del sensor, Reemplazar si es necesario,Moderada
+P0112,Voltaje Bajo de Sensor IAT,El voltaje del sensor IAT es menor al esperado.,Dificultad para arrancar, ralentí irregular,Sensor con baja resistencia, conectores corroídos, circuito abierto,Limpiar conectores, Reparar cableado, Reemplazar sensor,Moderada
+P0113,Voltaje Alto de Sensor IAT,El voltaje del sensor IAT es mayor al esperado.,Motor con arranque difícil, ralentí alto,Sensor con alta resistencia, circuito en cortocircuito,Verificar voltaje, Reparar circuito, Reemplazar sensor,Moderada
+P0115,Sensor de Temperatura del Refrigerante (ECT) Mal Funcionamiento,El sensor ECT mide la temperatura del motor. Su falla afecta la inyección de combustible y encendido.,Ralentí anormal, consumo excesivo, arranque difícil,Sensor ECT defectuoso, conectores sueltos, corrosión,Limpiar conectores, Reemplazar sensor ECT,Moderada
+P0116,Rango/Rendimiento del Sensor ECT,Lecturas de temperatura fuera de rango.,El motor no calienta correctamente, funcionamiento anormal,Sensor con respuesta lenta, falla en circuito,Reemplazar sensor, Verificar circuito,Moderada
+P0117,Voltaje Bajo del Sensor ECT,La lectura de voltaje del sensor ECT es baja.,Motor frío permanentemente, inyección inapropiada,Sensor con baja resistencia, circuito abierto,Reparar circuito, Reemplazar sensor,Moderada
+P0118,Voltaje Alto del Sensor ECT,La lectura de voltaje del sensor ECT es alta.,Sobrecalentamiento del motor, ventilador activado constantemente,Sensor con alta resistencia, cortocircuito,Verificar voltaje, Reparar circuito,Moderada
+P0120,Posición del Acelerador (TPS) Mal Funcionamiento,El sensor TPS monitorea la apertura del acelerador. Su falla afecta la respuesta del motor.,Aceleración errabunda, ralentí variable, motor tembloroso,Sensor TPS defectuoso, conexiones sueltas, suciedad en acelerador,Limpiar acelerador, Calibrar TPS, Reemplazar sensor,Moderada
+P0121,Rango/Rendimiento de TPS,Lecturas del sensor fuera del rango normal.,Aceleración lenta o errabunda, dificultad en cambios,Sensor descalibrado, falla eléctrica,Recalibrar TPS, Reemplazar sensor,Moderada
+P0122,Voltaje Bajo de TPS,El voltaje del sensor TPS es menor al esperado.,Acelerador pegado en ralentí, falta de respuesta,Sensor con baja resistencia, cableado dañado,Reparar cableado, Reemplazar sensor,Moderada
+P0123,Voltaje Alto de TPS,El voltaje del sensor TPS es mayor al esperado.,Aceleración excesiva, motor acelerado,Sensor con alta resistencia, cortocircuito,Verificar circuito, Reemplazar sensor,Moderada
+P0130,Falla del Sensor de Oxígeno (O2) Banco 1,El sensor O2 mide oxígeno residual en el escape para ajustar la mezcla aire-combustible.,Luz Check Engine, consumo excesivo, ralentí inestable,Sensor O2 degradado, conexiones sueltas, escape dañado,Limpiar conexiones, Reemplazar sensor O2,Moderada
+P0131,Voltaje Bajo Sensor O2 Banco 1,El voltaje del sensor O2 es anormalmente bajo.,Mezcla pobre, pérdida de potencia,Sensor débil o defectuoso, cableado abierto,Reemplazar sensor O2,Moderada
+P0132,Voltaje Alto Sensor O2 Banco 1,El voltaje del sensor O2 es anormalmente alto.,Humo negro del escape, consumo excesivo,Sensor con mala conexión a tierra, circuito en cortocircuito,Reparar conexión a tierra, Reemplazar sensor,Moderada
+P0133,Respuesta Lenta del Sensor O2 Banco 1,El sensor O2 tarda demasiado en cambiar de voltaje.,Encendido lento, ralentí irregular,Sensor envejecido, escape sucio con depósitos,Limpiar sensor, Reemplazar si es viejo,Moderada
+P0134,Sin Actividad del Sensor O2 Banco 1,El sensor O2 no envía señal.,Luz Check Engine, funcionamiento anormal,Sensor desconectado, cableado roto, fusible quemado,Verificar conexiones, Reemplazar sensor,Moderada
+P0135,Calefactor del Sensor O2 Banco 1 Mal Funcionamiento,El elemento calefactor del sensor O2 no funciona.,Sensor O2 lento para calentar, ralentí anormal,Elemento calefactor quemado, conexiones sueltas,Reemplazar sensor O2 completo,Moderada
+P0136,Falla del Sensor O2 Banco 2,El sensor O2 aguas abajo (después del catalizador) en banco 1 tiene problemas.,Similar a P0130 pero aguas abajo,Similar a P0130,Similar a P0130,Moderada
+P0137,Voltaje Bajo Sensor O2 Banco 2,Voltaje bajo del sensor aguas abajo.,Similar a P0131,Similar a P0131,Similar a P0131,Moderada
+P0138,Voltaje Alto Sensor O2 Banco 2,Voltaje alto del sensor aguas abajo.,Similar a P0132,Similar a P0132,Similar a P0132,Moderada
+P0139,Respuesta Lenta Sensor O2 Banco 2,Respuesta lenta del sensor aguas abajo.,Similar a P0133,Similar a P0133,Similar a P0133,Moderada
+P0140,Sin Actividad Sensor O2 Banco 2,Sin actividad del sensor aguas abajo.,Similar a P0134,Similar a P0134,Similar a P0134,Moderada
+P0141,Calefactor Sensor O2 Banco 2 Falla,Falla del elemento calefactor aguas abajo.,Similar a P0135,Similar a P0135,Similar a P0135,Moderada
+P0150,Falla del Sistema de Inyección Banco 2,El sistema de inyección del banco 2 tiene problemas.,Ralentí inestable, pérdida de potencia, humo del escape,Inyectores obstruidos, presión de combustible baja, falla eléctrica,Limpiar inyectores, Verificar presión, Revisar cableado,Moderada
+P0151,Bajo Voltaje Circuito Inyector Banco 2,Voltaje bajo en los inyectores del banco 2.,Motor tembloroso, falta de potencia,Inyector abierto, cableado dañado, módulo de control falla,Revisar inyectores, Reparar cableado,Moderada
+P0152,Alto Voltaje Circuito Inyector Banco 2,Voltaje alto en los inyectores del banco 2.,Exceso de combustible, humo negro,Inyector en cortocircuito, problemas en módulo,Reemplazar inyector, Revisar módulo,Moderada
+P0153,Respuesta Lenta Inyectores Banco 2,Inyectores responden lentamente.,Ralentí lento, aceleración débil,Inyectores sucios o con bajo voltaje,Limpiar inyectores, Verificar voltaje,Moderada
+P0154,Sin Actividad Inyectores Banco 2,Inyectores banco 2 sin actividad.,Motor no arranca o arranca mal,Inyectores desconectados, fusible quemado, módulo falla,Verificar conexiones, Reemplazar inyectores,Crítica/No conducir
+P0155,Calefactor Sensor O2 Banco 1 Circuito Falla,Falla en el circuito calefactor frontal banco 1.,Sensor O2 lento, ralentí anormal,Elemento calefactor defectuoso, circuito abierto,Reemplazar sensor O2,Moderada
+P0160,Falla del Sistema de Inyección Banco 2,Problemas generales en inyección banco 2.,Similar a P0150,Similar a P0150,Similar a P0150,Moderada
+P0161,Bajo Voltaje Inyector Banco 2,Voltaje bajo en inyectores banco 2.,Similar a P0151,Similar a P0151,Similar a P0151,Moderada
+P0162,Alto Voltaje Inyector Banco 2,Voltaje alto en inyectores banco 2.,Similar a P0152,Similar a P0152,Similar a P0152,Moderada
+P0170,Mezcla de Combustible Demasiado Pobre Banco 1,La computadora detecta demasiado aire y poco combustible.,Ralentí irregular, dificultad para acelerar, explosiones en escape,Fuga de vacío, sensor MAF sucio, bomba de combustible débil, inyectores obstruidos,Buscar fugas de vacío, Limpiar sensor MAF, Verificar presión de combustible,Moderada
+P0171,Mezcla de Combustible Demasiado Pobre Banco 1,Similar a P0170 - ajuste adaptativo de combustible fallado.,Ralentí irregular, pérdida de potencia en subidas,Fugas de vacío, sensor MAF defectuoso, filtro de combustible sucio,Revisar sistema de vacío, Limpiar o reemplazar sensor MAF,Moderada
+P0172,Mezcla de Combustible Demasiado Rica Banco 1,Exceso de combustible en relación al aire.,Humo negro del escape, olor fuerte a gasolina, consumo excesivo,Inyectores con fugas, regulador de presión defectuoso, sensor O2 malo,Verificar inyectores, Revisar regulador de presión, Reemplazar sensor O2,Moderada
+P0173,Mezcla de Combustible Demasiado Rica Banco 2,Similar a P0172 pero para banco 2.,Humo negro del escape, consumo excesivo, mal olor,Inyectores banco 2 con fugas, regulador de presión,Verificar inyectores banco 2, Revisar regulador,Moderada
+P0174,Mezcla de Combustible Demasiado Pobre Banco 2,Similar a P0171 pero para banco 2.,Ralentí irregular, pérdida de potencia,Fugas de vacío banco 2, sensor MAF sucio,Revisar fugas de vacío, Limpiar sensor MAF,Moderada
+P0175,Mezcla de Combustible Demasiado Rica Banco 2,Similar a P0172 pero para banco 2.,Humo negro, consumo excesivo,Inyectores banco 2 con fugas,Verificar inyectores banco 2,Moderada
+P0200,Falla General del Sistema de Inyección de Combustible,Problema general en el sistema de inyección.,Arranque difícil, ralentí anormal, luz Check Engine,Problemas eléctricos, inyectores defectuosos, presión baja,Verificar presión de combustible, Revisar inyectores,Crítica/No conducir
+P0201,Circuito Inyector Cilindro 1 Mal Funcionamiento,El inyector del cilindro 1 no funciona correctamente.,Motor tembloroso, falta de potencia, vibración,Inyector obstruido o defectuoso, cableado dañado,Limpiar o reemplazar inyector cilindro 1,Moderada
+P0202,Circuito Inyector Cilindro 2 Mal Funcionamiento,El inyector del cilindro 2 tiene problemas.,Motor tembloroso, vibración en cilindro 2,Inyector cilindro 2 defectuoso,Limpiar o reemplazar inyector cilindro 2,Moderada
+P0203,Circuito Inyector Cilindro 3 Mal Funcionamiento,El inyector del cilindro 3 tiene problemas.,Motor tembloroso, vibración en cilindro 3,Inyector cilindro 3 defectuoso,Limpiar o reemplazar inyector cilindro 3,Moderada
+P0204,Circuito Inyector Cilindro 4 Mal Funcionamiento,El inyector del cilindro 4 tiene problemas.,Motor tembloroso, vibración en cilindro 4,Inyector cilindro 4 defectuoso,Limpiar o reemplazar inyector cilindro 4,Moderada
+P0205,Circuito Inyector Cilindro 5 Mal Funcionamiento,El inyector del cilindro 5 tiene problemas.,Motor tembloroso, vibración en cilindro 5,Inyector cilindro 5 defectuoso,Limpiar o reemplazar inyector cilindro 5,Moderada
+P0206,Circuito Inyector Cilindro 6 Mal Funcionamiento,El inyector del cilindro 6 tiene problemas.,Motor tembloroso, vibración en cilindro 6,Inyector cilindro 6 defectuoso,Limpiar o reemplazar inyector cilindro 6,Moderada
+P0207,Circuito Inyector Cilindro 7 Mal Funcionamiento,El inyector del cilindro 7 tiene problemas.,Motor tembloroso, vibración en cilindro 7,Inyector cilindro 7 defectuoso,Limpiar o reemplazar inyector cilindro 7,Moderada
+P0208,Circuito Inyector Cilindro 8 Mal Funcionamiento,El inyector del cilindro 8 tiene problemas.,Motor tembloroso, vibración en cilindro 8,Inyector cilindro 8 defectuoso,Limpiar o reemplazar inyector cilindro 8,Moderada
+P0209,Circuito Inyector Cilindro 9 Mal Funcionamiento,El inyector del cilindro 9 tiene problemas.,Motor tembloroso, vibración en cilindro 9,Inyector cilindro 9 defectuoso,Limpiar o reemplazar inyector cilindro 9,Moderada
+P0210,Circuito Inyector Cilindro 10 Mal Funcionamiento,El inyector del cilindro 10 tiene problemas.,Motor tembloroso, vibración en cilindro 10,Inyector cilindro 10 defectuoso,Limpiar o reemplazar inyector cilindro 10,Moderada
+P0300,Fallo de Encendido Aleatorio en Múltiples Cilindros,Se detectan fallos de encendido en varios cilindros sin patrón definido.,Motor tembloroso, pérdida de potencia, luz Check Engine parpadeando,Bujías desgastadas, cables de bujía defectuosos, bobinas de encendido fallando, inyectores sucios,Revisar y reemplazar bujías, Verificar cables de alta tensión, Probar bobinas de encendido,Crítica/No conducir
+P0301,Fallo de Encendido Cilindro 1,El cilindro 1 no combustiona correctamente.,Vibración del motor, pérdida de potencia, consumo irregular,Bujía cilindro 1 defectuosa, bobina de encendido dañada, inyector obstruido,Reemplazar bujía cilindro 1, Probar bobina de encendido,Crítica/No conducir
+P0302,Fallo de Encendido Cilindro 2,El cilindro 2 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 2 defectuosa, bobina de encendido dañada,Reemplazar bujía cilindro 2,Crítica/No conducir
+P0303,Fallo de Encendido Cilindro 3,El cilindro 3 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 3 defectuosa, bobina de encendido dañada,Reemplazar bujía cilindro 3,Crítica/No conducir
+P0304,Fallo de Encendido Cilindro 4,El cilindro 4 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 4 defectuosa, bobina de encendido dañada,Reemplazar bujía cilindro 4,Crítica/No conducir
+P0305,Fallo de Encendido Cilindro 5,El cilindro 5 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 5 defectuosa,Reemplazar bujía cilindro 5,Crítica/No conducir
+P0306,Fallo de Encendido Cilindro 6,El cilindro 6 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 6 defectuosa,Reemplazar bujía cilindro 6,Crítica/No conducir
+P0307,Fallo de Encendido Cilindro 7,El cilindro 7 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 7 defectuosa,Reemplazar bujía cilindro 7,Crítica/No conducir
+P0308,Fallo de Encendido Cilindro 8,El cilindro 8 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 8 defectuosa,Reemplazar bujía cilindro 8,Crítica/No conducir
+P0309,Fallo de Encendido Cilindro 9,El cilindro 9 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 9 defectuosa,Reemplazar bujía cilindro 9,Crítica/No conducir
+P0310,Fallo de Encendido Cilindro 10,El cilindro 10 no combustiona correctamente.,Vibración del motor, pérdida de potencia,Bujía cilindro 10 defectuosa,Reemplazar bujía cilindro 10,Crítica/No conducir
+P0400,Flujo Insuficiente en Sistema EGR,El sistema de Recirculación de Gases de Escape no fluye correctamente.,Golpeteo del motor, aumento de emisiones, rendimiento reducido,Válvula EGR obstruida con carbón, conductos tapados, sensor de posición EGR defectuoso,Limpiar válvula EGR, Limpiar conductos de recirculación,Baja
+P0401,Flujo Insuficiente en Sistema EGR,Similar a P0400 con focus en bajo flujo.,Detonación del motor, rendimiento bajo,Válvula EGR atascada, conductos bloqueados,Limpiar o reemplazar válvula EGR,Baja
+P0402,Flujo Excesivo en Sistema EGR,El flujo EGR es demasiado alto.,Ralentí inestable, arranque difícil,Válvula EGR pegada abierta, sensor defectuoso,Limpiar y calibrar válvula EGR,Baja
+P0403,Circuito Control Válvula EGR,Problema eléctrico en el control de válvula EGR.,Luz Check Engine, ralentí anormal,Solenoide EGR defectuoso, cableado dañado,Reemplazar solenoide o reparar cableado,Baja
+P0404,Rango/Rendimiento Posición EGR,Sensor de posición EGR fuera de rango.,Desempeño anormal del motor,Sensor EGR defectuoso,Reemplazar sensor EGR,Baja
+P0405,Voltaje Bajo Sensor EGR,Voltaje bajo en sensor de posición EGR.,Rendimiento irregular,Sensor con baja resistencia,Reemplazar sensor EGR,Baja
+P0406,Voltaje Alto Sensor EGR,Voltaje alto en sensor de posición EGR.,Ralentí alto, encendido anormal,Sensor con alta resistencia,Reemplazar sensor EGR,Baja
+P0410,Sistema de Inyección de Aire Secundario Mal Funcionamiento,El sistema SAI (inyección de aire secundario) no funciona.,Aceleración deficiente, humo del escape,Bomba de aire defectuosa, válvulas bloqueadas, conductos rotos,Verificar presión de aire, Revisar válvulas, Reparar conductos,Baja
+P0411,Flujo Incorrecto Sistema de Aire Secundario,El flujo del sistema SAI es incorrecto.,Emissiones altas, rendimiento bajo,Bomba de aire débil, válvula check defectuosa,Revisar bomba de aire, Reemplazar válvula check,Baja
+P0412,Circuito Control Válvula SAI,Problema eléctrico en válvula de aire secundario.,Luz Check Engine,Solenoide SAI defectuoso, cableado suelto,Reparar conexiones, Reemplazar solenoide,Baja
+P0413,Circuito Ventilador Bomba Aire Secundario,Problema en control de ventilador bomba SAI.,Rendimiento bajo,Relé defectuoso, motor ventilador dañado,Reemplazar relé o motor del ventilador,Baja
+P0414,Bajo Flujo Aire Secundario,Flujo de aire secundario muy bajo.,Emissiones altas,Bomba de aire débil, fugas,Revisar integridad sistema, Reemplazar bomba,Baja
+P0420,Eficiencia Baja del Convertidor Catalítico Banco 1,El catalizador no limpia gases de escape eficientemente.,Luz Check Engine, olor a azufre, pérdida leve de potencia,Convertidor catalítico deteriorado, sensor O2 defectuoso, fugas en escape,Verificar sensores O2, Inspeccionar fugas, Reemplazar catalizador si es necesario,Moderada
+P0421,Eficiencia Baja del Convertidor Catalítico Banco 2,Similar a P0420 pero para banco 2.,Olor a azufre, emisiones altas,Catalizador banco 2 dañado,Reemplazar catalizador,Moderada
+P0422,Eficiencia Principal Catalizador Baja,Baja eficiencia general del catalizador principal.,Luz Check Engine, olor característico,Catalizador quemado o dañado internamente,Reemplazar catalizador principal,Moderada
+P0423,Eficiencia Catalizador Bajo Carga,Catalizador ineficiente bajo carga.,Pérdida de potencia bajo aceleración,Catalizador parcialmente bloqueado,Limpiar o reemplazar catalizador,Moderada
+P0430,Eficiencia Baja del Catalizador Banco 2,Similar a P0420 pero sistema general banco 2.,Olor a azufre, emisiones altas,Catalizador banco 2 defectuoso,Reemplazar catalizador banco 2,Moderada
+P0431,Eficiencia Baja Catalizador Banco 2,Similar a P0430.,Olor característico,Catalizador dañado,Reemplazar catalizador,Moderada
+P0432,Eficiencia Principal Catalizador Baja Banco 2,Baja eficiencia catalizador principal banco 2.,Luz Check Engine,Catalizador quemado internamente,Reemplazar catalizador,Moderada
+P0433,Eficiencia Catalizador Bajo Carga Banco 2,Catalizador banco 2 ineficiente bajo carga.,Pérdida de potencia,Catalizador parcialmente bloqueado,Limpiar o reemplazar,Moderada
+P0440,Falla en Sistema EVAP (Control de Emisiones Evaporativas),El sistema de captura de vapores de combustible tiene problemas.,Luz Check Engine, olor a gasolina,Tapa de combustible suelta, mangueras rotas, válvula de purga obstruida,Apretar o reemplazar tapa de combustible, Inspeccionar mangueras EVAP,Baja
+P0441,Flujo Incorrecto Sistema EVAP,Flujo de vapores incorrecto en sistema EVAP.,Olor a gasolina, luz Check Engine,Válvula de purga defectuosa, manguera obstruida,Limpiar o reemplazar válvula de purga,Baja
+P0442,Fuga Pequeña en Sistema EVAP,Se detectó una fuga menor en el sistema EVAP.,Luz Check Engine, olor leve a gasolina,Tapa del tanque floja, mangueras agrietadas, válvula de purga con fuga pequeña,Apretar o reemplazar tapa, Inspeccionar mangueras,Baja
+P0443,Circuito Control Válvula Purga EVAP,Problema eléctrico en válvula de purga EVAP.,Luz Check Engine,Solenoide purga defectuoso, cableado dañado,Reparar cableado, Reemplazar solenoide,Baja
+P0444,Bajo Voltaje Válvula Purga EVAP,Voltaje bajo en válvula de purga EVAP.,Luz Check Engine,Circuito abierto, conector suelto,Revisar conexiones, Reparar circuito,Baja
+P0445,Alto Voltaje Válvula Purga EVAP,Voltaje alto en válvula de purga EVAP.,Luz Check Engine,Cortocircuito en solenoide,Reparar circuito, Reemplazar solenoide,Baja
+P0446,Circuito Control Ventilación EVAP,Problema en sistema de ventilación EVAP.,Luz Check Engine,Válvula de ventilación defectuosa,Reemplazar válvula de ventilación,Baja
+P0447,Bajo Voltaje Válvula Ventilación EVAP,Voltaje bajo en válvula de ventilación.,Luz Check Engine,Circuito abierto,Reparar circuito,Baja
+P0448,Alto Voltaje Válvula Ventilación EVAP,Voltaje alto en válvula de ventilación.,Luz Check Engine,Cortocircuito,Reparar circuito,Baja
+P0449,Circuito Control Válvula Purga Carbón,Problema en válvula de purga del canister de carbón.,Luz Check Engine,Solenoide defectuoso,Reemplazar solenoide,Baja
+P0450,Sensor Presión Sistema EVAP,Falla en sensor de presión EVAP.,Luz Check Engine, diagnóstico de fugas ineficaz,Sensor de presión defectuoso, conectores sueltos,Reemplazar sensor de presión,Baja
+P0451,Rango/Rendimiento Sensor Presión EVAP,Sensor de presión EVAP fuera de rango.,Luz Check Engine,Sensor defectuoso o desconectado,Reemplazar sensor,Baja
+P0452,Voltaje Bajo Sensor Presión EVAP,Voltaje bajo en sensor de presión.,Luz Check Engine,Sensor con baja resistencia,Reemplazar sensor,Baja
+P0453,Voltaje Alto Sensor Presión EVAP,Voltaje alto en sensor de presión.,Luz Check Engine,Sensor con alta resistencia,Reemplazar sensor,Baja
+P0454,Rango Intermitente Sensor Presión EVAP,Lecturas intermitentes del sensor de presión.,Luz intermitente,Conexión floja, sensor intermitente,Limpiar conectores, Reemplazar sensor,Baja
+P0455,Fuga Grande en Sistema EVAP,Se detectó una fuga significativa en EVAP.,Luz Check Engine, olor notable a gasolina,Tapa de combustible faltante o muy dañada, manguera desconectada,Verificar tapa de combustible, Inspeccionar mangueras,Baja
+P0456,Fuga Muy Pequeña Sistema EVAP,Se detectó una fuga muy pequeña en EVAP.,Luz Check Engine, olor muy leve,Pequeña fuga en tuberías o conectores,Inspeccionar sistema completo,Baja
+P0457,Tapa Combustible Floja o Faltante,La tapa del tanque de combustible está floja o faltante.,Luz Check Engine, olor a gasolina,Tapa suelta, dañada o faltante,Apretar o reemplazar tapa de combustible,Baja
+P0458,Circuito Válvula Purga Bajo EVAP,Voltaje bajo en válvula de purga EVAP.,Luz Check Engine,Circuito abierto, solenoide débil,Reparar circuito, Reemplazar solenoide,Baja
+P0459,Circuito Válvula Purga Alto EVAP,Voltaje alto en válvula de purga EVAP.,Luz Check Engine,Cortocircuito en solenoide,Reparar circuito,Baja
+P0460,Sensor Nivel Combustible Mal Funcionamiento,El sensor de nivel de combustible no funciona correctamente.,Indicador de gasolina errabundo, luz de vacío combustible,Sensor defectuoso, conector suelto, cableado dañado,Limpiar conexiones, Reemplazar sensor,Baja
+P0461,Rango/Rendimiento Sensor Nivel,Sensor de nivel fuera de rango.,Indicador anormal,Sensor defectuoso,Reemplazar sensor,Baja
+P0462,Voltaje Bajo Sensor Nivel,Voltaje bajo en sensor de nivel.,Indicador en vacío,Sensor con baja resistencia,Reemplazar sensor,Baja
+P0463,Voltaje Alto Sensor Nivel,Voltaje alto en sensor de nivel.,Indicador en lleno permanente,Sensor con alta resistencia,Reemplazar sensor,Baja
+P0464,Rango Intermitente Sensor Nivel,Lecturas intermitentes del sensor.,Indicador errático,Conexión floja,Limpiar conectores, Reemplazar sensor,Baja
+P0500,Falla del Sensor de Velocidad del Vehículo (VSS),El sensor que mide la velocidad no funciona.,Velocímetro no funciona, cambios erráticos, luz ABS encendida,Sensor VSS defectuoso, cableado dañado, conector corroído,Reemplazar sensor VSS, Verificar cableado,Moderada
+P0501,Rango/Rendimiento Sensor VSS,Lecturas de velocidad fuera de rango.,Velocímetro errabundo, cambios anormales,Sensor defectuoso o descalibrado,Recalibrar o reemplazar sensor,Moderada
+P0502,Voltaje Bajo Sensor VSS,Voltaje bajo en sensor de velocidad.,Velocímetro muy bajo o no funciona,Sensor con baja resistencia,Reemplazar sensor,Moderada
+P0503,Voltaje Inestable Sensor VSS,Voltaje inestable en sensor de velocidad.,Velocímetro fluctuante, cambios erráticos,Conexión intermitente, sensor defectuoso,Limpiar conectores, Reemplazar sensor,Moderada
+P0504,Correlación Sensor Freno Defectuosa,Los sensores de freno reportan datos inconsistentes.,Luz de frenos anormal, comportamiento ABS erratic,Sensor de freno defectuoso, cableado dañado,Revisar sensores de freno, Reparar cableado,Moderada
+P0505,Ralentí Fuera de Control,El motor mantiene un ralentí incorrecto.,Ralentí muy alto o muy bajo, vibración,Sensor IAT sucio, fuga de vacío, regulador de presión defectuoso,Limpiar sensor IAT, Buscar fugas de vacío,Moderada
+P0506,Ralentí Bajo,El motor funciona con ralentí más bajo de lo normal.,Ralentí bajo, casi apagarse, vibración,Fuga de aire, sensor MAF sucio, controlador defectuoso,Buscar fugas de aire, Limpiar sensor MAF,Moderada
+P0507,Ralentí Alto,El motor funciona con ralentí más alto de lo normal.,Ralentí muy elevado, consumo excesivo,Fuga de aire después del sensor MAF, termostato atascado,Buscar fugas de aire, Revisar termostato,Moderada
+P0508,Circuito Control Ralentí Bajo,Voltaje bajo en circuito de control de ralentí.,Ralentí bajo o motor casi apaga,Circuito abierto, resistencia alta,Reparar circuito de control,Moderada
+P0509,Circuito Control Ralentí Alto,Voltaje alto en circuito de control de ralentí.,Ralentí muy alto,Cortocircuito,Reparar circuito,Moderada
+P0510,Voltaje Rango Fuera Posición Acelerador,El voltaje de posición del acelerador está fuera de rango.,Motor errático, problemas de aceleración,Sensor TPS defectuoso, conexiones sueltas,Recalibrar o reemplazar TPS,Moderada
+P0520,Presión Aceite Sensor Mal Funcionamiento,El sensor de presión de aceite no funciona correctamente.,Indicador de presión anormal, luz de presión baja,Sensor defectuoso, conector suelto, presión realmente baja,Revisar presión de aceite, Reemplazar sensor,Moderada
+P0521,Rango/Rendimiento Sensor Presión Aceite,Sensor de presión de aceite fuera de rango.,Indicador errabundo,Sensor defectuoso,Reemplazar sensor,Moderada
+P0522,Voltaje Bajo Sensor Presión Aceite,Voltaje bajo en sensor de presión.,Indicador en cero,Sensor con baja resistencia,Reemplazar sensor,Moderada
+P0523,Voltaje Alto Sensor Presión Aceite,Voltaje alto en sensor de presión.,Indicador muy alto,Sensor con alta resistencia,Reemplazar sensor,Moderada
+P0530,Sensor Presión Aire Acondicionado Mal Funcionamiento,El sensor que mide presión del A/C no funciona.,A/C no enfría, compresor no engrana,Sensor defectuoso, conector suelto, presión anormal en sistema,Reemplazar sensor, Revisar presión A/C,Baja
+P0531,Rango Sensor Presión A/C,Sensor de presión A/C fuera de rango.,A/C anormal,Sensor defectuoso,Reemplazar sensor,Baja
+P0532,Voltaje Bajo Sensor Presión A/C,Voltaje bajo en sensor A/C.,A/C no funciona,Sensor con baja resistencia,Reemplazar sensor,Baja
+P0533,Voltaje Alto Sensor Presión A/C,Voltaje alto en sensor A/C.,A/C anormal,Sensor con alta resistencia,Reemplazar sensor,Baja
+P0534,Refrigerante Bajo A/C,Bajo nivel de refrigerante en sistema A/C.,A/C no enfría, luz de presión,Fuga de refrigerante en sistema A/C,Buscar fugas, Recargar refrigerante,Baja
+P0540,Circuito Control Calefactor Entrada Aire,Problema en circuito de calefactor de aire de entrada.,Aire de entrada no se calienta, ralentí bajo,Elemento calefactor defectuoso, conector suelto,Reparar conexión, Reemplazar elemento,Baja
+P0541,Voltaje Bajo Calefactor Entrada,Voltaje bajo en calefactor de entrada.,Aire no se calienta,Circuito abierto,Reparar circuito,Baja
+P0542,Voltaje Alto Calefactor Entrada,Voltaje alto en calefactor de entrada.,Sobrecalentamiento,Cortocircuito,Reparar circuito,Baja
+P0550,Sensor Presión Combustible Mal Funcionamiento,El sensor de presión de combustible no funciona.,Arranque difícil, pérdida de potencia, luz Check Engine,Sensor defectuoso, conector suelto, presión baja,Revisar presión de combustible, Reemplazar sensor,Moderada
+P0551,Rango Sensor Presión Combustible,Sensor de presión fuera de rango.,Funcionamiento anormal,Sensor defectuoso,Reemplazar sensor,Moderada
+P0552,Voltaje Bajo Sensor Presión,Voltaje bajo en sensor de presión.,Arranque difícil,Sensor con baja resistencia,Reemplazar sensor,Moderada
+P0553,Voltaje Alto Sensor Presión,Voltaje alto en sensor de presión.,Arranque anormal,Sensor con alta resistencia,Reemplazar sensor,Moderada
+P0554,Rango Intermitente Sensor Presión,Lecturas intermitentes del sensor.,Arranque errático,Conexión intermitente,Limpiar conectores,Moderada
+P0560,Voltaje Sistema Eléctrico,Problema general en voltaje del sistema eléctrico.,Luz de batería encendida, arranque débil,Batería baja, alternador defectuoso, conexiones corroídas,Revisar batería, Probar alternador,Moderada
+P0561,Voltaje Sistema Inestable,Voltaje inestable en el sistema.,Luces brillan errabundamente, arranque débil,Alternador intermitente, batería con células muertas,Probar alternador, Reemplazar batería,Moderada
+P0562,Voltaje Sistema Bajo,Voltaje del sistema demasiado bajo.,Arranque débil o no arranca, luz de batería,Batería descargada, alternador no carga, conexión floja,Cargar batería, Revisar alternador, Limpiar conexiones,Moderada
+P0563,Voltaje Sistema Alto,Voltaje del sistema demasiado alto.,Quemado de componentes, luces muy brillantes, batería sobrecargada,Regulador de voltaje defectuoso, alternador con exceso,Reemplazar regulador, Revisar alternador,Moderada
+P0564,Señal Auxilio Cambios Defectuosa,Problema en señal de cambios auxiliar.,Cambios erráticos,Sensor defectuoso,Reemplazar sensor,Moderada
+P0600,Falla Comunicación Computadora Principal,Problema de comunicación interna en ECU.,Múltiples códigos, muchas luces de error,ECU defectuosa, problemas internos,Escanear completo, Reemplazar ECU,Crítica/No conducir
+P0601,ECU RAM Checksum Error,Error en la memoria RAM de la ECU.,Luz Check Engine, funcionamiento anormal,ECU defectuosa,Reemplazar ECU o reprogramar,Crítica/No conducir
+P0602,Programación ECU Defectuosa,Programa de ECU corrupto.,No arranca o arranca mal, múltiples códigos,ECU con programa defectuoso,Reprogramar ECU,Crítica/No conducir
+P0603,ECU Keep Alive Memory Defectuosa,Memoria de mantención de ECU fallida.,Luz Check Engine,ECU defectuosa,Reemplazar ECU,Moderada
+P0604,ECU RAM Defectuosa,RAM de ECU tiene errores.,Funcionamiento anormal,ECU defectuosa,Reemplazar ECU,Crítica/No conducir
+P0605,ECU ROM Defectuosa,ROM de ECU fallida.,No arranca,ECU defectuosa,Reemplazar ECU,Crítica/No conducir
+P0606,Chip Procesador ECU Defectuoso,El procesador principal de ECU está dañado.,No arranca o arranca mal,ECU defectuosa,Reemplazar ECU,Crítica/No conducir
+P0607,Contraseña Sistema ECU Incorrecta,Contraseña de seguridad de ECU incorrecta.,Funcionamiento limitado,Reprogramación incorrecta,Reprogramar ECU correctamente,Moderada
+P0608,Voltaje Referencia ECU Bajo,Voltaje de referencia de ECU bajo.,Funcionamiento anormal,Circuito de referencia defectuoso,Revisar circuito de poder,Moderada
+P0609,Voltaje Referencia ECU Alto,Voltaje de referencia alto.,Quemado de componentes,Circuito de poder defectuoso,Revisar fuente de poder,Moderada
+P0610,Configuración Vehículo Inválida,Configuración del vehículo en ECU no es válida.,Luz Check Engine, funcionamiento anormal,Configuración incorrecta, ECU de otro vehículo,Reprogramar ECU con configuración correcta,Moderada
+P0620,Falla General del Alternador,El alternador no funciona correctamente.,Luz de batería encendida, arranque débil, pérdida de carga,Alternador defectuoso, conexiones sueltas, correas desgastadas,Revisar correas, Probar alternador, Reemplazar si es necesario,Moderada
+P0621,Circuito Control Alternador,Problema eléctrico en control del alternador.,Luz de batería,Circuito de control defectuoso, conector suelto,Reparar conexiones, Revisar circuito de control,Moderada
+P0622,Voltaje Salida Alternador Bajo,Voltaje de salida del alternador bajo.,Arranque débil, luz de batería,Alternador desgastado, regulador defectuoso,Reemplazar alternador,Moderada
+P0623,Voltaje Salida Alternador Alto,Voltaje de salida del alternador alto.,Batería sobrecargada, quemado de componentes,Regulador defectuoso,Reemplazar regulador o alternador,Moderada
+P0624,Falla Control Campo Alternador,Problema en control de campo del alternador.,Luz de batería,Solenoide de campo defectuoso,Reemplazar solenoide,Moderada
+P0625,Voltaje Bajo Circuito Control Alternador,Voltaje bajo en circuito de control.,Luz de batería,Circuito abierto,Reparar circuito,Moderada
+P0626,Voltaje Alto Circuito Control Alternador,Voltaje alto en circuito de control.,Sobrecarga,Cortocircuito,Reparar circuito,Moderada
+P0630,VIN No Programado en ECU,El número de chasis no está programado en la ECU.,Luz Check Engine, restricciones de funcionamiento,VIN no programado,Programar VIN en ECU,Moderada
+P0640,Falla del Calefactor Entrada Aire,Problema en el circuito del calefactor de aire de entrada.,Aire de entrada frío en marcha lenta,Elemento calefactor quemado, conector suelto,Reparar conexión, Reemplazar elemento,Baja
+P0645,Circuito Compresor A/C,Problema en circuito de compresor A/C.,A/C no funciona, compresor no engrana,Embrague del compresor defectuoso, cableado suelto,Reparar cableado, Reemplazar embrague,Baja
+P0646,Voltaje Bajo Compresor A/C,Voltaje bajo en circuito del compresor.,A/C no funciona,Circuito abierto,Reparar circuito,Baja
+P0647,Voltaje Alto Compresor A/C,Voltaje alto en circuito del compresor.,Compresor trabaja constantemente,Cortocircuito,Reparar circuito,Baja
+P0650,Luz Mal Funcionamiento MIL,La luz de verificación del motor (Check Engine) no funciona.,Luz Check Engine no enciende cuando hay códigos,Bombilla quemada, circuito abierto,Reemplazar bombilla, Revisar circuito,Baja
+P0651,Voltaje Referencia Bajo Sensores,Voltaje de referencia bajo para sensores.,Múltiples códigos de sensores,Circuito de referencia defectuoso,Revisar voltaje de referencia,Moderada
+P0652,Voltaje Referencia Alto Sensores,Voltaje de referencia alto para sensores.,Múltiples códigos,Circuito de referencia con cortocircuito,Revisar circuito,Moderada
+P0653,Voltaje Referencia Bajo Sensores 2,Voltaje de referencia bajo (segundo canal),Múltiples códigos,Circuito defectuoso,Revisar circuito de referencia,Moderada
+P0654,Voltaje Referencia Alto Sensores 2,Voltaje de referencia alto (segundo canal),Múltiples códigos,Cortocircuito,Reparar circuito,Moderada
+P0655,Voltaje Referencia Bajo Sensores 3,Voltaje de referencia bajo (tercer canal),Múltiples códigos,Circuito defectuoso,Reparar circuito,Moderada
+P0656,Voltaje Referencia Alto Sensores 3,Voltaje de referencia alto (tercer canal),Múltiples códigos,Cortocircuito,Reparar circuito,Moderada
+P0657,Voltaje Salida Entrada Analógica Bajo,Voltaje bajo en salida analógica,Funcionamiento anormal,Circuito de salida defectuoso,Revisar circuito,Moderada
+P0658,Voltaje Salida Entrada Analógica Alto,Voltaje alto en salida analógica,Funcionamiento anormal,Cortocircuito,Reparar circuito,Moderada
+P0659,Voltaje Referencia Bajo Sensores 4,Voltaje de referencia bajo (cuarto canal),Múltiples códigos,Circuito defectuoso,Reparar circuito,Moderada
+P0660,Válvula Control Entrada Multiple Mal Funcionamiento,La válvula de control de entrada múltiple no funciona.,Ralentí bajo, pérdida de potencia,Válvula de entrada defectuosa, cableado suelto,Revisar y limpiar válvula, Reemplazar si es necesario,Moderada
+P0661,Voltaje Bajo Válvula Control Entrada,Voltaje bajo en válvula de control.,Ralentí bajo,Circuito abierto,Reparar circuito,Moderada
+P0662,Voltaje Alto Válvula Control Entrada,Voltaje alto en válvula de control.,Ralentí alto,Cortocircuito,Reparar circuito,Moderada
+P0663,Válvula Control Entrada Posición Multiple,Problema de posición múltiple en válvula.,Ralentí variable,Válvula pegada,Limpiar o reemplazar válvula,Moderada
+P0664,Voltaje Bajo Válvula Posición,Voltaje bajo en sensor de posición.,Ralentí bajo,Circuito abierto,Reparar circuito,Moderada
+P0665,Voltaje Alto Válvula Posición,Voltaje alto en sensor de posición.,Ralentí alto,Cortocircuito,Reparar circuito,Moderada
+P0666,Válvula Control Posición Error Intermitente,Error intermitente en válvula de control.,Ralentí errático,Conexión intermitente, válvula sucia,Limpiar conexiones, Limpiar válvula,Moderada
+P0667,Voltaje Bajo Válvula Posición Intermitente,Voltaje bajo intermitente,Ralentí errático,Conexión intermitente,Limpiar conexiones,Moderada
+P0668,Voltaje Alto Válvula Posición Intermitente,Voltaje alto intermitente,Ralentí errático,Conexión intermitente,Limpiar conexiones,Moderada
+P0670,Circuito Control Inyección Combustible Encendido,Problema en control de inyección encendido,Funcionamiento anormal,Módulo de control defectuoso,Revisar módulo,Moderada
+P0671,Circuito Cilindro 1 Inyección Encendido,Problema en cilindro 1 de inyección encendido,Motor tembloroso,Módulo o inyector cilindro 1 defectuoso,Revisar módulo, Reemplazar inyector,Moderada
+P0672,Circuito Cilindro 2 Inyección Encendido,Problema en cilindro 2,Motor tembloroso,Módulo o inyector cilindro 2 defectuoso,Revisar módulo,Moderada
+P0673,Circuito Cilindro 3 Inyección Encendido,Problema en cilindro 3,Motor tembloroso,Módulo o inyector cilindro 3 defectuoso,Revisar módulo,Moderada
+P0674,Circuito Cilindro 4 Inyección Encendido,Problema en cilindro 4,Motor tembloroso,Módulo o inyector cilindro 4 defectuoso,Revisar módulo,Moderada
+P0675,Circuito Cilindro 5 Inyección Encendido,Problema en cilindro 5,Motor tembloroso,Módulo o inyector cilindro 5 defectuoso,Revisar módulo,Moderada
+P0676,Circuito Cilindro 6 Inyección Encendido,Problema en cilindro 6,Motor tembloroso,Módulo o inyector cilindro 6 defectuoso,Revisar módulo,Moderada
+P0677,Circuito Cilindro 7 Inyección Encendido,Problema en cilindro 7,Motor tembloroso,Módulo o inyector cilindro 7 defectuoso,Revisar módulo,Moderada
+P0678,Circuito Cilindro 8 Inyección Encendido,Problema en cilindro 8,Motor tembloroso,Módulo o inyector cilindro 8 defectuoso,Revisar módulo,Moderada
+P0679,Circuito Cilindro 9 Inyección Encendido,Problema en cilindro 9,Motor tembloroso,Módulo o inyector cilindro 9 defectuoso,Revisar módulo,Moderada
+P0680,Circuito Cilindro 10 Inyección Encendido,Problema en cilindro 10,Motor tembloroso,Módulo o inyector cilindro 10 defectuoso,Revisar módulo,Moderada
+P0685,ECU Voltaje Entrada Bajo,Voltaje de entrada bajo a ECU,No arranca, luz Check Engine,Alimentación eléctrica baja, fuente defectuosa,Revisar fuente de poder, Verificar voltaje,Crítica/No conducir
+P0686,ECU Voltaje Entrada Bajo Intermitente,Voltaje bajo intermitente a ECU,Arranque errático, apagón del motor,Conexión floja, batería débil,Limpiar conexiones, Revisar batería,Moderada
+P0687,ECU Voltaje Entrada Alto,Voltaje de entrada alto a ECU,ECU sobrecargada, no arranca,Regulador de voltaje defectuoso,Revisar regulador de voltaje,Crítica/No conducir
+P0688,ECU Voltaje Entrada Alto Intermitente,Voltaje alto intermitente a ECU,Apagones del motor, funcionamiento errático,Conexión intermitente,Limpiar conexiones,Moderada
+P0689,ECU Voltaje Entrada Bajo Detectado,ECU detecta su propio voltaje bajo,No arranca, funcionamiento anormal,Batería baja, alternador defectuoso,Cargar batería, Revisar alternador,Crítica/No conducir
+P0690,ECU Voltaje Entrada Alto Detectado,ECU detecta su propio voltaje alto,Quemado de componentes,Regulador defectuoso,Reparar regulador,Crítica/No conducir
+P0691,Circuito Ventilador Radiador Bajo,Voltaje bajo en circuito del ventilador,Motor sobrecalentado, luz de temperatura,Relé defectuoso, motor ventilador quemado, conector suelto,Revisar relé, Reemplazar motor ventilador,Moderada
+P0692,Circuito Ventilador Radiador Alto,Voltaje alto en circuito del ventilador,Ventilador funcionando constantemente,Relé pegado, cortocircuito,Reemplazar relé,Moderada
+P0693,Circuito Ventilador Radiador 2 Bajo,Voltaje bajo en segundo ventilador,Motor sobrecalentado,Relé o motor ventilador 2 defectuoso,Revisar relé 2, Reemplazar motor,Moderada
+P0694,Circuito Ventilador Radiador 2 Alto,Voltaje alto en segundo ventilador,Ventilador 2 funcionando constantemente,Relé 2 pegado,Reemplazar relé 2,Moderada
+P0695,Circuito Ventilador Radiador 3 Bajo,Voltaje bajo en tercer ventilador,Motor sobrecalentado,Relé o motor ventilador 3 defectuoso,Revisar relé 3,Moderada
+P0696,Circuito Ventilador Radiador 3 Alto,Voltaje alto en tercer ventilador,Ventilador 3 siempre encendido,Relé 3 pegado,Reemplazar relé 3,Moderada
+P0700,Falla General del Sistema de Transmisión,La transmisión reporta un problema general.,Luz de transmisión encendida, cambios bruscos, limp mode,Problema interno en transmisión, módulo TCM defectuoso, bajo nivel de fluido,Verificar nivel y estado del fluido, Escanear módulo TCM,Crítica/No conducir
+P0701,Rango/Rendimiento Control Transmisión,Control de transmisión fuera de rango.,Cambios anormales, falta de cambios,Módulo TCM defectuoso o sensores defectuosos,Escanear TCM, Revisar sensores,Crítica/No conducir
+P0702,Voltaje Control Transmisión Bajo,Voltaje bajo en control de transmisión.,Cambios erráticos,Circuito abierto, batería baja,Reparar circuito, Revisar batería,Moderada
+P0703,Voltaje Control Transmisión Alto,Voltaje alto en control de transmisión.,Cambios anormales,Cortocircuito,Reparar circuito,Moderada
+P0704,Circuito Control Embrague,Problema en circuito del embrague.,Embrague pegado, dificultad para cambiar,Solenoide embrague defectuoso, cableado suelto,Reparar conexión, Reemplazar solenoide,Moderada
+P0705,Sensor Rango Transmisión Mal Funcionamiento,El sensor de rango/posición de transmisión falla.,Luz de transmisión, cambios incorrectos,Sensor defectuoso, conector suelto,Limpiar conexiones, Reemplazar sensor,Moderada
+P0706,Rango/Rendimiento Sensor Transmisión,Sensor de transmisión fuera de rango.,Cambios anormales,Sensor descalibrado,Recalibrar o reemplazar sensor,Moderada
+P0707,Voltaje Bajo Sensor Transmisión,Voltaje bajo en sensor de transmisión.,Cambios anormales,Sensor con baja resistencia,Reemplazar sensor,Moderada
+P0708,Voltaje Alto Sensor Transmisión,Voltaje alto en sensor de transmisión.,Cambios anormales,Sensor con alta resistencia,Reemplazar sensor,Moderada
+P0709,Rango Intermitente Sensor Transmisión,Lecturas intermitentes del sensor,Cambios erráticos,Conexión intermitente,Limpiar conexiones,Moderada
+P0710,Sensor Temperatura Fluido Transmisión Mal Funcionamiento,El sensor de temperatura del fluido de transmisión falla.,Cambios anormales, sobrecalentamiento,Sensor defectuoso,Reemplazar sensor,Moderada
+P0711,Rango/Rendimiento Sensor Temperatura Transmisión,Sensor de temperatura fuera de rango.,Cambios anormales,Sensor defectuoso,Reemplazar sensor,Moderada
+P0712,Voltaje Bajo Sensor Temperatura Transmisión,Voltaje bajo en sensor de temperatura.,Cambios anormales,Sensor con baja resistencia,Reemplazar sensor,Moderada
+P0713,Voltaje Alto Sensor Temperatura Transmisión,Voltaje alto en sensor de temperatura.,Cambios anormales,Sensor con alta resistencia,Reemplazar sensor,Moderada
+P0714,Rango Intermitente Sensor Temperatura Transmisión,Lecturas intermitentes de temperatura,Cambios erráticos,Conexión intermitente,Limpiar conexiones,Moderada
+P0715,Sensor Velocidad Entrada Transmisión Mal Funcionamiento,El sensor de RPM de entrada a la transmisión falla.,Cambios anormales, pérdida de cambios,Sensor defectuoso, conector suelto,Limpiar conexiones, Reemplazar sensor,Moderada
+P0716,Rango/Rendimiento Sensor RPM Entrada,Sensor de RPM entrada fuera de rango.,Cambios anormales,Sensor defectuoso,Reemplazar sensor,Moderada
+P0717,Sin Señal Sensor RPM Entrada,Sin señal del sensor RPM entrada.,No hay cambios automáticos,Sensor desconectado, cableado roto,Revisar conexión, Reemplazar sensor,Moderada
+P0718,Rango Intermitente Sensor RPM Entrada,Señal intermitente del sensor RPM entrada.,Cambios erráticos,Conexión intermitente,Limpiar conexiones,Moderada
+P0719,Voltaje Bajo Sensor RPM Entrada,Voltaje bajo en sensor RPM entrada.,Cambios lentos,Sensor defectuoso,Reemplazar sensor,Moderada
+P0720,Sensor Velocidad Salida Transmisión Mal Funcionamiento,El sensor de velocidad de salida (VSS) de transmisión falla.,Velocímetro no funciona, cambios anormales,Sensor VSS defectuoso, conector suelto,Limpiar conexiones, Reemplazar sensor,Moderada
+P0721,Rango/Rendimiento Sensor Velocidad Salida,Sensor de velocidad salida fuera de rango.,Velocímetro errabundo,Sensor defectuoso,Reemplazar sensor,Moderada
+P0722,Sin Señal Sensor Velocidad Salida,Sin señal del sensor de velocidad salida.,Velocímetro no funciona,Sensor desconectado,Revisar conexión, Reemplazar sensor,Moderada
+P0723,Rango Intermitente Sensor Velocidad Salida,Señal intermitente del sensor VSS.,Velocímetro fluctuante,Conexión intermitente,Limpiar conexiones,Moderada
+P0724,Voltaje Alto Sensor Velocidad Salida,Voltaje alto en sensor de velocidad salida.,Velocímetro muy alto,Sensor con alta resistencia,Reemplazar sensor,Moderada
+P0725,Sensor RPM Motor Mal Funcionamiento,El sensor de RPM del motor (Tach) falla.,Tacómetro no funciona, cambios erráticos,Sensor defectuoso, conector suelto, cableado dañado,Limpiar conexiones, Reemplazar sensor,Moderada
+P0726,Rango/Rendimiento Sensor RPM Motor,Sensor de RPM fuera de rango.,Tacómetro errabundo,Sensor defectuoso,Reemplazar sensor,Moderada
+P0727,Sin Señal Sensor RPM Motor,Sin señal de RPM del motor.,Tacómetro cero, cambios anormales,Sensor desconectado, cableado roto,Revisar conexión, Reemplazar sensor,Crítica/No conducir
+P0728,Rango Intermitente Sensor RPM Motor,Señal intermitente de RPM.,Tacómetro fluctuante, cambios erráticos,Conexión intermitente,Limpiar conexiones,Moderada
+P0729,Voltaje Incorrecto Sensor RPM Motor,Voltaje incorrecto en sensor de RPM.,Tacómetro anormal,Sensor con voltaje incorrecto,Revisar voltaje, Reemplazar sensor,Moderada
+P0730,Rango Incorrecto Transmisión,Transmisión en rango incorrecto.,Cambios anormales, luz de transmisión,Sensor de rango defectuoso, módulo TCM defectuoso,Revisar sensor de rango, Escanear TCM,Moderada
+P0731,Transmisión Primera Marcha Imposible,La transmisión no puede engancharse en primera marcha.,No hay movimiento o primera marcha débil,Problema interno en transmisión, solenoide defectuoso,Revisar solenoides de cambio, Llevar a especialista,Crítica/No conducir
+P0732,Transmisión Segunda Marcha Imposible,La transmisión no puede engancharse en segunda marcha.,Cambios abruptos, falta de segunda,Problema interno transmisión,Revisar transmisión,Crítica/No conducir
+P0733,Transmisión Tercera Marcha Imposible,La transmisión no puede engancharse en tercera marcha.,Falta de tercera marcha,Problema interno transmisión,Revisar transmisión,Crítica/No conducir
+P0734,Transmisión Cuarta Marcha Imposible,La transmisión no puede engancharse en cuarta marcha.,Falta de cuarta marcha,Problema interno transmisión,Revisar transmisión,Moderada
+P0735,Transmisión Quinta Marcha Imposible,La transmisión no puede engancharse en quinta marcha.,Falta de quinta marcha,Problema interno transmisión,Revisar transmisión,Moderada
+P0736,Marcha Atrás Imposible,La transmisión no puede engancharse en marcha atrás.,No hay marcha atrás,Problema interno, solenoide reversa defectuoso,Revisar marcha atrás,Crítica/No conducir
+P0737,Rango Incorrecto RPM Motor,RPM incorrectos para el rango de transmisión.,Cambios lentos o abruptos,Sensor de RPM defectuoso,Revisar sensor de RPM,Moderada
+P0738,Voltaje Incorrecto RPM Motor,Voltaje incorrecto en sensor RPM.,Cambios anormales,Sensor con voltaje incorrecto,Revisar voltaje,Moderada
+P0739,Velocidad Salida Transmisión Baja,Velocidad de salida muy baja comparado a entrada.,Pérdida de potencia, cambios lentos,Problema interno transmisión, embrague patinando,Revisar embrague y transmisión,Moderada
+P0740,Circuito Solenoide Cambio Transmisión,Problema general en solenoides de cambio.,Cambios anormales, limp mode,Solenoide defectuoso, cableado suelto,Reparar cableado, Reemplazar solenoide,Moderada
+P0741,Flujo Incorrecto Solenoide Cambio,Flujo de fluido por solenoide incorrecto.,Cambios anormales,Solenoide obstruido,Limpiar solenoide,Moderada
+P0742,Circuito Solenoide Bloqueo,Problema en solenoide de bloqueo de convertidor.,Cambios erráticos, sobrecalentamiento,Solenoide pegado,Limpiar o reemplazar solenoide,Moderada
+P0743,Voltaje Bajo Solenoide Bloqueo,Voltaje bajo en solenoide de bloqueo.,Cambios lentos,Circuito abierto,Reparar circuito,Moderada
+P0744,Voltaje Alto Solenoide Bloqueo,Voltaje alto en solenoide de bloqueo.,Cambios abruptos,Cortocircuito,Reparar circuito,Moderada
+P0745,Presión Fluido Transmisión Solenoide Mal Funcionamiento,El solenoide de presión de fluido falla.,Cambios anormales, presión baja,Solenoide de presión defectuoso,Reemplazar solenoide,Moderada
+P0746,Voltaje Bajo Solenoide Presión,Voltaje bajo en solenoide de presión.,Presión baja, cambios anormales,Circuito abierto,Reparar circuito,Moderada
+P0747,Voltaje Alto Solenoide Presión,Voltaje alto en solenoide de presión.,Presión alta, cambios abruptos,Cortocircuito,Reparar circuito,Moderada
+P0748,Rango Incorrecto Presión Transmisión,Presión de transmisión fuera de rango.,Cambios anormales, sobrecalentamiento,Bomba de presión defectuosa, fluido bajo,Revisar presión, Llenar fluido,Moderada
+P0749,Intermitente Presión Transmisión,Presión intermitente en transmisión.,Cambios erráticos,Bomba intermitente, problema intermitente,Revisar bomba de presión,Moderada
+B0001,Falla en Circuito del Airbag del Conductor,Existe un problema en el circuito eléctrico del airbag frontal del conductor, lo que puede impedir su despliegue en un accidente.,Luz de airbag (SRS) encendida permanentemente, el airbag podría no desplegarse en una colisión,Módulo de airbag defectuoso, cableado del volante dañado, clockspring (reloj espiral) roto, conector suelto,NO intentar reparación casera, Llevar a taller especializado en sistemas SRS,Crítica/No conducir
+B0002,Falla en Circuito del Airbag del Pasajero,Problema en el circuito del airbag frontal del pasajero.,Luz SRS encendida, airbag pasajero no funcionaría,Módulo defectuoso, cableado dañado,Llevar a especialista SRS,Crítica/No conducir
+B0003,Falla en Circuito Airbag Lateral Conductor,Problema en airbag lateral del lado conductor.,Luz SRS encendida, airbag lateral no desplegaría,Módulo defectuoso, cableado dañado,Llevar a especialista SRS,Crítica/No conducir
+B0004,Falla en Circuito Airbag Lateral Pasajero,Problema en airbag lateral del lado pasajero.,Luz SRS encendida, airbag lateral trasero no funcionaría,Módulo defectuoso,Llevar a especialista SRS,Crítica/No conducir
+B0005,Falla en Circuito Cortina Airbag,Problema en la cortina de aire (airbag de techo).,Luz SRS encendida,Módulo de cortina defectuoso,Llevar a especialista SRS,Crítica/No conducir
+B0006,Falla Pretensores Cinturón Seguridad,Los pretensores de cinturón de seguridad no funcionan.,Luz SRS encendida, pretensores no activarían en choque,Módulo pretensor defectuoso,Llevar a especialista SRS,Crítica/No conducir
+B0010,Controlador SRS Mal Funcionamiento,El módulo de control del sistema SRS falla.,Múltiples luces de airbag y seguridad,Módulo SRS defectuoso, cortocircuito,Llevar a especialista, Reemplazar módulo SRS,Crítica/No conducir
+B0015,Batería de Reserva SRS Bajo Voltaje,La batería de reserva para airbags tiene bajo voltaje.,Luz SRS encendida, airbags no funcionarían,Batería de reserva descargada,Reemplazar batería de reserva,Crítica/No conducir
+B0016,Batería de Reserva SRS Voltaje Alto,Voltaje alto en batería de reserva.,Luz SRS, riesgo de mal funcionamiento,Batería de reserva defectuosa,Reemplazar batería,Crítica/No conducir
+B0050,Sensor Impacto Frontal Centro,Falla del sensor de impacto frontal central.,Airbags no despliegarían en colisión frontal,Sensor dañado por colisión previa,Reemplazar sensor,Crítica/No conducir
+B0055,Sensor Impacto Frontal Izquierdo,Sensor de colisión frontal lado izquierdo defectuoso.,Airbags lado izquierdo no despliegarían,Sensor dañado, cableado cortado,Reparar cableado, Reemplazar sensor,Crítica/No conducir
+B0056,Sensor Impacto Frontal Derecho,Sensor de colisión frontal lado derecho defectuoso.,Airbags lado derecho no despliegarían,Sensor dañado,Reemplazar sensor,Crítica/No conducir
+B0057,Sensor Impacto Lateral Izquierdo,Sensor de impacto lateral lado izquierdo falla.,Airbag lateral izquierdo no funcionaría,Sensor dañado o conector suelto,Limpiar conexión, Reemplazar sensor,Crítica/No conducir
+B0058,Sensor Impacto Lateral Derecho,Sensor de impacto lateral lado derecho falla.,Airbag lateral derecho no funcionaría,Sensor dañado,Reemplazar sensor,Crítica/No conducir
+B0059,Sensor Velocidad Rotacional,Falla del sensor de rotación (volcadura).,Cortinas de aire no desplegarían en volcadura,Sensor defectuoso,Reemplazar sensor,Crítica/No conducir
+B0100,Falla del Sensor de Impacto Frontal Izquierdo,El sensor que detecta colisiones frontales del lado izquierdo no funciona correctamente.,Luz de airbag encendida permanentemente, sistema SRS desactivado,Sensor de impacto dañado físicamente, cableado cortado, módulo de airbag defectuoso,Inspeccionar sensor visualmente, Verificar cableado, Llevar a técnico certificado,Crítica/No conducir
+B0101,Sensor Impacto Frontal Derecho Defectuoso,Similar a B0100 pero lado derecho.,Luz SRS encendida,Sensor dañado,Llevar a especialista,Crítica/No conducir
+B0102,Sensor Impacto Lateral Frontal Izquierdo,Sensor de impacto lateral frontal lado izquierdo defectuoso.,Luz SRS,Sensor dañado,Llevar a especialista,Crítica/No conducir
+B0103,Sensor Impacto Lateral Frontal Derecho,Similar lado derecho.,Luz SRS,Sensor dañado,Llevar a especialista,Crítica/No conducir
+B0110,Sensor Aceleración Defectuoso,El sensor de aceleración del módulo SRS falla.,Luz SRS, airbags no responden adecuadamente,Sensor defectuoso, conector suelto,Limpiar conexión, Reemplazar sensor,Crítica/No conducir
+B0130,Luz de Niebla Delantera Izquierda Mal Funcionamiento,Fallo en circuito de luz de niebla delantera lado izquierdo.,Luz de niebla izquierda no enciende,Bombilla quemada, conector suelto, fusible quemado,Reemplazar bombilla, Revisar fusible,Baja
+B0131,Luz de Niebla Delantera Derecha Mal Funcionamiento,Fallo en circuito de luz de niebla delantera lado derecho.,Luz de niebla derecha no enciende,Bombilla quemada, fusible quemado,Reemplazar bombilla,Baja
+B0132,Luz de Niebla Trasera Izquierda Mal Funcionamiento,Fallo en circuito de luz de niebla trasera lado izquierdo.,Luz de niebla trasera izquierda no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0133,Luz de Niebla Trasera Derecha Mal Funcionamiento,Fallo en circuito de luz de niebla trasera lado derecho.,Luz de niebla trasera derecha no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0200,Falla General Puertas,Problema general en sistema de puertas.,Puertas no abren o cierran, cerraduras anormales,Módulo de puertas defectuoso, actuadores rotos,Revisar módulo de puertas,Moderada
+B0201,Puerta Conductor Mal Funcionamiento,La puerta del conductor no funciona correctamente.,Puerta no abre o cierra,Actuador de puerta defectuoso, conector suelto,Reparar conexión, Reemplazar actuador,Moderada
+B0202,Puerta Pasajero Mal Funcionamiento,La puerta del pasajero delantero tiene problemas.,Puerta no abre o cierra,Actuador defectuoso,Reemplazar actuador,Moderada
+B0203,Puerta Trasera Izquierda Mal Funcionamiento,Puerta trasera lado izquierdo defectuosa.,Puerta trasera izquierda no funciona,Actuador defectuoso,Reemplazar actuador,Moderada
+B0204,Puerta Trasera Derecha Mal Funcionamiento,Puerta trasera lado derecho defectuosa.,Puerta trasera derecha no funciona,Actuador defectuoso,Reemplazar actuador,Moderada
+B0205,Puerta Maletero Mal Funcionamiento,La puerta del maletero no funciona.,Maletero no abre o cierra,Actuador maletero defectuoso,Reemplazar actuador,Moderada
+B0206,Tapa Tanque Combustible Mal Funcionamiento,La tapa de combustible no funciona (si es motorizada).,Tapa no abre,Solenoide de tapa defectuoso,Reemplazar solenoide,Baja
+B0250,Sistema Calefacción Asientos Mal Funcionamiento,El sistema de asientos calefactados no funciona.,Asientos no calientan, luz de sistema anormal,Elemento calefactor quemado, conector suelto,Reparar conexión, Reemplazar elemento,Baja
+B0251,Asiento Conductor Calefactor Mal Funcionamiento,El elemento calefactor del asiento conductor falla.,Asiento conductor no calienta,Elemento quemado,Reemplazar elemento,Baja
+B0252,Asiento Pasajero Calefactor Mal Funcionamiento,El elemento calefactor del asiento pasajero falla.,Asiento pasajero no calienta,Elemento quemado,Reemplazar elemento,Baja
+B0253,Asiento Trasero Izquierdo Calefactor Mal Funcionamiento,Elemento calefactor trasero izquierdo defectuoso.,Asiento trasero izquierdo no calienta,Elemento quemado,Reemplazar elemento,Baja
+B0254,Asiento Trasero Derecho Calefactor Mal Funcionamiento,Elemento calefactor trasero derecho defectuoso.,Asiento trasero derecho no calienta,Elemento quemado,Reemplazar elemento,Baja
+B0300,Falla Sistema Iluminación Interior,Problema general en iluminación de cabina.,Luces interiores no encienden, iluminación anormal,Módulo de iluminación defectuoso, bombillas quemadas,Reemplazar bombillas, Revisar módulo,Baja
+B0301,Luz Techo Mal Funcionamiento,La luz de techo no funciona.,Luz de techo no enciende,Bombilla quemada, interruptor defectuoso,Reemplazar bombilla, Revisar interruptor,Baja
+B0302,Luz Lectura Delantera Izquierda Mal Funcionamiento,Luz de lectura delantera lado izquierdo defectuosa.,Luz no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0303,Luz Lectura Delantera Derecha Mal Funcionamiento,Luz de lectura delantera lado derecho defectuosa.,Luz no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0304,Luz Lectura Trasera Izquierda Mal Funcionamiento,Luz de lectura trasera lado izquierdo defectuosa.,Luz no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0305,Luz Lectura Trasera Derecha Mal Funcionamiento,Luz de lectura trasera lado derecho defectuosa.,Luz no enciende,Bombilla quemada,Reemplazar bombilla,Baja
+B0306,Luz Maletero Mal Funcionamiento,Luz del maletero no funciona.,Maletero oscuro,Bombilla quemada, interruptor de puerta defectuoso,Reemplazar bombilla,Baja
+B0400,Falla General Sistema Espejos,Problema general en sistema de espejos eléctricos.,Espejos no se ajustan, función anormal,Módulo de control defectuoso, motores rotos,Revisar módulo, Reemplazar motor,Moderada
+B0401,Espejo Conductor Mal Funcionamiento,El espejo retrovisor eléctrico del conductor no funciona.,Espejo no se ajusta,Motor o conector defectuoso,Reparar conector, Reemplazar motor,Moderada
+B0402,Espejo Pasajero Mal Funcionamiento,El espejo retrovisor eléctrico del pasajero no funciona.,Espejo no se ajusta,Motor defectuoso,Reemplazar motor,Moderada
+B0403,Espejo Trasero Izquierdo Mal Funcionamiento,Espejo retrovisor interior lado izquierdo defectuoso.,Espejo no se mueve,Motor defectuoso,Reemplazar motor,Moderada
+B0404,Espejo Trasero Derecho Mal Funcionamiento,Espejo retrovisor interior lado derecho defectuoso.,Espejo no se mueve,Motor defectuoso,Reemplazar motor,Moderada
+B0450,Falla Sistema Limpiadores Parabrisas,Problema general en sistema de limpiadores.,Limpiadores no funcionan, movimiento anormal,Motor de limpiadores quemado, fusible quemado,Revisar fusible, Reemplazar motor,Baja
+B0451,Limpiador Parabrisas Delantero Mal Funcionamiento,El limpiador delantero no funciona.,Parabrisas no se limpia,Motor o brazo defectuoso,Reparar brazo, Reemplazar motor,Baja
+B0452,Limpiador Parabrisas Trasero Mal Funcionamiento,El limpiador trasero no funciona.,Parabrisas trasero no se limpia,Motor trasero defectuoso,Reemplazar motor,Baja
+B0453,Circuito Rociador Parabrisas Delantero,Fallo en circuito de rociador delantero.,Rociador no dispensa fluido,Bomba de rociador defectuosa, mangueras bloqueadas,Desobstruir mangueras, Reemplazar bomba,Baja
+B0454,Circuito Rociador Parabrisas Trasero,Fallo en circuito de rociador trasero.,Rociador trasero no funciona,Bomba trasera defectuosa,Reemplazar bomba,Baja
+B0500,Sistema Climatización Mal Funcionamiento,Problema general en sistema A/C y calefacción.,A/C o calefacción no funciona,Compresor defectuoso, refrigerante bajo, válvulas obstruidas,Revisar presión, Recargar refrigerante,Moderada
+B0501,A/C No Enfría,El sistema A/C no produce aire frío.,Aire tibio o caliente sale del A/C,Compresor no engrana, refrigerante bajo, fugas,Verificar presión A/C, Revisar refrigerante,Moderada
+B0502,Calefactor No Calienta,El sistema de calefacción no funciona.,Aire frío sale del calefactor,Válvula de control defectuosa, caudal bajo,Revisar termostato, Verificar flujo de refrigerante,Moderada
+B0503,Modo Mezcla Aire Defectuoso,Fallo en sistema de mezcla de aire.,Aire de temperatura incorrecta,Válvula mezcla pegada, actuador defectuoso,Limpiar válvula, Reemplazar actuador,Baja
+B0504,Modo Distribución Aire Defectuoso,Fallo en sistema de distribución de aire.,Aire no se distribuye a lugares correctos,Actuador de distribución defectuoso,Reemplazar actuador,Baja
+B0505,Ventilador Climatización Mal Funcionamiento,El ventilador del sistema de climatización falla.,Poco flujo de aire, sistema anormal,Motor ventilador defectuoso, fusible quemado,Revisar fusible, Reemplazar motor,Moderada
+B0506,Ventilador Velocidad Baja,Ventilador funciona a baja velocidad.,Poco flujo de aire,Motor débil, resistencia defectuosa,Revisar resistencias, Reemplazar motor,Baja
+B0550,Asiento Eléctrico Conductor Mal Funcionamiento,El asiento eléctrico del conductor no funciona.,Asiento no se mueve, ajustes no funcionan,Motor de asiento defectuoso, conector suelto,Reparar conexión, Reemplazar motor,Moderada
+B0551,Asiento Eléctrico Pasajero Mal Funcionamiento,El asiento eléctrico del pasajero no funciona.,Asiento pasajero no se ajusta,Motor defectuoso,Reemplazar motor,Moderada
+B0552,Asiento Trasero Izquierdo Eléctrico Mal Funcionamiento,Asiento trasero izquierdo no se ajusta.,Asiento trasero izquierdo fijo,Motor defectuoso,Reemplazar motor,Moderada
+B0553,Asiento Trasero Derecho Eléctrico Mal Funcionamiento,Asiento trasero derecho no se ajusta.,Asiento trasero derecho fijo,Motor defectuoso,Reemplazar motor,Moderada
+C0035,Falla del Sensor ABS Rueda Trasera Izquierda,El sensor de velocidad ABS de la rueda trasera izquierda no funciona.,Luz de ABS encendida, frenos ABS desactivados,Sensor ABS defectuoso, rotor de sensor dañado,Limpiar sensor y rotor, Reemplazar sensor si es necesario,Moderada
+C0036,Sensor ABS Rueda Trasera Derecha Falla,El sensor ABS de la rueda trasera derecha no funciona.,Luz de ABS encendida,Sensor defectuoso, rotor dañado,Limpiar sensor, Reemplazar sensor,Moderada
+C0041,Sensor ABS Rueda Delantera Izquierda Falla,El sensor ABS de la rueda delantera izquierda no funciona.,Luz de ABS encendida, ABS desactivado,Sensor defectuoso, rotor de sensor dañado,Limpiar sensor y rotor,Moderada
+C0042,Sensor ABS Rueda Delantera Derecha Falla,El sensor ABS de la rueda delantera derecha no funciona.,Luz de ABS encendida,Sensor defectuoso,Reemplazar sensor,Moderada
+C0050,Falla del Sensor de Velocidad de Rueda Delantera Derecha,El sensor ABS de la rueda delantera derecha está reportando lecturas incorrectas o no envía señal.,Luz de ABS encendida, luz de control de tracción encendida, sistema ABS desactivado,Sensor ABS frontal derecho dañado, contaminación con suciedad o limadura metálica, gap incorrecto, cableado dañado,Limpiar área del sensor y rotor, Verificar gap entre sensor y rotor, Inspeccionar cableado, Reemplazar sensor si está dañado,Moderada
+C0051,Sensor Velocidad Rueda Delantera Izquierda Falla,Similar a C0050 pero lado izquierdo.,Luz de ABS,Sensor dañado, contaminación,Limpiar sensor,Moderada
+C0060,Voltaje Bajo Sensor ABS Rueda Trasera Izquierda,Voltaje bajo en sensor ABS trasero izquierdo.,Luz de ABS,Circuito abierto, conector suelto,Reparar circuito,Moderada
+C0061,Voltaje Bajo Sensor ABS Rueda Trasera Derecha,Voltaje bajo en sensor ABS trasero derecho.,Luz de ABS,Circuito abierto,Reparar circuito,Moderada
+C0062,Voltaje Bajo Sensor ABS Rueda Delantera Izquierda,Voltaje bajo en sensor ABS delantero izquierdo.,Luz de ABS,Circuito abierto,Reparar circuito,Moderada
+C0063,Voltaje Bajo Sensor ABS Rueda Delantera Derecha,Voltaje bajo en sensor ABS delantero derecho.,Luz de ABS,Circuito abierto,Reparar circuito,Moderada
+C0065,Voltaje Alto Sensor ABS Rueda Trasera Izquierda,Voltaje alto en sensor ABS trasero izquierdo.,Luz de ABS, mal funcionamiento,Cortocircuito,Reparar circuito,Moderada
+C0066,Voltaje Alto Sensor ABS Rueda Trasera Derecha,Voltaje alto en sensor ABS trasero derecho.,Luz de ABS,Cortocircuito,Reparar circuito,Moderada
+C0067,Voltaje Alto Sensor ABS Rueda Delantera Izquierda,Voltaje alto en sensor ABS delantero izquierdo.,Luz de ABS,Cortocircuito,Reparar circuito,Moderada
+C0068,Voltaje Alto Sensor ABS Rueda Delantera Derecha,Voltaje alto en sensor ABS delantero derecho.,Luz de ABS,Cortocircuito,Reparar circuito,Moderada
+C0100,Voltaje Bajo Módulo ABS,Voltaje bajo en módulo de control ABS.,Luz de ABS, frenos anormales,Alimentación baja al módulo,Revisar voltaje de entrada,Moderada
+C0101,Voltaje Alto Módulo ABS,Voltaje alto en módulo ABS.,Quemado de componentes,Sobrecarga en módulo,Revisar voltaje,Moderada
+C0110,Presión Baja Sistema Frenos,Presión de frenos más baja de lo normal.,Pedal de freno esponjoso, frenado débil,Fuga de fluido, presión baja, líneas rotas,Revisar nivel de fluido, Buscar fugas,Crítica/No conducir
+C0111,Presión Alta Sistema Frenos,Presión de frenos muy alta.,Frenos pegajosos, dificultad de frenado,Válvula de alivio bloqueada,Limpiar válvula de alivio,Crítica/No conducir
+C0112,Presión Frontal Baja,Presión baja en frenos delanteros.,Frenado débil delantero,Fuga delantera, líneas rotas,Reparar fugas, Reemplazar líneas,Crítica/No conducir
+C0113,Presión Trasera Baja,Presión baja en frenos traseros.,Frenado débil trasero,Fuga trasera,Reparar fugas,Crítica/No conducir
+C0121,Sensor Posición Pedal Freno Mal Funcionamiento,El sensor de posición del pedal de freno no funciona.,ABS anormal, frenos erráticos,Sensor defectuoso, conector suelto,Limpiar conexión, Reemplazar sensor,Moderada
+C0122,Voltaje Bajo Sensor Posición Freno,Voltaje bajo en sensor de posición de freno.,ABS anormal,Sensor con baja resistencia,Reemplazar sensor,Moderada
+C0123,Voltaje Alto Sensor Posición Freno,Voltaje alto en sensor de posición de freno.,ABS anormal,Sensor con alta resistencia,Reemplazar sensor,Moderada
+C0200,Falla General Válvulas Solenoide ABS,Problema general en solenoides de ABS.,Luz ABS, frenos anormales,Solenoide defectuoso, cableado suelto,Reparar cableado, Reemplazar solenoide,Moderada
+C0201,Circuito Solenoide Freno Delantero Izquierdo,Problema en solenoide freno delantero izquierdo.,Luz ABS, frenado desigual,Solenoide defectuoso,Reemplazar solenoide,Moderada
+C0202,Circuito Solenoide Freno Delantero Derecho,Problema en solenoide freno delantero derecho.,Luz ABS, frenado desigual,Solenoide defectuoso,Reemplazar solenoide,Moderada
+C0203,Circuito Solenoide Freno Trasero Izquierdo,Problema en solenoide freno trasero izquierdo.,Luz ABS,Solenoide defectuoso,Reemplazar solenoide,Moderada
+C0204,Circuito Solenoide Freno Trasero Derecho,Problema en solenoide freno trasero derecho.,Luz ABS,Solenoide defectuoso,Reemplazar solenoide,Moderada
+C0221,Voltaje Bajo Solenoide Delantero Izquierdo,Voltaje bajo en solenoide delantero izquierdo.,Luz ABS,Circuito abierto,Reparar circuito,Moderada
+C0222,Voltaje Bajo Solenoide Delantero Derecho,Voltaje bajo en solenoide delantero derecho.,Luz ABS,Circuito abierto,Reparar circuito,Moderada
+C0223,Voltaje Bajo Solenoide Trasero Izquierdo,Voltaje bajo en solenoide trasero izquierdo.,Luz ABS,Circuito abierto,Reparar circuito,Moderada
+C0224,Voltaje Bajo Solenoide Trasero Derecho,Voltaje bajo en solenoide trasero derecho.,Luz ABS,Circuito abierto,Reparar circuito,Moderada
+C0226,Voltaje Alto Solenoide Delantero Izquierdo,Voltaje alto en solenoide delantero izquierdo.,Luz ABS,Cortocircuito,Reparar circuito,Moderada
+C0227,Voltaje Alto Solenoide Delantero Derecho,Voltaje alto en solenoide delantero derecho.,Luz ABS,Cortocircuito,Reparar circuito,Moderada
+C0228,Voltaje Alto Solenoide Trasero Izquierdo,Voltaje alto en solenoide trasero izquierdo.,Luz ABS,Cortocircuito,Reparar circuito,Moderada
+C0229,Voltaje Alto Solenoide Trasero Derecho,Voltaje alto en solenoide trasero derecho.,Luz ABS,Cortocircuito,Reparar circuito,Moderada
+U0001,Falla Comunicación CAN Bus de Alto Nivel,Problema en la red de comunicación CAN de alto nivel.,Múltiples luces de error, módulos no responden,Bus CAN abierto o cortocircuitado, ECU defectuosa,Revisar cableado CAN, Revisar ECU,Crítica/No conducir
+U0010,Pérdida de Comunicación con Pantalla Informativa,El módulo de pantalla no responde a comandos.,Pantalla no muestra información, no responde,Bus CAN abierto, módulo pantalla defectuoso,Revisar cableado, Reemplazar módulo pantalla,Moderada
+U0011,Pérdida de Comunicación con Módulo de Puertas,El módulo de control de puertas no comunica.,Puertas no responden, cerraduras anormales,Bus CAN abierto, módulo puertas defectuoso,Revisar cableado CAN,Moderada
+U0020,Baja Voltaje CAN Bus,Voltaje bajo en el bus CAN.,Múltiples códigos, comunicación deficiente,Fuente de poder baja, cortocircuito,Revisar voltaje de fuente,Moderada
+U0021,Voltaje Alto CAN Bus,Voltaje alto en el bus CAN.,Corrupción de datos, múltiples códigos,Sobrecarga en bus,Revisar voltaje,Moderada
+U0100,Pérdida de Comunicación con ECM/PCM Principal,Los módulos del vehículo no pueden comunicarse con la computadora principal del motor. El bus CAN tiene un problema.,Múltiples luces de advertencia encendidas, vehículo no arranca, varios sistemas no responden, motor se apaga inesperadamente,ECU principal defectuosa, problemas en el bus de comunicación CAN, fusible quemado, cableado de red dañado,Verificar fusibles relacionados con la ECU, Revisar alimentación de la computadora, Inspeccionar cableado del bus CAN, Llevar a taller con equipo de diagnóstico avanzado,Crítica/No conducir
+U0101,Pérdida de Comunicación con Módulo de Transmisión (TCM),La computadora del motor no puede comunicarse con el módulo de control de la transmisión automática.,Transmisión en modo de emergencia, cambios erráticos o no cambia, luz de transmisión encendida,Módulo TCM defectuoso, problemas de comunicación en bus CAN, cableado dañado entre módulos, fusible quemado,Verificar fusibles del TCM, Inspeccionar conectores del módulo de transmisión, Diagnosticar bus de comunicación CAN, Probar módulo TCM,Crítica/No conducir
+U0102,Pérdida de Comunicación con Módulo ABS,Problema de comunicación con módulo ABS.,Luz ABS, frenos anormales,Bus CAN abierto, módulo ABS defectuoso,Revisar cableado CAN,Moderada
+U0103,Pérdida de Comunicación con Airbags/SRS,Sistema de airbags no comunica.,Luz SRS encendida, airbags no funcionarían,Bus CAN abierto, módulo SRS defectuoso,Revisar cableado,Crítica/No conducir
+U0121,Pérdida de Comunicación con Módulo ABS,La red del vehículo perdió comunicación con el módulo de control del sistema de frenos antibloqueo.,Luz de ABS encendida, posible pérdida de función ABS, luz de estabilidad encendida,Módulo ABS defectuoso, problema en la red de comunicación CAN, fusible quemado, cableado dañado,Verificar fusibles del sistema ABS, Revisar alimentación del módulo, Inspeccionar comunicación de red, Probar módulo ABS con escáner,Moderada
+U0122,Pérdida de Comunicación con Módulo Estabilidad,Módulo ESP/estabilidad no comunica.,Luz de estabilidad encendida,Bus CAN abierto, módulo defectuoso,Revisar cableado,Moderada
+U0123,Pérdida de Comunicación con Módulo Dirección,Dirección asistida no comunica.,Dirección pesada, luz de dirección,Bus CAN abierto, módulo dirección defectuoso,Revisar cableado,Crítica/No conducir
+U0124,Pérdida de Comunicación con Módulo Climatización,Sistema A/C/calefacción no comunica.,A/C o calefacción no funciona,Bus CAN abierto,Revisar cableado,Moderada
+U0125,Pérdida de Comunicación con Módulo Iluminación,Módulo de iluminación no comunica.,Luces no responden,Bus CAN abierto,Revisar cableado,Baja
+U0126,Pérdida de Comunicación con Módulo Puertas,Módulo de puertas no comunica.,Puertas no responden,Bus CAN abierto,Revisar cableado,Moderada
+U0127,Pérdida de Comunicación con Módulo Audio,Sistema de audio no comunica.,Audio no funciona,Bus CAN abierto,Revisar cableado,Baja
+U0128,Pérdida de Comunicación con Módulo Asientos,Módulo de asientos eléctricos no comunica.,Asientos no se ajustan,Bus CAN abierto,Revisar cableado,Moderada
+U0129,Pérdida de Comunicación con Módulo Espejos,Módulo de espejos eléctricos no comunica.,Espejos no se ajustan,Bus CAN abierto,Revisar cableado,Baja
+U0130,Pérdida de Comunicación con Módulo Limpiaparabrisas,Módulo de limpiadores no comunica.,Limpiadores no funcionan,Bus CAN abierto,Revisar cableado,Baja
+U0150,Timeout Comunicación CAN,Tiempo de espera en comunicación CAN agotado.,Múltiples códigos, comunicación lenta,Bus congestionado, velocidad de bus baja,Diagnosticar velocidad CAN,Moderada
+U0200,Falla de Integridad Datos CAN,Los datos transmitidos por CAN tienen errores.,Múltiples códigos, funcionamiento errático,Interferencia electromagnética, cableado dañado,Revisar cableado CAN,Moderada
+U0300,Timeout Escritura Flash ECU,Tiempo de espera en escritura de memoria FLASH agotado.,Programación defectuosa, luz Check Engine,Problemas de programación, ECU defectuosa,Reprogramar ECU,Moderada

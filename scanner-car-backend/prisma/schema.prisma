@@ -1,0 +1,254 @@
+// Prisma Schema for CARWEB - Fase 2
+// OBD2 Fault Code Database with relational structure
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Categorías de códigos OBD-II según SAE J2012 / ISO 15031-6:
+//   P = Powertrain · B = Body · C = Chassis · U = Network
+// Nota: los vehículos EV/híbridos NO tienen categoría propia; usan rangos
+// genéricos dentro de P (P0Axx–P0Cxx). La tecnología del vehículo se modela
+// aparte, en VehicleType, no en la categoría del código.
+model OBDCategory {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique @db.Char(1)
+  name        String
+  description String?
+  icon        String?
+  codes       OBDCode[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("obd_categories")
+}
+
+// Fabricantes. El registro centinela `isGeneric = true` ("Genérico (SAE)")
+// representa los códigos universales del estándar; los códigos específicos
+// (P1xxx, P3xxx…) cuelgan de la marca correspondiente. Se usa un centinela en
+// vez de manufacturerId NULL porque MySQL permite múltiples NULL en un índice
+// UNIQUE, lo que rompería la unicidad de los genéricos.
+model Manufacturer {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  name      String
+  isGeneric Boolean   @default(false)
+  country   String?
+  logoUrl   String?   @db.Text
+  codes     OBDCode[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("manufacturers")
+}
+
+// Códigos base. El contenido en español vive en las columnas base (title,
+// description); otros idiomas se superponen vía OBDCodeTranslation.
+model OBDCode {
+  id              Int      @id @default(autoincrement())
+  code            String
+  title           String
+  description     String?  @db.Text
+  severity        String   @default("Moderada")
+  status          String   @default("PUBLISHED") // DRAFT | VERIFIED | PUBLISHED
+  source          String?  // procedencia del dato (SAE, NHTSA, dataset, propio…)
+  categoryId      Int
+  category        OBDCategory @relation(fields: [categoryId], references: [id])
+  manufacturerId  Int      @default(1)
+  manufacturer    Manufacturer @relation(fields: [manufacturerId], references: [id])
+  symptoms        OBDSymptom[]
+  causes          OBDCause[]
+  solutions       OBDSolution[]
+  translations    OBDCodeTranslation[]
+  vehicleCompat   CodeVehicleCompatibility[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([code, manufacturerId])
+  @@index([code])
+  @@index([categoryId])
+  @@index([manufacturerId])
+  @@fulltext([code, title, description])
+  @@map("obd_codes")
+}
+
+// Traducción completa del contenido editorial de un código a otro idioma:
+// título, descripción y las listas (síntomas/causas/soluciones, en el mismo
+// formato de texto que el contenido base). Si no existe traducción para un
+// locale, la API recae en el contenido base en español. Un registro = la
+// traducción completa de un código a un idioma (modelo editorial simple).
+model OBDCodeTranslation {
+  id          Int      @id @default(autoincrement())
+  codeId      Int
+  code        OBDCode  @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  locale      String   @db.VarChar(5) // "en", "pt", "fr"…
+  title       String
+  description String?  @db.Text
+  symptoms    String?  @db.Text
+  causes      String?  @db.Text
+  solutions   String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([codeId, locale])
+  @@index([codeId])
+  @@map("obd_code_translations")
+}
+
+// Síntomas reutilizables
+model OBDSymptom {
+  id        Int      @id @default(autoincrement())
+  codeId    Int
+  code      OBDCode  @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  symptom   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([codeId])
+  @@map("obd_symptoms")
+}
+
+// Causas reutilizables
+model OBDCause {
+  id        Int      @id @default(autoincrement())
+  codeId    Int
+  code      OBDCode  @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  cause     String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([codeId])
+  @@map("obd_causes")
+}
+
+// Soluciones reutilizables
+model OBDSolution {
+  id        Int      @id @default(autoincrement())
+  codeId    Int
+  code      OBDCode  @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  solution  String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([codeId])
+  @@map("obd_solutions")
+}
+
+// Tipos de vehículos (ICE, EV, HYBRID)
+model VehicleType {
+  id                Int      @id @default(autoincrement())
+  name              String
+  type              String   @db.VarChar(20)
+  brand             String?
+  year              Int?
+  description       String?  @db.Text
+  codeCompatibility CodeVehicleCompatibility[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([type])
+  @@index([brand])
+  @@map("vehicle_types")
+}
+
+// Nivel de plan del anunciante (define el orden de aparición)
+enum AdPlan {
+  PREMIUM
+  PRO
+  BASICO
+}
+
+// Anuncios de vendedores de repuestos (gestionados desde el panel admin)
+model Advertisement {
+  id           Int      @id @default(autoincrement())
+  businessName String
+  imageUrl     String   @db.Text
+  whatsapp     String?  @db.VarChar(30)
+  phone        String?  @db.VarChar(30)
+  link         String?  @db.Text
+  plan         AdPlan   @default(BASICO)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([active])
+  @@index([plan])
+  @@map("advertisements")
+}
+
+// Posición del banner publicitario en la página (Amazon Associates, etc.).
+// Cada posición es independiente: se gestiona por separado desde el panel admin.
+enum AdSlot {
+  LEFT   // panel lateral izquierdo
+  RIGHT  // panel lateral derecho
+  BOTTOM // banner horizontal fijo inferior
+}
+
+// Banners publicitarios por posición (imagen + enlace). A diferencia de
+// Advertisement (vendedores con WhatsApp/plan), estos son banners simples de
+// afiliados: una imagen que al hacer clic redirige a `link`. NUNCA se muestran
+// en la página de inicio; aparecen en las demás páginas (detalle de código, etc.).
+model AdBanner {
+  id        Int      @id @default(autoincrement())
+  title     String   @default("") // nombre interno para reconocerlo en el panel
+  slot      AdSlot
+  imageUrl  String   @db.Text
+  link      String   @db.Text      // URL de destino al hacer clic
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slot])
+  @@index([active])
+  @@map("ad_banners")
+}
+
+// Artículos del blog (gestionados desde el panel admin). Contenido bilingüe:
+// el español es la base; el inglés es opcional (si falta, el frontend usa el
+// español). El cuerpo se guarda como texto con formato ligero: `## ` para
+// subtítulos, `- ` para viñetas y línea en blanco para separar párrafos.
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  tag       String   @default("OBD2") // etiqueta corta visible en la tarjeta
+  coverUrl  String   @db.Text          // imagen de portada
+  published Boolean  @default(true)
+  date      DateTime @default(now())   // fecha de publicación mostrada
+
+  // Español (base, obligatorio)
+  titleEs   String
+  excerptEs String   @db.Text
+  bodyEs    String   @db.Text
+
+  // Inglés (opcional; vacío/null => se usa el español)
+  titleEn   String   @default("")
+  excerptEn String?  @db.Text
+  bodyEn    String?  @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+  @@index([date])
+  @@map("blog_posts")
+}
+
+// Compatibilidad: qué códigos aplican a cada tipo de vehículo
+model CodeVehicleCompatibility {
+  id            Int         @id @default(autoincrement())
+  codeId        Int
+  code          OBDCode     @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  vehicleTypeId Int
+  vehicleType   VehicleType @relation(fields: [vehicleTypeId], references: [id], onDelete: Cascade)
+  applicable    Boolean     @default(true)
+  notes         String?     @db.Text
+  createdAt     DateTime    @default(now())
+
+  @@unique([codeId, vehicleTypeId])
+  @@index([codeId])
+  @@index([vehicleTypeId])
+  @@map("code_vehicle_compatibility")
+}
