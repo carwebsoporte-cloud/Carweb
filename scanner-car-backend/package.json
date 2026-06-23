@@ -26,6 +26,7 @@
     "seed:wal33d": "ts-node prisma/seed-wal33d.ts",
     "seed:translate": "ts-node prisma/seed-translate-obdex.ts",
     "seed:fix-english": "ts-node prisma/fix-english-base.ts",
+    "seed:enriched": "ts-node prisma/seed-enriched.ts",
     "seed:full": "npm run seed && npm run seed:obdex && npm run seed:translate && npm run seed:wal33d && npm run seed:fix-english"
   },
   "dependencies": {

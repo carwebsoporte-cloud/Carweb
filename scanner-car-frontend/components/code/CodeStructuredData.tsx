@@ -74,10 +74,13 @@ export default function CodeStructuredData({
     inLanguage: locale,
     url,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    ...(code.createdAt ? { datePublished: code.createdAt } : {}),
+    ...(code.updatedAt ? { dateModified: code.updatedAt } : {}),
     publisher: {
       '@type': 'Organization',
       name: 'CARWEB',
       url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/carweb/logo-carweb.webp` },
     },
     keywords: [code.code, ...t.keywords, code.title].join(', '),
   };

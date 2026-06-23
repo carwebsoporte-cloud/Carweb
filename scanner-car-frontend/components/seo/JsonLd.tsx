@@ -26,6 +26,11 @@ export function OrganizationJsonLd() {
     '@type': 'Organization',
     name: 'CARWEB',
     url: SITE_URL,
+    logo: `${SITE_URL}/assets/carweb/logo-carweb.webp`,
+    description:
+      'Enciclopedia profesional de códigos de avería OBD2: diagnóstico, causas y soluciones paso a paso.',
+    // Cuando tengas redes sociales de la marca, añádelas aquí (refuerza la entidad ante Google):
+    // sameAs: ['https://www.facebook.com/...', 'https://www.instagram.com/...', 'https://www.youtube.com/...'],
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }

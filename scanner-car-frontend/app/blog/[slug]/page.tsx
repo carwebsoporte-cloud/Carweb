@@ -53,9 +53,10 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     headline: c.title,
     description: c.excerpt,
     datePublished: post.date,
+    dateModified: post.updatedAt || post.date,
     image: c.coverUrl ? `${SITE_URL}${c.coverUrl}` : undefined,
     author: { '@type': 'Organization', name: 'CARWEB' },
-    publisher: { '@type': 'Organization', name: 'CARWEB' },
+    publisher: { '@type': 'Organization', name: 'CARWEB', logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/carweb/logo-carweb.webp` } },
     mainEntityOfPage: `${SITE_URL}${locale === 'en' ? '/en' : ''}/blog/${slug}`,
   };
 
