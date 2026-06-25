@@ -74,7 +74,6 @@ model OBDCode {
   @@index([code])
   @@index([categoryId])
   @@index([manufacturerId])
-  @@fulltext([code, title, description])
   @@map("obd_codes")
 }
 
