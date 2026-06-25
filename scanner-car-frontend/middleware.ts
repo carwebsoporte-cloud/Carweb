@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { esToEnPath, enToEsPath, isOldEnglishSlug } from '@/lib/i18n';
+import { esToEnPath, enToEsPath, isOldEnglishSlug } from './lib/i18n-routes';
 
 // Estrategia i18n v3 (Fase 3):
 //  · Español = idioma base, servido en la raíz (/...). Sus URLs no cambian.
