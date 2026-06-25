@@ -34,11 +34,10 @@ export default async function HomePage() {
       {/* HERO */}
       <HeroSection />
 
-      {/* CATEGORÍAS — carrusel a todo el ancho */}
+      {/* CATEGORÍAS — carrusel full-bleed: usa todo el ancho de la pantalla
+          (sin el contenedor max-w-7xl) para que no se corte a la izquierda. */}
       <section className="relative pt-0 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CategoryGrid categories={categories} />
-        </div>
+        <CategoryGrid categories={categories} />
       </section>
 
       {/* CÓMO FUNCIONA — debajo, a todo el ancho */}
