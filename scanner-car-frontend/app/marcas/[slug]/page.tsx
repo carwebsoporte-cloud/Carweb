@@ -10,7 +10,7 @@ import BrandLogo from '@/components/BrandLogo';
 import { BreadcrumbJsonLd, CollectionPageJsonLd } from '@/components/seo/JsonLd';
 
 const PAGE_SIZE = 24;
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 interface PageProps {
   params: Promise<{ slug: string }>;

@@ -9,6 +9,9 @@ export default function Analytics() {
 
   return (
     <>
+      {/* Acelera la carga de GA: resuelve DNS y abre conexión por adelantado. */}
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
       <Script id="ga-init" strategy="afterInteractive">
         {`

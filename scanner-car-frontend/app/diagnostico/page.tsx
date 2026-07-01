@@ -3,7 +3,7 @@ import { headers } from 'next/headers';
 import DiagnosticoWizard from '@/components/DiagnosticoWizard';
 import { normalizeLocale, esToEnPath } from '@/lib/i18n';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = normalizeLocale((await headers()).get('x-locale'));

@@ -9,11 +9,12 @@ import AdBanners from '@/components/AdBanners';
 import MotionProvider from '@/components/MotionProvider';
 import { LocaleProvider } from '@/components/LocaleProvider';
 import Analytics from '@/components/Analytics';
+import { WebSiteJsonLd, OrganizationJsonLd } from '@/components/seo/JsonLd';
 import { normalizeLocale } from '@/lib/i18n';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 const META = {
   es: {
@@ -45,7 +46,21 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: 'CARWEB' }],
     creator: 'CARWEB',
     applicationName: 'CARWEB',
-    robots: 'index, follow',
+    keywords:
+      locale === 'en'
+        ? ['OBD2 codes', 'fault codes', 'car diagnostics', 'check engine', 'DTC', 'OBDII', 'car scanner']
+        : ['códigos OBD2', 'códigos de falla', 'diagnóstico automotriz', 'check engine', 'DTC', 'escáner automotriz', 'avería coche'],
+    category: 'automotive',
+    robots: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+      : {}),
     alternates: {
       canonical: url,
       languages: { es: SITE_URL, en: `${SITE_URL}/en`, 'x-default': SITE_URL },
@@ -57,9 +72,9 @@ export async function generateMetadata(): Promise<Metadata> {
       title: m.ogTitle,
       description: m.ogDescription,
       url,
-      images: [{ url: '/assets/carweb/logo-carweb.webp', width: 1200, height: 630, alt: 'CARWEB' }],
+      // La imagen OG la genera app/opengraph-image.tsx (tarjeta 1200×630).
     },
-    twitter: { card: 'summary_large_image', title: m.ogTitle, description: m.ogDescription, images: ['/assets/carweb/logo-carweb.webp'] },
+    twitter: { card: 'summary_large_image', title: m.ogTitle, description: m.ogDescription },
   };
 }
 
@@ -74,6 +89,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.className} bg-cw-900 min-h-screen antialiased`}>
+        {/* Entidad de marca + sitio en todas las páginas (refuerza SEO/GEO) */}
+        <WebSiteJsonLd locale={locale} />
+        <OrganizationJsonLd locale={locale} />
         <LocaleProvider locale={locale}>
           <a
             href="#contenido"

@@ -15,7 +15,7 @@ async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const { q } = await searchParams;

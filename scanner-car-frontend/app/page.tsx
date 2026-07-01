@@ -7,7 +7,9 @@ import RecentCodes from '@/components/RecentCodes';
 import { getAllCodes, getCategories } from '@/lib/api';
 import { OBDCode, OBDCategory } from '@/lib/types';
 import { getDict, normalizeLocale } from '@/lib/i18n';
-import { WebSiteJsonLd, OrganizationJsonLd } from '@/components/seo/JsonLd';
+import { FaqJsonLd } from '@/components/seo/JsonLd';
+import FaqSection from '@/components/FaqSection';
+import { getHomeFaq } from '@/lib/faq';
 
 export default async function HomePage() {
   const locale = normalizeLocale((await headers()).get('x-locale'));
@@ -26,11 +28,11 @@ export default async function HomePage() {
 
   const popular = codes.slice(0, 6);
   const recent = codes.slice(0, 12);
+  const faq = getHomeFaq(locale);
 
   return (
     <>
-      <WebSiteJsonLd locale={locale} />
-      <OrganizationJsonLd />
+      <FaqJsonLd items={faq} />
       {/* HERO */}
       <HeroSection />
 
@@ -68,6 +70,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* FAQ — preguntas frecuentes (AEO: respuestas directas + FAQPage schema) */}
+      <FaqSection locale={locale} items={faq} />
     </>
   );
 }

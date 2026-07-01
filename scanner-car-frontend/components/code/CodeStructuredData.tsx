@@ -5,7 +5,7 @@
 import type { OBDCode } from '@/lib/types';
 import type { Locale } from '@/lib/i18n';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 const CATEGORY_NAME: Record<string, { es: string; en: string }> = {
   P: { es: 'Powertrain (Motor y Transmisión)', en: 'Powertrain (Engine & Transmission)' },
@@ -24,6 +24,8 @@ const T = {
     qCauses: (c: string) => `¿Qué causa el código ${c}?`,
     qSolution: (c: string) => `¿Cómo se soluciona el código ${c}?`,
     qDrive: (c: string) => `¿Puedo seguir conduciendo con el código ${c}?`,
+    howTo: (c: string) => `Cómo solucionar el código OBD2 ${c} paso a paso`,
+    step: 'Paso',
     keywords: ['OBD2', 'código de falla', 'diagnóstico automotriz'],
   },
   en: {
@@ -35,6 +37,8 @@ const T = {
     qCauses: (c: string) => `What causes code ${c}?`,
     qSolution: (c: string) => `How do you fix code ${c}?`,
     qDrive: (c: string) => `Can I keep driving with code ${c}?`,
+    howTo: (c: string) => `How to fix OBD2 code ${c} step by step`,
+    step: 'Step',
     keywords: ['OBD2', 'fault code', 'automotive diagnostics'],
   },
 } as const;
@@ -113,7 +117,24 @@ export default function CodeStructuredData({
     })),
   };
 
-  const graph = [techArticle, breadcrumb, faq];
+  // HowTo: las soluciones son un procedimiento paso a paso → schema HowTo.
+  const howTo = solutions.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: t.howTo(code.code),
+        description: code.description || t.descFallback(code.code, code.title),
+        inLanguage: locale,
+        step: solutions.map((s, i) => ({
+          '@type': 'HowToStep',
+          position: i + 1,
+          name: `${t.step} ${i + 1}`,
+          text: s,
+        })),
+      }
+    : null;
+
+  const graph = [techArticle, breadcrumb, faq, ...(howTo ? [howTo] : [])];
 
   return (
     <script

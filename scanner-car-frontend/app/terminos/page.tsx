@@ -4,7 +4,7 @@ import { normalizeLocale, type Locale } from '@/lib/i18n';
 import LegalLayout, { type LegalSection } from '@/components/LegalLayout';
 import { EMAIL } from '@/lib/contact';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));

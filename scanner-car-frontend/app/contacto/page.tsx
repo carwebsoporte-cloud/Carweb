@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import { WHATSAPP_URL, WHATSAPP_DISPLAY, EMAIL, mailto } from '@/lib/contact';
+import { ContactPageJsonLd } from '@/components/seo/JsonLd';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));
@@ -67,8 +68,11 @@ export default async function ContactoPage() {
   const t = C[locale];
   const L = (href: string) => withLocale(href, locale);
 
+  const contactUrl = locale === 'en' ? `${SITE_URL}/en/contacto` : `${SITE_URL}/contacto`;
+
   return (
     <>
+      <ContactPageJsonLd url={contactUrl} name={locale === 'en' ? 'Contact CARWEB' : 'Contacto CARWEB'} locale={locale} />
       {/* Hero */}
       <section className="relative border-b border-neon/15 bg-[#040a18]/60 overflow-hidden">
         <div className="absolute inset-0 cw-grid cw-grid-fade opacity-30" />

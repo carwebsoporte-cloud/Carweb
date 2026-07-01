@@ -3,7 +3,7 @@ import { headers } from 'next/headers';
 import { getDict, normalizeLocale, esToEnPath, type Locale } from '@/lib/i18n';
 import VinDecoder from '@/components/VinDecoder';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));

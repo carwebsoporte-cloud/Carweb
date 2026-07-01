@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllCodesPaged, getManufacturers, getManufacturerCodes, getPublishedPosts } from '@/lib/api';
 import { esToEnPath } from '@/lib/i18n';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 export const revalidate = 3600;
 

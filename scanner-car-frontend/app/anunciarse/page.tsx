@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { normalizeLocale, withLocale, esToEnPath, type Locale } from '@/lib/i18n';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 const EMAIL = 'jorge.ramtroz1989@gmail.com';
 
 async function getLocale(): Promise<Locale> {

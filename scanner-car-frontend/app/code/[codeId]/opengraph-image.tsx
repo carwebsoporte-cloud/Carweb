@@ -123,7 +123,7 @@ export default async function OpenGraphImage({ params }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 28, fontWeight: 800, color: '#00d4ff' }}>CAR</span>
           <span style={{ fontSize: 28, fontWeight: 800, color: '#f1f5f9' }}>WEB</span>
-          <span style={{ fontSize: 14, color: '#475569', marginLeft: 8 }}>carweb.app</span>
+          <span style={{ fontSize: 14, color: '#475569', marginLeft: 8 }}>carweb.com.co</span>
         </div>
       </div>
     ),

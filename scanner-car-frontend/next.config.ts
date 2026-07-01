@@ -23,7 +23,16 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
   },
   async headers() {
-    return [{ source: '/:path*', headers: securityHeaders }];
+    const longCache = [
+      { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=86400' },
+    ];
+    return [
+      { source: '/:path*', headers: securityHeaders },
+      // Activos de marca (logos, hero, imágenes de categoría): caché larga →
+      // mejora repeat-view LCP y reduce ancho de banda.
+      { source: '/assets/:path*', headers: longCache },
+      { source: '/logos/:path*', headers: longCache },
+    ];
   },
 };
 

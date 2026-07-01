@@ -6,8 +6,10 @@ import { headers } from 'next/headers';
 import { normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import { getPostBySlug } from '@/lib/api';
 import { localizePost, parseBlogBody, readingTime, formatDate } from '@/lib/blog';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { BreadcrumbJsonLd, ORG_ID } from '@/components/seo/JsonLd';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));
@@ -46,35 +48,45 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
   const blocks = parseBlogBody(c.body);
   const L = (href: string) => withLocale(href, locale);
 
-  // JSON-LD para SEO (artículo).
+  const articleUrl = `${SITE_URL}${locale === 'en' ? '/en' : ''}/blog/${slug}`;
+
+  // JSON-LD para SEO (artículo). Enlaza la entidad Organization vía @id.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: c.title,
     description: c.excerpt,
+    inLanguage: locale,
     datePublished: post.date,
     dateModified: post.updatedAt || post.date,
     image: c.coverUrl ? `${SITE_URL}${c.coverUrl}` : undefined,
-    author: { '@type': 'Organization', name: 'CARWEB' },
-    publisher: { '@type': 'Organization', name: 'CARWEB', logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/carweb/logo-carweb.webp` } },
-    mainEntityOfPage: `${SITE_URL}${locale === 'en' ? '/en' : ''}/blog/${slug}`,
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+    mainEntityOfPage: articleUrl,
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <BreadcrumbJsonLd
+        items={[
+          { position: 1, name: t.home, url: locale === 'en' ? `${SITE_URL}/en` : SITE_URL },
+          { position: 2, name: 'Blog', url: locale === 'en' ? `${SITE_URL}/en/blog` : `${SITE_URL}/blog` },
+          { position: 3, name: c.title, url: articleUrl },
+        ]}
+      />
 
       {/* Breadcrumb */}
       <div className="relative border-b border-neon/15 bg-[#040a18]/60">
         <div className="absolute inset-0 cw-grid cw-grid-fade opacity-30" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center gap-2 text-sm flex-wrap" aria-label="Breadcrumb">
-            <Link href={L('/')} className="text-slate-400 hover:text-neon transition-colors">{t.home}</Link>
-            <span className="text-slate-600">/</span>
-            <Link href={L('/blog')} className="text-slate-400 hover:text-neon transition-colors">Blog</Link>
-            <span className="text-slate-600">/</span>
-            <span className="text-neon font-semibold truncate max-w-[200px]">{c.title}</span>
-          </nav>
+          <Breadcrumbs
+            items={[
+              { name: t.home, href: L('/') },
+              { name: 'Blog', href: L('/blog') },
+              { name: c.title },
+            ]}
+          />
         </div>
       </div>
 

@@ -6,7 +6,9 @@ import { CATEGORIES, CategoryKey } from '@/lib/types';
 import { getDict, normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import CodeCard from '@/components/CodeCard';
 import Pagination from '@/components/Pagination';
-import { BreadcrumbJsonLd, CollectionPageJsonLd } from '@/components/seo/JsonLd';
+import FaqSection from '@/components/FaqSection';
+import { BreadcrumbJsonLd, CollectionPageJsonLd, FaqJsonLd } from '@/components/seo/JsonLd';
+import { getCategoryFaq } from '@/lib/faq';
 
 const PAGE_SIZE = 24;
 
@@ -15,7 +17,7 @@ interface PageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://carweb.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 const CAT_COLOR: Record<string, string> = {
   P: '#ff8c42',
@@ -86,8 +88,12 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
 
   const canonicalUrl = locale === 'en' ? `${SITE_URL}/en/category/${cat}` : `${SITE_URL}/category/${cat}`;
 
+  // FAQ solo en la primera página (evita FAQPage duplicado en la paginación).
+  const faq = currentPage === 1 ? getCategoryFaq(cat, locale) : [];
+
   return (
     <>
+      {faq.length > 0 && <FaqJsonLd items={faq} />}
       <BreadcrumbJsonLd
         items={[
           { position: 1, name: getDict(locale).nav.home, url: locale === 'en' ? `${SITE_URL}/en` : SITE_URL },
@@ -155,6 +161,9 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
           )}
         </div>
       </section>
+
+      {/* FAQ por categoría (AEO) */}
+      {faq.length > 0 && <FaqSection locale={locale} items={faq} />}
 
       {/* Otras categorías */}
       <section className="py-12">
