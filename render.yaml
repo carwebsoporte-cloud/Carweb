@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: carweb-frontend
+    runtime: node
+    plan: free
+    rootDir: scanner-car-frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://carweb-4tam.onrender.com/api
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://www.carweb.com.co
+      - key: NODE_VERSION
+        value: 20
