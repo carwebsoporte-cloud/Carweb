@@ -5,6 +5,8 @@ import SeverityBadge from '@/components/SeverityBadge';
 import AffectedSystemVisual from '@/components/code/AffectedSystemVisual';
 import CodeStructuredData from '@/components/code/CodeStructuredData';
 import VendorAdSpace from '@/components/code/VendorAdSpace';
+import AdsterraBanner from '@/components/ads/AdsterraBanner';
+import AdsterraNative from '@/components/ads/AdsterraNative';
 
 /* Vista de detalle de un código, compartida por la ruta genérica
    (/code/[codeId]) y la ruta por marca (/code/[codeId]/[manufacturer]). */
@@ -35,12 +37,6 @@ function getRepairCostEstimate(code: string, locale: Locale): { min: string; max
   if (categoryLetter === 'U') return { min: '$80', max: '$1,200', note: en ? 'Communication modules' : 'Módulos de comunicación' };
   return { min: '$100', max: '$800', note: en ? 'Varies by diagnosis' : 'Varía según diagnóstico' };
 }
-
-const AdSlot = ({ label, tall = false }: { label: string; tall?: boolean }) => (
-  <div className={`glass border-dashed rounded-xl flex items-center justify-center text-slate-600 text-xs text-center px-4 ${tall ? 'h-64' : 'h-24'}`}>
-    {label}
-  </div>
-);
 
 export default function CodeDetailView({
   code,
@@ -188,7 +184,7 @@ export default function CodeDetailView({
 
               <AffectedSystemVisual code={code.code} />
               <VendorAdSpace />
-              <AdSlot label={t.adSlot} />
+              <AdsterraBanner format="responsive" />
 
               {/* Síntomas */}
               {Array.isArray(code.symptoms) && code.symptoms.length > 0 && (
@@ -222,7 +218,7 @@ export default function CodeDetailView({
                 </div>
               )}
 
-              <AdSlot label={t.adSlot} />
+              <AdsterraNative />
 
               {/* Soluciones */}
               {Array.isArray(code.solutions) && code.solutions.length > 0 && (
@@ -268,7 +264,7 @@ export default function CodeDetailView({
                 </div>
               </div>
 
-              <AdSlot label={t.adSlot} />
+              <AdsterraBanner format="rectangle" />
             </div>
 
             {/* ── SIDEBAR ── */}
@@ -311,7 +307,7 @@ export default function CodeDetailView({
                 </form>
               </div>
 
-              <AdSlot label={t.adSidebar} tall />
+              <AdsterraBanner format="rectangle" />
 
               {relatedCodes.length > 0 && (
                 <div className="glass rounded-2xl p-6">

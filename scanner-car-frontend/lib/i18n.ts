@@ -104,7 +104,7 @@ type Dict = {
     videoTitle: string; videoSub: string; componentTitle: string; componentSub: string;
     manualTitle: string; manualSub: string;
     otherCodeTitle: string; otherCodeSub: string; searchPlaceholder: string;
-    relatedTitle: string; adSidebar: string; adSlot: string;
+    relatedTitle: string;
   };
 };
 
@@ -236,7 +236,7 @@ const es: Dict = {
     videoTitle: 'Video Tutorial', videoSub: 'Ver en YouTube', componentTitle: 'Ver Componente', componentSub: 'Imágenes del sensor',
     manualTitle: 'Manual de Servicio', manualSub: 'Buscar manual PDF',
     otherCodeTitle: '¿Tienes Otro Código?', otherCodeSub: 'Búscalo directamente:', searchPlaceholder: 'Ej: P0420',
-    relatedTitle: 'Códigos Relacionados', adSidebar: 'Espacio Publicitario · Sidebar AdSense', adSlot: 'Espacio Publicitario — Google AdSense',
+    relatedTitle: 'Códigos Relacionados',
   },
 };
 
@@ -368,7 +368,7 @@ const en: Dict = {
     videoTitle: 'Video Tutorial', videoSub: 'Watch on YouTube', componentTitle: 'View Component', componentSub: 'Sensor images',
     manualTitle: 'Service Manual', manualSub: 'Find PDF manual',
     otherCodeTitle: 'Have Another Code?', otherCodeSub: 'Look it up directly:', searchPlaceholder: 'e.g. P0420',
-    relatedTitle: 'Related Codes', adSidebar: 'Advertising Space · Sidebar AdSense', adSlot: 'Advertising Space — Google AdSense',
+    relatedTitle: 'Related Codes',
   },
 };
 
