@@ -1,33 +1,54 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ADS_ENABLED, ADSTERRA_BANNERS, ADSTERRA_BANNER_HOST, type AdsterraBannerFormat } from '@/lib/ads';
 
-/* Adsterra iframe banner. Each unit relies on a global `atOptions`, so several
-   banners on the same page would overwrite each other. Rendering every unit in
-   its own srcdoc iframe isolates that global. */
+/* Adsterra iframe banner. Each invoke.js reads the global `atOptions` when it
+   executes and renders the ad next to its own <script>. Several banners on the
+   same page would overwrite that global, so loads are chained through a queue:
+   set atOptions, inject the script, wait for it, then load the next one.
+   (Isolating units in srcdoc iframes does not work: Adsterra serves no ad when
+   the document URL is about:srcdoc.) */
 
-function bannerDocument(format: AdsterraBannerFormat): string {
-  const { key, width, height } = ADSTERRA_BANNERS[format];
-  return `<!doctype html><html><head><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>
-<script>atOptions={'key':'${key}','format':'iframe','height':${height},'width':${width},'params':{}};</script>
-<script src="${ADSTERRA_BANNER_HOST}/${key}/invoke.js"></script>
-</body></html>`;
+declare global {
+  interface Window {
+    atOptions?: Record<string, unknown>;
+  }
 }
 
-function BannerFrame({ format }: { format: AdsterraBannerFormat }) {
-  const { width, height } = ADSTERRA_BANNERS[format];
-  return (
-    <iframe
-      title="Advertisement"
-      srcDoc={bannerDocument(format)}
-      width={width}
-      height={height}
-      loading="lazy"
-      scrolling="no"
-      style={{ border: 0, display: 'block', maxWidth: '100%' }}
-    />
+let loadQueue: Promise<void> = Promise.resolve();
+
+function enqueueBanner(host: HTMLElement, format: AdsterraBannerFormat, isCancelled: () => boolean) {
+  const { key, width, height } = ADSTERRA_BANNERS[format];
+  loadQueue = loadQueue.then(
+    () =>
+      new Promise<void>((resolve) => {
+        if (isCancelled() || !host.isConnected) return resolve();
+        window.atOptions = { key, format: 'iframe', height, width, params: {} };
+        const script = document.createElement('script');
+        script.src = `${ADSTERRA_BANNER_HOST}/${key}/invoke.js`;
+        script.onload = () => resolve();
+        script.onerror = () => resolve();
+        host.appendChild(script);
+      }),
   );
+}
+
+function BannerUnit({ format }: { format: AdsterraBannerFormat }) {
+  const hostRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+    let cancelled = false;
+    enqueueBanner(host, format, () => cancelled);
+    return () => {
+      cancelled = true;
+      host.innerHTML = '';
+    };
+  }, [format]);
+
+  return <div ref={hostRef} />;
 }
 
 /* `responsive` picks the 728x90 leaderboard on desktop and the 320x50 unit on
@@ -52,7 +73,7 @@ export default function AdsterraBanner({ format }: { format: AdsterraBannerForma
 
   return (
     <div className="flex justify-center overflow-hidden" style={{ minHeight: height }}>
-      {resolved && <BannerFrame key={resolved} format={resolved} />}
+      {resolved && <BannerUnit key={resolved} format={resolved} />}
     </div>
   );
 }
