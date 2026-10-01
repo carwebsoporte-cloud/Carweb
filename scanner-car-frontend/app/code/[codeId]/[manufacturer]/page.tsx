@@ -5,7 +5,9 @@ import { getCodeByCode, getRelatedCodes } from '@/lib/api';
 import { normalizeLocale, type Locale } from '@/lib/i18n';
 import CodeDetailView from '@/components/code/CodeDetailView';
 
-export const revalidate = 3600;
+// Fuerza render por-request: la página lee headers() (x-locale) para decidir
+// el idioma, lo cual es incompatible con la generación estática.
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ codeId: string; manufacturer: string }>;

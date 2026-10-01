@@ -2,20 +2,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
-import { getCodeByCode, getRelatedCodes, getCodeVariants, getAllCodes } from '@/lib/api';
+import { getCodeByCode, getRelatedCodes, getCodeVariants } from '@/lib/api';
 import { getDict, normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import CodeDetailView from '@/components/code/CodeDetailView';
 
-export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  try {
-    const codes = await getAllCodes(1, 100);
-    return codes.map((code) => ({ codeId: code.code }));
-  } catch {
-    return [];
-  }
-}
+// Fuerza render por-request: la página lee headers() (x-locale) para decidir
+// el idioma, lo cual es incompatible con la generación estática (el HTML
+// prerenderizado ignoraría el idioma real de cada visita).
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ codeId: string }>;
