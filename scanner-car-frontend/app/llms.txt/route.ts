@@ -35,7 +35,7 @@ Un código OBD2 es un identificador estandarizado de cinco caracteres que la com
 
 ## Recursos para IA
 - Sitemap: ${SITE_URL}/sitemap.xml
-- Cada ficha de código incluye datos estructurados schema.org (TechArticle, HowTo, FAQPage, BreadcrumbList).
+- Cada ficha de código incluye datos estructurados schema.org (TechArticle, HowTo, BreadcrumbList).
 
 ## Contacto
 - Email: ${CONTACT.email}

@@ -101,7 +101,6 @@ export default function AffectedSystemVisual({ code }: { code: string }) {
           alt={`Vehículo despiece — ${sys.label}`}
           width={1915}
           height={821}
-          unoptimized
           className="w-full h-auto mix-blend-screen select-none pointer-events-none"
         />
 

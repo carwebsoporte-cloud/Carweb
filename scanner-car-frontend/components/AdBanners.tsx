@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { getActiveBanners, type AdBanner, type AdBannerSlot } from '@/lib/api';
 
 const HOME_PATHS = new Set(['/', '/en']);
@@ -59,9 +60,8 @@ function AdLink({ banner, className, imgClassName, width, height }: { banner: Ad
       aria-label={banner.title || 'Publicidad'}
       className={className}
     >
-      {/* width/height intrínsecos reservan el aspecto y reducen CLS; lazy difiere la carga.
-          eslint-disable-next-line @next/next/no-img-element */}
-      <img src={banner.imageUrl} alt={banner.title || 'Publicidad'} width={width} height={height} loading="lazy" className={imgClassName} />
+      {/* Remote advertiser URLs stay unoptimized; width/height reserve the aspect ratio and reduce CLS. */}
+      <Image src={banner.imageUrl} alt={banner.title || 'Publicidad'} width={width} height={height} loading="lazy" unoptimized className={imgClassName} />
     </a>
   );
 }

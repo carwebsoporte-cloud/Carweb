@@ -20,27 +20,35 @@ export default function SearchBox() {
   const router = useRouter();
 
   useEffect(() => {
-    if (query.length < 2) {
-      setResults([]);
-      setIsOpen(false);
-      return;
-    }
+    if (query.length < 2) return;
 
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
+    let active = true;
     debounceRef.current = setTimeout(async () => {
       const data = await searchCodes(query, locale);
+      if (!active) return;
       setResults(data);
       setIsOpen(data.length > 0);
       setSelectedIndex(-1);
     }, 300);
 
     return () => {
+      active = false;
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [query]);
+  }, [query, locale]);
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    if (value.length < 2) {
+      setResults([]);
+      setIsOpen(false);
+      setSelectedIndex(-1);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +91,7 @@ export default function SearchBox() {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => handleQueryChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => results.length > 0 && setIsOpen(true)}
             placeholder={t.placeholder}

@@ -6,6 +6,10 @@ import { LOCALES, type Locale, stripLocale, withLocale } from '@/lib/i18n';
 
 const LABELS: Record<Locale, string> = { es: 'ES', en: 'EN' };
 
+function persistLocale(target: Locale) {
+  void Reflect.set(document, 'cookie', `NEXT_LOCALE=${target}; path=/; max-age=31536000; samesite=lax`);
+}
+
 export default function LanguageSwitcher({ className = '' }: { className?: string }) {
   const locale = useLocale();
   const pathname = usePathname();
@@ -19,7 +23,7 @@ export default function LanguageSwitcher({ className = '' }: { className?: strin
   function switchTo(target: Locale) {
     if (target === locale) return;
     // Fija la preferencia por 1 año para desactivar la auto-detección.
-    document.cookie = `NEXT_LOCALE=${target}; path=/; max-age=31536000; samesite=lax`;
+    persistLocale(target);
     router.push(withLocale(basePath, target));
     router.refresh();
   }

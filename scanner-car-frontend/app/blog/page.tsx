@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { headers } from 'next/headers';
 import { normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import { getPublishedPosts } from '@/lib/api';
-import { localizePost, readingTime, formatDate } from '@/lib/blog';
+import { hasEnglishTranslation, localizePost, readingTime, formatDate } from '@/lib/blog';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
@@ -34,7 +34,9 @@ export default async function BlogPage() {
   const locale = await getLocale();
   const t = UI[locale];
   const L = (href: string) => withLocale(href, locale);
-  const posts = (await getPublishedPosts()).map((p) => localizePost(p, locale));
+  const posts = (await getPublishedPosts())
+    .filter((p) => locale !== 'en' || hasEnglishTranslation(p))
+    .map((p) => localizePost(p, locale));
 
   return (
     <>

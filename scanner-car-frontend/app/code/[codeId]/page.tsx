@@ -25,9 +25,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { codeId } = await params;
   const locale = await getLocale();
   const code = await getCodeByCode(codeId, locale);
+  const variants = code ? [] : await getCodeVariants(codeId);
+  const hasEnglishVariant = code?.hasEnglishTranslation ?? variants.some((variant) => variant.hasEnglishTranslation);
+
+  if (locale === 'en' && code && !code.hasEnglishTranslation) {
+    return {
+      title: 'Code not found',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  if (locale === 'en' && !code && !variants.some((variant) => variant.hasEnglishTranslation)) {
+    return {
+      title: 'Code not found',
+      robots: { index: false, follow: false },
+    };
+  }
 
   // Si no hay versión genérica, usar la primera variante OEM para el título.
-  const title = code?.title ?? (await getCodeVariants(codeId))[0]?.title;
+  const title = code?.title ?? variants.find((variant) => locale !== 'en' || variant.hasEnglishTranslation)?.title;
   if (!title) return { title: locale === 'en' ? 'Code not found' : 'Código no encontrado' };
 
   const upper = (code?.code ?? codeId).toUpperCase();
@@ -43,7 +59,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${upper} — ${title}`,
     description,
-    alternates: { canonical, languages: { es: esUrl, en: enUrl, 'x-default': esUrl } },
+    alternates: {
+      canonical,
+      languages: hasEnglishVariant
+        ? { es: esUrl, en: enUrl, 'x-default': esUrl }
+        : { es: esUrl, 'x-default': esUrl },
+    },
+    robots: { index: code?.seoIndexable ?? false, follow: true },
     openGraph: { title: `${upper} — ${title} | CARWEB`, description, type: 'article', locale: locale === 'en' ? 'en_US' : 'es_ES', url: canonical },
   };
 }
@@ -54,17 +76,19 @@ export default async function CodeDetailPage({ params }: PageProps) {
 
   const code = await getCodeByCode(codeId, locale);
 
-  // Caso normal: existe la versión genérica (o el backend cayó a ella).
+  // Caso normal: existe la versión genérica.
   if (code) {
+    if (locale === 'en' && !code.hasEnglishTranslation) notFound();
     const relatedCodes = await getRelatedCodes(code.code, locale);
     return <CodeDetailView code={code} relatedCodes={relatedCodes} locale={locale} />;
   }
 
-  // Código OEM-only (sin genérico): desambiguar por marca.
+  // Código OEM-only (sin genérico): desambiguar por marca usando solo variantes publicadas.
   const variants = await getCodeVariants(codeId);
-  if (variants.length === 0) notFound();
+  const usableVariants = locale === 'en' ? variants.filter((variant) => variant.hasEnglishTranslation) : variants;
+  if (usableVariants.length === 0) notFound();
 
-  return <ManufacturerPicker codeId={codeId.toUpperCase()} variants={variants} locale={locale} />;
+  return <ManufacturerPicker codeId={codeId.toUpperCase()} variants={usableVariants} locale={locale} />;
 }
 
 function ManufacturerPicker({

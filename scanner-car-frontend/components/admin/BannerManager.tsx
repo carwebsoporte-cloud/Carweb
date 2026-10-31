@@ -5,6 +5,7 @@
    banner por posición con su imagen y su URL de destino. */
 
 import { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   adminListBanners, adminCreateBanner, adminUpdateBanner, adminDeleteBanner,
   adminUploadImage, type BannerPayload,
@@ -157,8 +158,7 @@ export default function BannerManager({ onAuthError }: { onAuthError: (e: unknow
           </div>
 
           {form.imageUrl.trim() && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={form.imageUrl} alt="Vista previa" className="w-full h-32 object-contain rounded-xl mb-4 border border-white/10 bg-[#040a18]" />
+            <Image src={form.imageUrl} alt="Vista previa" width={800} height={128} unoptimized className="w-full h-32 object-contain rounded-xl mb-4 border border-white/10 bg-[#040a18]" />
           )}
 
           <Field label="URL de destino * (al hacer clic)">
@@ -198,8 +198,7 @@ export default function BannerManager({ onAuthError }: { onAuthError: (e: unknow
                 const meta = SLOT_META[b.slot];
                 return (
                   <div key={b.id} className="glass rounded-2xl p-4 flex gap-4">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={b.imageUrl} alt={b.title} className="w-20 h-20 object-contain rounded-xl border border-white/10 shrink-0 bg-[#040a18]" />
+                    <Image src={b.imageUrl} alt={b.title} width={80} height={80} unoptimized className="w-20 h-20 object-contain rounded-xl border border-white/10 shrink-0 bg-[#040a18]" />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-white font-semibold truncate">{b.title || meta.label}</h3>

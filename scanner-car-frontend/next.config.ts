@@ -14,6 +14,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
+  // Let middleware collapse code casing and trailing-slash variants in one redirect.
+  skipTrailingSlashRedirect: true,
   images: {
     // Permite rutas locales de /public (fill + priority sin dominio externo)
     localPatterns: [

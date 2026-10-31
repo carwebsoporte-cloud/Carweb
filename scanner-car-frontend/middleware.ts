@@ -27,8 +27,29 @@ function withLocaleHeader(req: NextRequest, locale: 'es' | 'en', rewriteTo?: URL
   return res;
 }
 
+function redirectToCanonicalCodePath(req: NextRequest): NextResponse | null {
+  const match = req.nextUrl.pathname.match(/^(\/en)?\/code\/([^/]+)(?:\/([^/]+))?\/?$/);
+  if (!match) return null;
+
+  const prefix = match[1] ?? '';
+  const code = match[2].toUpperCase();
+  const manufacturer = match[3] ? `/${match[3].toLowerCase()}` : '';
+  const canonicalPath = `${prefix}/code/${code}${manufacturer}`;
+  if (req.nextUrl.pathname === canonicalPath) return null;
+
+  const redirectTarget = new URL(`${canonicalPath}${req.nextUrl.search}`, req.url);
+  // Override the generated Location so Next does not re-add the incoming
+  // trailing slash while normalizing the redirect target.
+  const response = NextResponse.redirect(redirectTarget, 308);
+  response.headers.set('Location', redirectTarget.toString());
+  return response;
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  const canonicalCodeRedirect = redirectToCanonicalCodePath(req);
+  if (canonicalCodeRedirect) return canonicalCodeRedirect;
 
   // ── Rutas en inglés ──
   if (pathname === '/en' || pathname.startsWith('/en/')) {

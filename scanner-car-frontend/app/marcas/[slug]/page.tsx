@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
-import { getManufacturerCodes } from '@/lib/api';
+import { getManufacturerCodes, hasCompleteEnglishCoverage } from '@/lib/api';
 import { getDict, normalizeLocale, withLocale, esToEnPath, type Locale } from '@/lib/i18n';
 import CodeCard from '@/components/CodeCard';
 import Pagination from '@/components/Pagination';
@@ -21,24 +21,45 @@ async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+function parsePage(value: string | undefined): number {
+  return Math.max(1, parseInt(value ?? '1', 10) || 1);
+}
+
+function pageUrl(base: string, page: number): string {
+  return page > 1 ? `${base}?page=${page}` : base;
+}
+
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
   const locale = await getLocale();
   const t = getDict(locale).brands;
-  const res = await getManufacturerCodes(slug, 1, 1, locale);
+  const res = await getManufacturerCodes(slug, 1, 1000, locale);
   if (!res.manufacturer) return { title: t.title };
 
   const name = res.manufacturer.name;
   const esUrl = `${SITE_URL}/marcas/${slug}`;
   const enPath = esToEnPath(`/marcas/${slug}`);
   const enUrl = `${SITE_URL}/en${enPath}`;
+  const currentPage = parsePage(pageParam);
+  const canonicalEsUrl = pageUrl(esUrl, currentPage);
+  const canonicalEnUrl = pageUrl(enUrl, currentPage);
+  const hasEnglishCoverage = await hasCompleteEnglishCoverage((page, limit, options) =>
+    getManufacturerCodes(slug, page, limit, undefined, options),
+  );
   return {
     title: `${t.brandCodesTpl.replace('%s', name)} | CARWEB`,
     description:
       locale === 'en'
         ? `Manufacturer-specific OBD2 fault codes for ${name}. Diagnostics, causes and step-by-step fixes on CARWEB.`
         : `Códigos de falla OBD2 específicos de ${name}. Diagnósticos, causas y soluciones paso a paso en CARWEB.`,
-    alternates: { canonical: locale === 'en' ? enUrl : esUrl, languages: { es: esUrl, en: enUrl, 'x-default': esUrl } },
+    alternates: {
+      canonical: locale === 'en' ? canonicalEnUrl : canonicalEsUrl,
+      languages: hasEnglishCoverage
+        ? { es: canonicalEsUrl, en: canonicalEnUrl, 'x-default': canonicalEsUrl }
+        : { es: canonicalEsUrl, 'x-default': canonicalEsUrl },
+    },
+    ...(locale === 'en' && !hasEnglishCoverage ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
@@ -49,13 +70,16 @@ export default async function BrandCodesPage({ params, searchParams }: PageProps
   const t = getDict(locale).brands;
   const L = (href: string) => withLocale(href, locale);
 
-  const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10) || 1);
+  const currentPage = parsePage(pageParam);
   const res = await getManufacturerCodes(slug, currentPage, PAGE_SIZE, locale);
   if (!res.manufacturer) notFound();
 
   const { manufacturer: m, data: codes, total, pages } = res;
   const isGeneric = m!.isGeneric;
-  const canonicalUrl = locale === 'en' ? `${SITE_URL}/en${esToEnPath(`/marcas/${slug}`)}` : `${SITE_URL}/marcas/${slug}`;
+  const canonicalUrl = pageUrl(
+    locale === 'en' ? `${SITE_URL}/en${esToEnPath(`/marcas/${slug}`)}` : `${SITE_URL}/marcas/${slug}`,
+    currentPage,
+  );
 
   return (
     <>

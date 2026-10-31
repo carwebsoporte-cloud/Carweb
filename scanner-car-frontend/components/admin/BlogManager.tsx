@@ -5,6 +5,7 @@
    ligero: "## " subtítulo, "- " viñeta, línea en blanco = párrafo. */
 
 import { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   adminListPosts, adminCreatePost, adminUpdatePost, adminDeletePost,
   adminUploadImage, type BlogPayload,
@@ -161,8 +162,7 @@ export default function BlogManager({ onAuthError }: { onAuthError: (e: unknown)
             {uploading && <p className="text-neon text-xs mt-1 animate-pulse">Subiendo imagen…</p>}
           </div>
           {form.coverUrl.trim() && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={form.coverUrl} alt="Portada" className="w-full h-32 object-cover rounded-xl mb-4 border border-white/10 bg-[#040a18]" />
+            <Image src={form.coverUrl} alt="Portada" width={800} height={128} unoptimized className="w-full h-32 object-cover rounded-xl mb-4 border border-white/10 bg-[#040a18]" />
           )}
 
           {/* Selector de idioma */}
@@ -228,8 +228,7 @@ export default function BlogManager({ onAuthError }: { onAuthError: (e: unknown)
             <div className="space-y-3">
               {posts.map((p) => (
                 <div key={p.id} className="glass rounded-2xl p-4 flex gap-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.coverUrl} alt={p.titleEs} className="w-20 h-20 object-cover rounded-xl border border-white/10 shrink-0 bg-[#040a18]" />
+                  <Image src={p.coverUrl} alt={p.titleEs} width={80} height={80} unoptimized className="w-20 h-20 object-cover rounded-xl border border-white/10 shrink-0 bg-[#040a18]" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-white font-semibold truncate">{p.titleEs}</h3>

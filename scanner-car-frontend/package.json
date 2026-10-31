@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
+    "test:seo-policy": "node scripts/verify-seo-policy.mjs",
     "lint": "eslint"
   },
   "dependencies": {
