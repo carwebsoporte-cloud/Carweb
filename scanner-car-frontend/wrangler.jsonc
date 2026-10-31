@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "carweb-frontend",
+  "compatibility_date": "2025-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "www.carweb.com.co", "custom_domain": true },
+    { "pattern": "carweb.com.co", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "carweb-frontend"
+    }
+  ],
+  // No IMAGES binding: Cloudflare Images can incur costs; next.config uses unoptimized images.
+  "observability": {
+    "enabled": true
+  }
+}
