@@ -9,3 +9,6 @@ dist
 
 # Imágenes subidas por el panel admin
 uploads
+
+# Local SEO inventory output
+reports
