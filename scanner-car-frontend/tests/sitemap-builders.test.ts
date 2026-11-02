@@ -90,3 +90,17 @@ test('codes chunk makes exactly one API call and returns null past the last page
   assert.equal(await buildCodesChunk(makeDeps({ getCodesPage }), 3), null);
   await assert.rejects(buildCodesChunk(makeDeps({ getCodesPage: boom }), 1), /api down/);
 });
+
+test('core chunk keeps at most 3 generic codes page requests in flight', async () => {
+  let inFlight = 0;
+  let peak = 0;
+  const getCodesPage: SitemapDeps['getCodesPage'] = async (page) => {
+    inFlight += 1;
+    peak = Math.max(peak, inFlight);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    inFlight -= 1;
+    return { data: [code(`P${String(page).padStart(4, '0')}`)], pages: 10 };
+  };
+  await buildCoreChunk(makeDeps({ getCodesPage }));
+  assert.ok(peak <= 3, `peak concurrency was ${peak}`);
+});

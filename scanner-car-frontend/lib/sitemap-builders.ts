@@ -13,6 +13,17 @@ import {
 
 export const OEM_PAGE_SIZE = 500;
 const OEM_CONCURRENCY = 4;
+// The backend (Render free) times out when many code pages are requested at once.
+const CODES_PAGE_CONCURRENCY = 3;
+
+// Maps items in sequential batches so at most `limit` calls are in flight.
+async function mapInBatches<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const results: R[] = [];
+  for (let i = 0; i < items.length; i += limit) {
+    results.push(...(await Promise.all(items.slice(i, i + limit).map(fn))));
+  }
+  return results;
+}
 
 interface CodeLike {
   code: string;
@@ -88,8 +99,10 @@ export async function buildCoreChunk(deps: SitemapDeps): Promise<SitemapEntry[]>
   // Category pages list English only when every generic code of the category is
   // translated, which needs the full generic inventory.
   const first = await deps.getCodesPage(1, CODES_PAGE_SIZE);
-  const rest = await Promise.all(
-    Array.from({ length: Math.max(first.pages - 1, 0) }, (_, i) => deps.getCodesPage(i + 2, CODES_PAGE_SIZE)),
+  const rest = await mapInBatches(
+    Array.from({ length: Math.max(first.pages - 1, 0) }, (_, i) => i + 2),
+    CODES_PAGE_CONCURRENCY,
+    (page) => deps.getCodesPage(page, CODES_PAGE_SIZE),
   );
   const allCodes = [first, ...rest].flatMap((page) => page.data);
 
