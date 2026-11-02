@@ -5,6 +5,9 @@ import SeverityBadge from '@/components/SeverityBadge';
 import AffectedSystemVisual from '@/components/code/AffectedSystemVisual';
 import CodeStructuredData from '@/components/code/CodeStructuredData';
 import VendorAdSpace from '@/components/code/VendorAdSpace';
+import FaqSection from '@/components/FaqSection';
+import { FaqJsonLd } from '@/components/seo/JsonLd';
+import { buildAnswerSummary, buildCodeFaq, type AeoCodeInput } from '@/lib/code-aeo';
 
 /* Vista de detalle de un código, compartida por la ruta genérica
    (/code/[codeId]) y la ruta por marca (/code/[codeId]/[manufacturer]). */
@@ -59,6 +62,19 @@ export default function CodeDetailView({
   // Enlace a la variante de una marca (o al genérico si isGeneric).
   const variantHref = (slug: string, generic: boolean) => (generic ? L(`/code/${code.code}`) : L(`/code/${code.code}/${slug}`));
 
+  // Answer-first summary and FAQ: deterministic templates over stored fields.
+  const aeoInput: AeoCodeInput = {
+    label: isOem && code.manufacturer ? `${code.code} (${code.manufacturer.name})` : code.code,
+    title: code.title,
+    description: code.description,
+    severity: code.severity,
+    causes: (code.causes ?? []).map((c) => c.cause),
+    symptoms: (code.symptoms ?? []).map((s) => s.symptom),
+    solutions: (code.solutions ?? []).map((s) => s.solution),
+  };
+  const answerSummary = buildAnswerSummary(aeoInput, locale);
+  const faqItems = buildCodeFaq(aeoInput, locale);
+
   const searchQuery = encodeURIComponent(`codigo OBD2 ${code.code} ${code.title} reparacion`);
   const youtubeUrl = `https://www.youtube.com/results?search_query=${searchQuery}`;
   const googleImagesUrl = `https://www.google.com/search?q=${encodeURIComponent(`${code.code} sensor automotriz componente`)}&tbm=isch`;
@@ -67,6 +83,7 @@ export default function CodeDetailView({
   return (
     <>
       <CodeStructuredData code={code} locale={locale} />
+      <FaqJsonLd items={faqItems} />
 
       {/* Breadcrumb */}
       <div className="relative border-b border-neon/15 bg-[#040a18]/60">
@@ -148,6 +165,14 @@ export default function CodeDetailView({
                   )}
                 </div>
               </div>
+
+              {/* Resumen directo (AEO): respuesta corta citable por buscadores y motores de respuesta */}
+              {answerSummary && (
+                <section className="glass rounded-2xl p-6" style={{ borderColor: 'rgba(0,212,255,0.25)' }} aria-labelledby="answer-summary-heading">
+                  <h2 id="answer-summary-heading" className="text-lg font-bold text-white mb-2">{answerSummary.heading}</h2>
+                  <p className="text-slate-300 leading-relaxed">{answerSummary.text}</p>
+                </section>
+              )}
 
               {/* Banner de variantes por marca */}
               {others.length > 0 && (
@@ -302,7 +327,6 @@ export default function CodeDetailView({
                 </form>
               </div>
 
-
               {relatedCodes.length > 0 && (
                 <div className="glass rounded-2xl p-6">
                   <h3 className="text-lg font-bold text-white mb-4">{t.relatedTitle}</h3>
@@ -325,6 +349,13 @@ export default function CodeDetailView({
           </div>
         </div>
       </section>
+
+      <FaqSection
+        items={faqItems}
+        locale={locale}
+        eyebrow={locale === 'en' ? 'Frequently asked questions' : 'Preguntas frecuentes'}
+        title={locale === 'en' ? `Frequently asked questions about ${aeoInput.label}` : `Preguntas frecuentes sobre ${aeoInput.label}`}
+      />
 
       <div className="pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
