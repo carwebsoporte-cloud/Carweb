@@ -33,7 +33,7 @@ Raise organic traffic by fixing sitemap delivery, improving click-through rate o
 - [x] S2 — Sitemap index with chunked, cached sitemaps; same URL set as today.
 - [x] S3 — CTR-oriented title and description templates for code pages (es/en).
 - [x] S4 — Answer-first summary and FAQ section with `FAQPage` JSON-LD on code pages.
-- [ ] S5 — Deploy and production smoke test (sitemap response time, code pages, schema).
+- [x] S5 — Deploy and production smoke test (sitemap response time, code pages, schema).
 
 ## Acceptance criteria
 
@@ -75,6 +75,9 @@ Raise organic traffic by fixing sitemap delivery, improving click-through rate o
 
 - 2026-11-02 Verifier fixes (one commit): (1) sitemap builders moved to `lib/sitemap-builders.ts` with injected deps and made all-or-nothing: blog, generic-code, per-brand and extra-page failures now reject, so the routes answer 503 `no-store`; a brand with no published codes is still skipped (not a failure). (2) Sitemap index and chunks are `force-dynamic` (no prerender, no `generateStaticParams`), success responses use `Cache-Control: public, s-maxage=86400, stale-while-revalidate=3600`; `codes-N` makes exactly one API call. (3) `lib/json-ld.ts` `serializeJsonLd` escapes `<` and U+2028/2029; used in `JsonLd.tsx`, `CodeStructuredData.tsx` and the blog page. RED: new `json-ld` and `sitemap-builders` tests failed with ERR_MODULE_NOT_FOUND (2 failing files); GREEN: `npm test` 29/29. `npm run test:seo-policy` passed (now reads `lib/sitemap-builders.ts`); `npx tsc --noEmit` OK; `npm run build` (prod API) OK with `/sitemap.xml` and `/sitemaps/[chunk]` dynamic; `next start` check: index 12 chunks, codes-1 1990 URLs, core 29, brands 66, codes-99 404, all 200 with the new Cache-Control.
 
+- 2026-11-02 independent verifier (RDD off, assessed risk high): PASS-with-fixes; one bounded correction `9858afe` (all-or-nothing builders, dynamic sitemap routes with s-maxage, JSON-LD `<` escaping); 29/29 tests.
+- 2026-11-02 S5: first deploy smoke showed `core.xml` 503 ("aborted due to timeout": 10 parallel code page fetches overloaded Render free). Fix `05cb5e9`: max 3 in flight; RED "peak concurrency was 9", GREEN 30/30; seo-policy and tsc OK. Deployed version `d8e26eab-2f21-48b4-9d03-81a7d88243e8` (.env.local set aside; localhost:3001 count 0). Production: index 200 with 12 chunks; core 200 x3 (29 URLs, ~9-10 s); codes-1..10 200 (13,029 URLs, ~2 s each); brands 200 x2 (66 URLs, ~11 s); total 13,058 URLs; `/code/P0300` title "P0300: Causas, Síntomas y Solución | CARWEB", JSON-LD FAQPage + 5 Question + TechArticle + HowTo; `/en/code/P0300` 200; no Adsterra in HTML. Not pushed.
+
 ## Next step
 
-S5: deploy to Cloudflare Workers (move `.env.local` aside, build against the prod API, verify `localhost:3001` count is 0 in the handler), then smoke test `/sitemap.xml` index, chunks, `/code/P0300`, `/en/code/P0300` and JSON-LD types.
+Push the branch and open a PR to `main` (user decision). Phase B (user): resubmit `/sitemap.xml` in Search Console, review the Pages report, and resolve the Cloudflare managed robots.txt / AI Crawl Control conflict.
