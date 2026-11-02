@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { getCodeByCode, getRelatedCodes } from '@/lib/api';
 import { normalizeLocale, type Locale } from '@/lib/i18n';
 import CodeDetailView from '@/components/code/CodeDetailView';
+import { buildCodeDescription, buildCodeTitle } from '@/lib/code-seo';
 
 // Fuerza render por-request: la página lee headers() (x-locale) para decidir
 // el idioma, lo cual es incompatible con la generación estática.
@@ -42,13 +43,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const canonical = locale === 'en' ? enUrl : esUrl;
 
   const titleSuffix = code.manufacturer?.isGeneric ? '' : ` (${brandName})`;
-  const description =
-    locale === 'en'
-      ? `OBD2 code ${upper}${titleSuffix}: ${code.title}. ${code.description ?? ''} Causes, symptoms and step-by-step fix.`.trim()
-      : `Código OBD2 ${upper}${titleSuffix}: ${code.title}. ${code.description ?? ''} Causas, síntomas y solución paso a paso.`.trim();
+  const label = `${upper}${titleSuffix}`;
+  const seoTitle = buildCodeTitle({ locale, label, title: code.title });
+  const description = buildCodeDescription({ locale, label, title: code.title, description: code.description });
 
   return {
-    title: `${upper}${titleSuffix} — ${code.title}`,
+    title: seoTitle.title,
     description,
     alternates: {
       canonical,
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         : { es: esUrl, 'x-default': esUrl },
     },
     robots: { index: code.seoIndexable, follow: true },
-    openGraph: { title: `${upper}${titleSuffix} — ${code.title} | CARWEB`, description, type: 'article', locale: locale === 'en' ? 'en_US' : 'es_ES', url: canonical },
+    openGraph: { title: seoTitle.ogTitle, description, type: 'article', locale: locale === 'en' ? 'en_US' : 'es_ES', url: canonical },
   };
 }
 
