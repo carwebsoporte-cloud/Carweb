@@ -1,20 +1,10 @@
 import { parseChunkName, renderUrlset } from '@/lib/sitemap';
-import { buildBrandsChunk, buildCodesChunk, buildCoreChunk, listChunkNames } from '@/lib/sitemap-data';
+import { buildBrandsChunk, buildCodesChunk, buildCoreChunk } from '@/lib/sitemap-data';
 
-// Cached sitemap chunks: core.xml, codes-N.xml and brands.xml.
-export const revalidate = 86400;
-
-// Prerender every chunk at build time so Cloudflare serves static XML instead
-// of re-crawling the API per request. If the API is unreachable at build time,
-// chunks fall back to on-demand rendering.
-export async function generateStaticParams(): Promise<{ chunk: string }[]> {
-  try {
-    return (await listChunkNames()).map((chunk) => ({ chunk }));
-  } catch (error) {
-    console.error('[sitemap] generateStaticParams failed; chunks render on demand', error);
-    return [];
-  }
-}
+// Sitemap chunks: core.xml, codes-N.xml and brands.xml. Rendered per request
+// (see app/sitemap.xml/route.ts); builders are all-or-nothing, so any API
+// failure yields a 503 that is never cached.
+export const dynamic = 'force-dynamic';
 
 export async function GET(_request: Request, { params }: { params: Promise<{ chunk: string }> }): Promise<Response> {
   const { chunk: name } = await params;
@@ -31,7 +21,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ chu
     return new Response(renderUrlset(entries), {
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600',
       },
     });
   } catch (error) {

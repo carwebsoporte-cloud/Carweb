@@ -2,6 +2,7 @@
    Server component: inyecta <script type="application/ld+json">.
    Localizado: la URL canónica, el idioma y los textos siguen al locale activo. */
 
+import { serializeJsonLd } from '@/lib/json-ld';
 import type { OBDCode } from '@/lib/types';
 import type { Locale } from '@/lib/i18n';
 
@@ -106,7 +107,7 @@ export default function CodeStructuredData({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(graph) }}
     />
   );
 }
