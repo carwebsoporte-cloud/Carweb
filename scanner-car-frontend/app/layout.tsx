@@ -9,6 +9,7 @@ import AdBanners from '@/components/AdBanners';
 import MotionProvider from '@/components/MotionProvider';
 import { LocaleProvider } from '@/components/LocaleProvider';
 import Analytics from '@/components/Analytics';
+import AdsterraGlobal from '@/components/ads/AdsterraGlobal';
 import { WebSiteJsonLd, OrganizationJsonLd } from '@/components/seo/JsonLd';
 import { normalizeLocale } from '@/lib/i18n';
 
@@ -109,6 +110,7 @@ export default async function RootLayout({
             <AdBanners />
           </MotionProvider>
           <Analytics />
+          <AdsterraGlobal />
         </LocaleProvider>
       </body>
     </html>
