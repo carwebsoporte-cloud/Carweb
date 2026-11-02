@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/json-ld';
 import {
   SITE_URL,
   SITE_NAME,
@@ -13,7 +14,7 @@ export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
 function jsonLd(schema: object) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />;
 }
 
 export function WebSiteJsonLd({ locale }: { locale: 'es' | 'en' }) {

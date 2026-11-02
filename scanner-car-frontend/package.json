@@ -7,6 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "test:seo-policy": "node scripts/verify-seo-policy.mjs",
+    "test": "node --test \"tests/*.test.ts\"",
     "lint": "eslint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
