@@ -1,4 +1,4 @@
-/* JSON-LD para la página de detalle de un código (TechArticle + Breadcrumb + FAQ).
+/* JSON-LD para la página de detalle de un código (TechArticle + Breadcrumb + HowTo).
    Server component: inyecta <script type="application/ld+json">.
    Localizado: la URL canónica, el idioma y los textos siguen al locale activo. */
 
@@ -18,12 +18,6 @@ const T = {
   es: {
     home: 'Inicio',
     thing: 'Código OBD2',
-    descFallback: (c: string, t: string) => `Código OBD2 ${c}: ${t}.`,
-    qMeaning: (c: string) => `¿Qué significa el código ${c}?`,
-    qSymptoms: (c: string) => `¿Cuáles son los síntomas del código ${c}?`,
-    qCauses: (c: string) => `¿Qué causa el código ${c}?`,
-    qSolution: (c: string) => `¿Cómo se soluciona el código ${c}?`,
-    qDrive: (c: string) => `¿Puedo seguir conduciendo con el código ${c}?`,
     howTo: (c: string) => `Cómo solucionar el código OBD2 ${c} paso a paso`,
     step: 'Paso',
     keywords: ['OBD2', 'código de falla', 'diagnóstico automotriz'],
@@ -31,12 +25,6 @@ const T = {
   en: {
     home: 'Home',
     thing: 'OBD2 code',
-    descFallback: (c: string, t: string) => `OBD2 code ${c}: ${t}.`,
-    qMeaning: (c: string) => `What does code ${c} mean?`,
-    qSymptoms: (c: string) => `What are the symptoms of code ${c}?`,
-    qCauses: (c: string) => `What causes code ${c}?`,
-    qSolution: (c: string) => `How do you fix code ${c}?`,
-    qDrive: (c: string) => `Can I keep driving with code ${c}?`,
     howTo: (c: string) => `How to fix OBD2 code ${c} step by step`,
     step: 'Step',
     keywords: ['OBD2', 'fault code', 'automotive diagnostics'],
@@ -45,11 +33,9 @@ const T = {
 
 export default function CodeStructuredData({
   code,
-  severityAdvice,
   locale = 'es',
 }: {
   code: OBDCode;
-  severityAdvice: string;
   locale?: Locale;
 }) {
   const t = T[locale];
@@ -63,16 +49,15 @@ export default function CodeStructuredData({
   const path = isOem ? `/code/${code.code}/${code.manufacturer!.slug}` : `/code/${code.code}`;
   const url = `${SITE_URL}${prefix}${path}`;
   const categoryUrl = `${SITE_URL}${prefix}/category/${letter}`;
+  const storedDescription = code.description?.trim();
 
-  const symptoms = (code.symptoms ?? []).map((s) => s.symptom);
-  const causes = (code.causes ?? []).map((c) => c.cause);
   const solutions = (code.solutions ?? []).map((s) => s.solution);
 
   const techArticle = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     headline: `${code.code} — ${code.title}`,
-    description: code.description || t.descFallback(code.code, code.title),
+    ...(storedDescription ? { description: storedDescription } : {}),
     about: { '@type': 'Thing', name: `${t.thing} ${code.code}` },
     articleSection: catName,
     inLanguage: locale,
@@ -99,31 +84,13 @@ export default function CodeStructuredData({
     ],
   };
 
-  const faqEntries: { q: string; a: string }[] = [
-    { q: t.qMeaning(code.code), a: `${code.title}. ${code.description || ''}`.trim() },
-  ];
-  if (symptoms.length) faqEntries.push({ q: t.qSymptoms(code.code), a: symptoms.join('. ') + '.' });
-  if (causes.length) faqEntries.push({ q: t.qCauses(code.code), a: causes.join('. ') + '.' });
-  if (solutions.length) faqEntries.push({ q: t.qSolution(code.code), a: solutions.join(' ') });
-  faqEntries.push({ q: t.qDrive(code.code), a: severityAdvice });
-
-  const faq = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqEntries.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  };
-
   // HowTo: las soluciones son un procedimiento paso a paso → schema HowTo.
   const howTo = solutions.length
     ? {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         name: t.howTo(code.code),
-        description: code.description || t.descFallback(code.code, code.title),
+        ...(storedDescription ? { description: storedDescription } : {}),
         inLanguage: locale,
         step: solutions.map((s, i) => ({
           '@type': 'HowToStep',
@@ -134,7 +101,7 @@ export default function CodeStructuredData({
       }
     : null;
 
-  const graph = [techArticle, breadcrumb, faq, ...(howTo ? [howTo] : [])];
+  const graph = [techArticle, breadcrumb, ...(howTo ? [howTo] : [])];
 
   return (
     <script

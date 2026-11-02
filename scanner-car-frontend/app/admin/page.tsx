@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import {
   getToken, clearToken, adminListAds, adminCreateAd, adminUpdateAd, adminDeleteAd,
   adminUploadImage, isUnauthorized, type AdPayload,
@@ -194,8 +195,7 @@ export default function AdminPage() {
 
           {/* Preview */}
           {form.imageUrl.trim() && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={form.imageUrl} alt="Vista previa" className="w-full h-32 object-cover rounded-xl mb-4 border border-white/10" />
+            <Image src={form.imageUrl} alt="Vista previa" width={800} height={128} unoptimized className="w-full h-32 object-cover rounded-xl mb-4 border border-white/10" />
           )}
 
           <div className="grid grid-cols-2 gap-3">
@@ -253,8 +253,7 @@ export default function AdminPage() {
             <div className="space-y-3">
               {ads.map((ad) => (
                 <div key={ad.id} className="glass rounded-2xl p-4 flex gap-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={ad.imageUrl} alt={ad.businessName} className="w-20 h-20 object-cover rounded-xl border border-white/10 shrink-0 bg-white/5" />
+                  <Image src={ad.imageUrl} alt={ad.businessName} width={80} height={80} unoptimized className="w-20 h-20 object-cover rounded-xl border border-white/10 shrink-0 bg-white/5" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-white font-semibold truncate">{ad.businessName}</h3>

@@ -19,11 +19,8 @@ async function getLocale(): Promise<Locale> {
   return normalizeLocale((await headers()).get('x-locale'));
 }
 
-// Canónica según el fabricante REAL del código devuelto: si el backend cayó al
-// genérico (la marca no define este código), apuntamos a la URL genérica para
-// no generar contenido duplicado.
-function canonicalPaths(upper: string, manufacturerSlug: string, isGeneric: boolean) {
-  const suffix = isGeneric ? `/code/${upper}` : `/code/${upper}/${manufacturerSlug}`;
+function canonicalPaths(upper: string, manufacturerSlug: string) {
+  const suffix = `/code/${upper}/${manufacturerSlug}`;
   return { es: `${SITE_URL}${suffix}`, en: `${SITE_URL}/en${suffix}` };
 }
 
@@ -32,10 +29,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const locale = await getLocale();
   const code = await getCodeByCode(codeId, locale, manufacturer);
   if (!code) return { title: locale === 'en' ? 'Code not found' : 'Código no encontrado' };
+  if (locale === 'en' && !code.hasEnglishTranslation) {
+    return {
+      title: 'Code not found',
+      robots: { index: false, follow: false },
+    };
+  }
 
   const upper = code.code.toUpperCase();
   const brandName = code.manufacturer?.name ?? manufacturer;
-  const { es: esUrl, en: enUrl } = canonicalPaths(upper, code.manufacturer?.slug ?? manufacturer, !!code.manufacturer?.isGeneric);
+  const { es: esUrl, en: enUrl } = canonicalPaths(upper, code.manufacturer?.slug ?? manufacturer);
   const canonical = locale === 'en' ? enUrl : esUrl;
 
   const titleSuffix = code.manufacturer?.isGeneric ? '' : ` (${brandName})`;
@@ -47,7 +50,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${upper}${titleSuffix} — ${code.title}`,
     description,
-    alternates: { canonical, languages: { es: esUrl, en: enUrl, 'x-default': esUrl } },
+    alternates: {
+      canonical,
+      languages: code.hasEnglishTranslation
+        ? { es: esUrl, en: enUrl, 'x-default': esUrl }
+        : { es: esUrl, 'x-default': esUrl },
+    },
+    robots: { index: code.seoIndexable, follow: true },
     openGraph: { title: `${upper}${titleSuffix} — ${code.title} | CARWEB`, description, type: 'article', locale: locale === 'en' ? 'en_US' : 'es_ES', url: canonical },
   };
 }
@@ -57,7 +66,7 @@ export default async function CodeManufacturerPage({ params }: PageProps) {
   const locale = await getLocale();
 
   const code = await getCodeByCode(codeId, locale, manufacturer);
-  if (!code) notFound();
+  if (!code || code.manufacturer?.isGeneric || (locale === 'en' && !code.hasEnglishTranslation)) notFound();
 
   const relatedCodes = await getRelatedCodes(code.code, locale);
   return <CodeDetailView code={code} relatedCodes={relatedCodes} locale={locale} />;

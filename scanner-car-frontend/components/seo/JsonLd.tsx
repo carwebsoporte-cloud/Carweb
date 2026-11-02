@@ -17,7 +17,9 @@ function jsonLd(schema: object) {
 }
 
 export function WebSiteJsonLd({ locale }: { locale: 'es' | 'en' }) {
-  const searchUrl = locale === 'en' ? `${SITE_URL}/en/buscar` : `${SITE_URL}/buscar`;
+  const searchUrl = locale === 'en'
+    ? `${SITE_URL}/en/search?q={search_term_string}`
+    : `${SITE_URL}/buscar?q={search_term_string}`;
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -31,7 +33,7 @@ export function WebSiteJsonLd({ locale }: { locale: 'es' | 'en' }) {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${searchUrl}?q={search_term_string}`,
+        urlTemplate: searchUrl,
       },
       'query-input': 'required name=search_term_string',
     },

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
-import { getCodesByCategoryPaged } from '@/lib/api';
+import { getCodesByCategoryPaged, hasCompleteEnglishCoverage } from '@/lib/api';
 import { CATEGORIES, CategoryKey } from '@/lib/types';
 import { getDict, normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import CodeCard from '@/components/CodeCard';
@@ -35,8 +36,17 @@ function catLabel(cat: CategoryKey, locale: Locale): string {
   return getDict(locale).categories[cat];
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+function parsePage(value: string | undefined): number {
+  return Math.max(1, parseInt(value ?? '1', 10) || 1);
+}
+
+function pageUrl(base: string, page: number): string {
+  return page > 1 ? `${base}?page=${page}` : base;
+}
+
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { category } = await params;
+  const { page: pageParam } = await searchParams;
   const cat = category.toUpperCase() as CategoryKey;
   const catInfo = CATEGORIES[cat];
   const locale = await getLocale();
@@ -47,6 +57,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const label = catLabel(cat, locale);
   const esUrl = `${SITE_URL}/category/${cat}`;
   const enUrl = `${SITE_URL}/en/category/${cat}`;
+  const currentPage = parsePage(pageParam);
+  const canonicalEsUrl = pageUrl(esUrl, currentPage);
+  const canonicalEnUrl = pageUrl(enUrl, currentPage);
+  const hasEnglishCoverage = await hasCompleteEnglishCoverage((page, limit, options) =>
+    getCodesByCategoryPaged(cat, page, limit, undefined, options),
+  );
   return {
     title: locale === 'en' ? `${label} Codes` : `Códigos ${label}`,
     description:
@@ -54,9 +70,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? `Full list of ${label} OBD2 codes. Find diagnostics, causes and fixes for your vehicle faults on CARWEB.`
         : `Lista completa de códigos OBD2 de ${label}. Encuentra diagnósticos, causas y soluciones para fallas de tu vehículo en CARWEB.`,
     alternates: {
-      canonical: locale === 'en' ? enUrl : esUrl,
-      languages: { es: esUrl, en: enUrl, 'x-default': esUrl },
+      canonical: locale === 'en' ? canonicalEnUrl : canonicalEsUrl,
+      languages: hasEnglishCoverage
+        ? { es: canonicalEsUrl, en: canonicalEnUrl, 'x-default': canonicalEsUrl }
+        : { es: canonicalEsUrl, 'x-default': canonicalEsUrl },
     },
+    ...(locale === 'en' && !hasEnglishCoverage ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
@@ -69,24 +88,17 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   const t = getDict(locale).category;
   const L = (href: string) => withLocale(href, locale);
 
-  if (!catInfo) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">{t.notFoundTitle}</h1>
-          <p className="text-slate-400 mb-6">{t.notFoundDesc}</p>
-          <Link href={L('/')} className="text-neon hover:underline">{t.backHome}</Link>
-        </div>
-      </div>
-    );
-  }
+  if (!catInfo) notFound();
 
   const label = catLabel(cat, locale);
-  const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10) || 1);
+  const currentPage = parsePage(pageParam);
   const { data: codes, total, pages } = await getCodesByCategoryPaged(cat, currentPage, PAGE_SIZE, locale);
   const color = CAT_COLOR[cat] ?? '#00d4ff';
 
-  const canonicalUrl = locale === 'en' ? `${SITE_URL}/en/category/${cat}` : `${SITE_URL}/category/${cat}`;
+  const canonicalUrl = pageUrl(
+    locale === 'en' ? `${SITE_URL}/en/category/${cat}` : `${SITE_URL}/category/${cat}`,
+    currentPage,
+  );
 
   // FAQ solo en la primera página (evita FAQPage duplicado en la paginación).
   const faq = currentPage === 1 ? getCategoryFaq(cat, locale) : [];

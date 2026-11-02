@@ -8,6 +8,10 @@ import type { Locale } from './i18n';
 // Timeout para que un backend lento no cuelgue el render SSR ni al cliente.
 const FETCH_TIMEOUT_MS = 8000;
 
+export interface ApiReadOptions {
+  throwOnError?: boolean;
+}
+
 /** fetch con AbortSignal de timeout; conserva las opciones de Next (next/cache). */
 function apiFetch(url: string, init: RequestInit = {}): Promise<Response> {
   return fetch(url, { ...init, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
@@ -34,12 +38,21 @@ export async function getAllCodes(page: number = 1, limit: number = 50, locale?:
 /**
  * Obtener todos los códigos OBD2 con paginación y metadatos (para sitemap)
  */
-export async function getAllCodesPaged(page: number = 1, limit: number = 50, locale?: Locale): Promise<PagedCodes> {
+export async function getAllCodesPaged(
+  page: number = 1,
+  limit: number = 50,
+  locale?: Locale,
+  options: ApiReadOptions = {},
+): Promise<PagedCodes> {
   const empty: PagedCodes = { data: [], total: 0, page, limit, pages: 0 };
   const url = `${API_BASE_URL}/codes?page=${page}&limit=${limit}${localeQuery(locale, '&')}`;
   try {
     const res = await apiFetch(url, { next: { revalidate: 3600 } });
-    if (!res.ok) return empty;
+    if (!res.ok) {
+      const error = new Error(`Codes request failed with HTTP ${res.status}`);
+      if (options.throwOnError) throw error;
+      return empty;
+    }
     const json = await res.json();
     return {
       data: json.data ?? [],
@@ -48,16 +61,16 @@ export async function getAllCodesPaged(page: number = 1, limit: number = 50, loc
       limit: json.limit ?? limit,
       pages: json.pages ?? 0,
     };
-  } catch {
+  } catch (error) {
+    if (options.throwOnError) throw error;
     return empty;
   }
 }
 
 /**
  * Obtener un código por su identificador (ej: P0420). Con `manufacturer` (slug)
- * devuelve la variante específica de esa marca (con fallback al genérico en el
- * backend). Sin marca devuelve la variante genérica SAE (o 404 si solo existe
- * como código OEM — usar getCodeVariants para desambiguar).
+ * devuelve únicamente la variante publicada de esa marca. Sin marca devuelve
+ * únicamente la variante genérica SAE.
  */
 export async function getCodeByCode(code: string, locale?: Locale, manufacturer?: string): Promise<OBDCode | null> {
   const params = new URLSearchParams();
@@ -90,12 +103,17 @@ export async function getCodeVariants(code: string): Promise<CodeVariant[]> {
 /**
  * Todos los fabricantes (genérico SAE primero) con su conteo de códigos.
  */
-export async function getManufacturers(): Promise<Manufacturer[]> {
+export async function getManufacturers(options: ApiReadOptions = {}): Promise<Manufacturer[]> {
   try {
     const res = await apiFetch(`${API_BASE_URL}/manufacturers`, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const error = new Error(`Manufacturers request failed with HTTP ${res.status}`);
+      if (options.throwOnError) throw error;
+      return [];
+    }
     return res.json();
-  } catch {
+  } catch (error) {
+    if (options.throwOnError) throw error;
     return [];
   }
 }
@@ -112,15 +130,26 @@ export interface ManufacturerCodes {
 /**
  * Códigos de un fabricante (paginado). manufacturer = null si el slug no existe.
  */
-export async function getManufacturerCodes(slug: string, page: number = 1, limit: number = 60, locale?: Locale): Promise<ManufacturerCodes> {
+export async function getManufacturerCodes(
+  slug: string,
+  page: number = 1,
+  limit: number = 60,
+  locale?: Locale,
+  options: ApiReadOptions = {},
+): Promise<ManufacturerCodes> {
   const empty: ManufacturerCodes = { manufacturer: null, data: [], total: 0, page, limit, pages: 0 };
   try {
     const res = await apiFetch(`${API_BASE_URL}/manufacturers/${slug}/codes?page=${page}&limit=${limit}${localeQuery(locale, '&')}`, {
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return empty;
+    if (!res.ok) {
+      const error = new Error(`Manufacturer ${slug} request failed with HTTP ${res.status}`);
+      if (options.throwOnError) throw error;
+      return empty;
+    }
     return res.json();
-  } catch {
+  } catch (error) {
+    if (options.throwOnError) throw error;
     return empty;
   }
 }
@@ -188,16 +217,49 @@ export interface PagedCodes {
   pages: number;
 }
 
+type PagedCodeCollection = Pick<PagedCodes, 'data' | 'total' | 'pages'>;
+
+/** Return true only when every published code in a collection has complete English content. */
+export async function hasCompleteEnglishCoverage(
+  loadPage: (page: number, limit: number, options: ApiReadOptions) => Promise<PagedCodeCollection>,
+): Promise<boolean> {
+  try {
+    const firstPage = await loadPage(1, 1000, { throwOnError: true });
+    if (firstPage.total <= 0 || firstPage.pages < 1 || firstPage.data.length > firstPage.total) return false;
+
+    const remaining = [];
+    for (let page = 2; page <= firstPage.pages; page++) {
+      remaining.push(loadPage(page, 1000, { throwOnError: true }));
+    }
+    const pages = await Promise.all(remaining);
+    if (pages.some((page) => page.total !== firstPage.total)) return false;
+    const allCodes = [firstPage, ...pages].flatMap((page) => page.data);
+    return allCodes.length === firstPage.total && allCodes.every((code) => code.hasEnglishTranslation);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Obtener códigos por categoría con metadata de paginación (data, total, page, pages)
  */
-export async function getCodesByCategoryPaged(category: string, page: number = 1, limit: number = 24, locale?: Locale): Promise<PagedCodes> {
+export async function getCodesByCategoryPaged(
+  category: string,
+  page: number = 1,
+  limit: number = 24,
+  locale?: Locale,
+  options: ApiReadOptions = {},
+): Promise<PagedCodes> {
   const empty: PagedCodes = { data: [], total: 0, page, limit, pages: 0 };
   const res = await apiFetch(`${API_BASE_URL}/codes/category/${category}?page=${page}&limit=${limit}${localeQuery(locale, '&')}`, {
     next: { revalidate: 3600 }
   });
 
-  if (!res.ok) return empty;
+  if (!res.ok) {
+    const error = new Error(`Category ${category} request failed with HTTP ${res.status}`);
+    if (options.throwOnError) throw error;
+    return empty;
+  }
   const json = await res.json();
   return {
     data: json.data ?? [],
@@ -308,12 +370,17 @@ export interface BlogPost {
 }
 
 /** Artículos publicados (más recientes primero). */
-export async function getPublishedPosts(): Promise<BlogPost[]> {
+export async function getPublishedPosts(options: ApiReadOptions = {}): Promise<BlogPost[]> {
   try {
     const res = await apiFetch(`${API_BASE_URL}/blog`, { next: { revalidate: 600 } });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const error = new Error(`Published blog request failed with HTTP ${res.status}`);
+      if (options.throwOnError) throw error;
+      return [];
+    }
     return res.json();
-  } catch {
+  } catch (error) {
+    if (options.throwOnError) throw error;
     return [];
   }
 }

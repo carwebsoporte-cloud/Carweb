@@ -21,7 +21,7 @@ const AI_BOTS = [
   'Meta-ExternalAgent',
 ];
 
-const DISALLOW = ['/admin', '/api/'];
+const DISALLOW = ['/admin', '/en/admin', '/api', '/api/'];
 
 export default function robots(): MetadataRoute.Robots {
   return {

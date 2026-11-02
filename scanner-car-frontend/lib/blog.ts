@@ -22,17 +22,22 @@ export interface LocalizedPost {
   body: string;
 }
 
+/** True only when all fields required to render a real English article exist. */
+export function hasEnglishTranslation(p: BlogPost): boolean {
+  return [p.titleEn, p.excerptEn, p.bodyEn].every((field) => Boolean(field?.trim()));
+}
+
 /** Elige el contenido del idioma pedido; si falta el inglés, usa el español. */
 export function localizePost(p: BlogPost, locale: Locale): LocalizedPost {
-  const useEn = locale === 'en' && !!p.titleEn && p.titleEn.trim().length > 0;
+  const useEn = locale === 'en' && hasEnglishTranslation(p);
   return {
     slug: p.slug,
     tag: p.tag,
     coverUrl: p.coverUrl,
     date: p.date,
     title: useEn ? (p.titleEn as string) : p.titleEs,
-    excerpt: useEn ? (p.excerptEn || p.excerptEs) : p.excerptEs,
-    body: useEn ? (p.bodyEn || p.bodyEs) : p.bodyEs,
+    excerpt: useEn ? (p.excerptEn as string) : p.excerptEs,
+    body: useEn ? (p.bodyEn as string) : p.bodyEs,
   };
 }
 

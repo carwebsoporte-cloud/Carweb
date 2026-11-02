@@ -14,7 +14,12 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
+  // Let middleware collapse code casing and trailing-slash variants in one redirect.
+  skipTrailingSlashRedirect: true,
   images: {
+    // En Cloudflare Workers la optimización requiere Cloudflare Images (de pago):
+    // se sirven los archivos de /public tal cual.
+    unoptimized: true,
     // Permite rutas locales de /public (fill + priority sin dominio externo)
     localPatterns: [
       { pathname: '/assets/carweb/**' },

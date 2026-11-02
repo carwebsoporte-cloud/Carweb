@@ -1,15 +1,18 @@
 /**
  * Genera 3 archivos .webp de placeholder para el hero de CARWEB.
- * Ejecutar: node scripts/create-placeholders.js
+ * Ejecutar: node scripts/create-placeholders.mjs
  *
  * Cuando tengas los renders profesionales, reemplaza los archivos en:
  *   public/assets/carweb/
  */
 
-const sharp = require('sharp');
-const path  = require('path');
-const fs    = require('fs');
+import sharp from 'sharp';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const OUT = path.join(__dirname, '..', 'public', 'assets', 'carweb');
 fs.mkdirSync(OUT, { recursive: true });
 

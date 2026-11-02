@@ -18,17 +18,35 @@ async function getLocale(): Promise<Locale> {
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
-  const { q } = await searchParams;
+  const params = await searchParams;
+  const { q } = params;
   const query = (q ?? '').trim();
   const locale = await getLocale();
   const t = getDict(locale).search;
   const enPath = locale === 'en' ? esToEnPath('/buscar') : '/buscar';
   const canonical = `${SITE_URL}${locale === 'en' ? '/en' : ''}${enPath}`;
+  const hasParameters = Object.keys(params).length > 0;
+  const indexable = !hasParameters;
+  const esUrl = `${SITE_URL}/buscar`;
+  const enUrl = `${SITE_URL}/en/search`;
+  const title = query ? `${t.metaResultsPrefix} "${query}"` : t.metaSearch;
+  const description = query ? `${t.metaResultsPrefix} "${query}" · CARWEB.` : t.metaDescDefault;
   return {
-    title: query ? `${t.metaResultsPrefix} "${query}"` : t.metaSearch,
-    description: query ? `${t.metaResultsPrefix} "${query}" · CARWEB.` : t.metaDescDefault,
-    robots: query ? 'noindex, follow' : 'index, follow',
-    alternates: { canonical },
+    title,
+    description,
+    robots: { index: indexable, follow: true },
+    alternates: {
+      canonical,
+      ...(indexable ? { languages: { es: esUrl, en: enUrl, 'x-default': esUrl } } : {}),
+    },
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      locale: locale === 'en' ? 'en_US' : 'es_ES',
+      url: canonical,
+    },
+    twitter: { card: 'summary_large_image', title, description },
   };
 }
 

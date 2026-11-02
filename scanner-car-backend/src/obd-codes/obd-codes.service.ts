@@ -1,10 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { SeoPolicyService } from '../seo/seo-policy.service';
 
 const DEFAULT_LOCALE = 'es';
+const ENGLISH_LOCALE = 'en';
+const PUBLISHED_STATUS = 'PUBLISHED';
 
 const MANUFACTURER_SELECT = {
   select: { id: true, slug: true, name: true, isGeneric: true },
+};
+
+const TRANSLATION_SELECT = {
+  locale: true,
+  title: true,
+  description: true,
+  symptoms: true,
+  causes: true,
+  solutions: true,
 };
 
 type TranslationRow = {
@@ -15,6 +27,19 @@ type TranslationRow = {
   causes?: string | null;
   solutions?: string | null;
 };
+
+function hasText(value: string | null | undefined): boolean {
+  return Boolean(value?.trim());
+}
+
+export function hasCompleteEnglishTranslation(translation: TranslationRow | undefined): boolean {
+  return translation?.locale === ENGLISH_LOCALE
+    && hasText(translation.title)
+    && hasText(translation.description)
+    && hasText(translation.symptoms)
+    && hasText(translation.causes)
+    && hasText(translation.solutions);
+}
 
 // Divide una lista en texto (formato del seed: numerada "1. ... 2. ..." o
 // separada por comas) en items individuales. Réplica de la lógica del seed
@@ -35,7 +60,15 @@ function toEntries<K extends string>(text: string | null | undefined, key: K): A
 
 @Injectable()
 export class ObdCodesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private seoPolicy: SeoPolicyService) {}
+
+  private async withSeoPolicy<T extends { id: number }>(entity: T): Promise<T & { seoIndexable: boolean }> {
+    return { ...entity, ...(await this.seoPolicy.getPublicPolicy(entity.id)) };
+  }
+
+  private async withSeoPolicies<T extends { id: number }>(entities: T[]): Promise<Array<T & { seoIndexable: boolean }>> {
+    return Promise.all(entities.map((entity) => this.withSeoPolicy(entity)));
+  }
 
   // El id del fabricante centinela (genérico) se resuelve una vez y se cachea.
   private genericIdCache: number | null = null;
@@ -52,9 +85,10 @@ export class ObdCodesService {
     return {
       category: true,
       manufacturer: MANUFACTURER_SELECT,
-      ...(locale !== DEFAULT_LOCALE
-        ? { translations: { where: { locale }, select: { locale: true, title: true, description: true } } }
-        : {}),
+      translations: {
+        where: { locale: { in: [...new Set([locale, ENGLISH_LOCALE])] } },
+        select: TRANSLATION_SELECT,
+      },
     };
   }
 
@@ -67,100 +101,68 @@ export class ObdCodesService {
       causes: { select: { id: true, cause: true } },
       solutions: { select: { id: true, solution: true } },
       vehicleCompat: { include: { vehicleType: { select: { id: true, type: true, name: true } } } },
-      ...(locale !== DEFAULT_LOCALE
-        ? {
-            translations: {
-              where: { locale },
-              select: { locale: true, title: true, description: true, symptoms: true, causes: true, solutions: true },
-            },
-          }
-        : {}),
+      translations: {
+        where: { locale: { in: [...new Set([locale, ENGLISH_LOCALE])] } },
+        select: TRANSLATION_SELECT,
+      },
     };
   }
 
   // Superpone la traducción del locale pedido sobre title/description y retira
   // el array `translations` de la respuesta para conservar el contrato plano.
-  private localize<T extends { translations?: TranslationRow[] }>(entity: T | null): T | null {
+  private localize<T extends { translations?: TranslationRow[] }>(entity: T | null, locale: string): T | null {
     if (!entity) return entity;
     const { translations, ...rest } = entity as T & { translations?: TranslationRow[] };
-    const tr = translations?.[0];
+    const englishTranslation = translations?.find((translation) => translation.locale === ENGLISH_LOCALE);
+    const tr = translations?.find((translation) => translation.locale === locale
+      && (locale !== ENGLISH_LOCALE || hasCompleteEnglishTranslation(translation)));
+    (rest as Record<string, unknown>).hasEnglishTranslation = hasCompleteEnglishTranslation(englishTranslation);
     if (tr) {
       const r = rest as Record<string, unknown>;
       r.title = tr.title;
-      if (tr.description != null) r.description = tr.description;
+      if (hasText(tr.description)) r.description = tr.description;
       // Listas: solo se reemplazan si la traducción las trae; si no, se
       // conservan las del idioma base (fallback parcial por campo).
-      if (tr.symptoms) r.symptoms = toEntries(tr.symptoms, 'symptom');
-      if (tr.causes) r.causes = toEntries(tr.causes, 'cause');
-      if (tr.solutions) r.solutions = toEntries(tr.solutions, 'solution');
+      if (hasText(tr.symptoms)) r.symptoms = toEntries(tr.symptoms, 'symptom');
+      if (hasText(tr.causes)) r.causes = toEntries(tr.causes, 'cause');
+      if (hasText(tr.solutions)) r.solutions = toEntries(tr.solutions, 'solution');
     }
     return rest as T;
   }
 
-  private localizeMany<T extends { translations?: TranslationRow[] }>(rows: T[]): T[] {
-    return rows.map((r) => this.localize(r) as T);
+  private localizeMany<T extends { translations?: TranslationRow[] }>(rows: T[], locale: string): T[] {
+    return rows.map((r) => this.localize(r, locale) as T);
   }
 
   async findAll(page: number = 1, limit: number = 50, locale: string = DEFAULT_LOCALE) {
     // El catálogo principal muestra solo los códigos genéricos (universales SAE);
     // las variantes por marca se navegan por fabricante o desde el detalle.
-    const where = { manufacturerId: await this.genericId() };
+    const where = { manufacturerId: await this.genericId(), status: PUBLISHED_STATUS };
     const skip = (page - 1) * limit;
     const [codes, total] = await Promise.all([
       this.prisma.oBDCode.findMany({ where, skip, take: limit, orderBy: { code: 'asc' }, include: this.listInclude(locale) }),
       this.prisma.oBDCode.count({ where }),
     ]);
-    return { data: this.localizeMany(codes), total, page, limit, pages: Math.ceil(total / limit) };
+    return { data: await this.withSeoPolicies(this.localizeMany(codes, locale)), total, page, limit, pages: Math.ceil(total / limit) };
   }
 
   async findByCode(code: string, locale: string = DEFAULT_LOCALE, manufacturerSlug?: string) {
     const upper = code.toUpperCase();
     const genericId = await this.genericId();
     let manufacturerId = genericId;
-    let manufacturerName: string | undefined;
     if (manufacturerSlug) {
       const m = await this.prisma.manufacturer.findUnique({ where: { slug: manufacturerSlug } });
-      if (m) {
-        manufacturerId = m.id;
-        manufacturerName = m.name;
-      }
+      // MySQL commonly uses case-insensitive collations, so verify the stored
+      // slug as well as the database lookup to reject non-canonical aliases.
+      if (!m || m.slug !== manufacturerSlug) return null;
+      manufacturerId = m.id;
     }
     const include = this.detailInclude(locale);
-    let found = await this.prisma.oBDCode.findUnique({
-      where: { code_manufacturerId: { code: upper, manufacturerId } },
+    const found = await this.prisma.oBDCode.findFirst({
+      where: { code: upper, manufacturerId, status: PUBLISHED_STATUS },
       include,
     });
-    // Si se pidió una marca que no tiene ese código específico, se cae al genérico.
-    if (!found && manufacturerId !== genericId) {
-      found = await this.prisma.oBDCode.findUnique({
-        where: { code_manufacturerId: { code: upper, manufacturerId: genericId } },
-        include,
-      });
-    }
-    // Enriquecer OEM: si el código es de marca y no tiene contenido propio,
-    // heredar síntomas/causas/soluciones del genérico (si existe).
-    if (found && manufacturerId !== genericId) {
-      const hasOwnContent = (found.symptoms?.length ?? 0) > 0
-        || (found.causes?.length ?? 0) > 0
-        || (found.solutions?.length ?? 0) > 0;
-      if (!hasOwnContent) {
-        const generic = await this.prisma.oBDCode.findUnique({
-          where: { code_manufacturerId: { code: upper, manufacturerId: genericId } },
-          include: { symptoms: { select: { id: true, symptom: true } }, causes: { select: { id: true, cause: true } }, solutions: { select: { id: true, solution: true } } },
-        });
-        if (generic) {
-          if (!found.symptoms?.length) found.symptoms = generic.symptoms;
-          if (!found.causes?.length) found.causes = generic.causes;
-          if (!found.solutions?.length) found.solutions = generic.solutions;
-          if (!found.description) found.description = generic.description;
-        }
-      }
-      // Si sigue sin descripción, generar texto automático
-      if (!found.description) {
-        found.description = this.generateOemDescription(upper, manufacturerName, locale);
-      }
-    }
-    const localized = this.localize(found);
+    const localized = this.localize(found, locale);
     if (localized) {
       // Otras marcas (o el genérico) que también definen este código, para que
       // el detalle ofrezca cambiar de variante.
@@ -169,30 +171,18 @@ export class ObdCodesService {
         (found as { manufacturerId: number }).manufacturerId,
       );
     }
-    return localized;
-  }
-
-  private generateOemDescription(code: string, manufacturerName?: string, locale?: string): string {
-    const letter = code.charAt(0).toUpperCase();
-    const categoryNames: Record<string, { es: string; en: string }> = {
-      P: { es: 'Motor y Transmisión', en: 'Powertrain' },
-      B: { es: 'Carrocería', en: 'Body' },
-      C: { es: 'Chasis', en: 'Chassis' },
-      U: { es: 'Red de Comunicación', en: 'Network' },
-    };
-    const cat = categoryNames[letter] || categoryNames.P;
-    const brand = manufacturerName || 'fabricante';
-    if (locale === 'en') {
-      return `Manufacturer-specific code for ${brand}. Category: ${cat.en}. For detailed diagnosis, consult the vehicle service manual or a certified mechanic.`;
-    }
-    return `Código específico de ${brand}. Categoría: ${cat.es}. Para diagnóstico detallado, consulta el manual de servicio del fabricante o un mecánico certificado.`;
+    return localized ? this.withSeoPolicy(localized) : null;
   }
 
   // Lista las variantes de un código en otros fabricantes (genérico primero),
   // opcionalmente excluyendo un manufacturerId (el que ya se está viendo).
   private async variantsOf(code: string, excludeManufacturerId?: number) {
     const rows = await this.prisma.oBDCode.findMany({
-      where: { code: code.toUpperCase(), ...(excludeManufacturerId ? { NOT: { manufacturerId: excludeManufacturerId } } : {}) },
+      where: {
+        code: code.toUpperCase(),
+        status: PUBLISHED_STATUS,
+        ...(excludeManufacturerId ? { NOT: { manufacturerId: excludeManufacturerId } } : {}),
+      },
       select: { manufacturer: { select: { slug: true, name: true, isGeneric: true } } },
       orderBy: { manufacturer: { isGeneric: 'desc' } },
     });
@@ -202,25 +192,36 @@ export class ObdCodesService {
   // Todas las variantes de un código (genérico + cada marca), con su título.
   async findVariants(code: string) {
     const rows = await this.prisma.oBDCode.findMany({
-      where: { code: code.toUpperCase() },
-      select: { code: true, title: true, manufacturer: { select: { slug: true, name: true, isGeneric: true } } },
+      where: { code: code.toUpperCase(), status: PUBLISHED_STATUS },
+      select: {
+        id: true,
+        code: true,
+        title: true,
+        manufacturer: { select: { slug: true, name: true, isGeneric: true } },
+        translations: { where: { locale: ENGLISH_LOCALE }, select: TRANSLATION_SELECT },
+      },
       orderBy: [{ manufacturer: { isGeneric: 'desc' } }, { manufacturer: { name: 'asc' } }],
     });
-    return rows;
+    return Promise.all(rows.map(async ({ id, translations, ...row }) => ({
+      ...row,
+      hasEnglishTranslation: hasCompleteEnglishTranslation(translations[0]),
+      ...(await this.seoPolicy.getPublicPolicy(id)),
+    })));
   }
 
   async findByManufacturer(slug: string, page: number = 1, limit: number = 50, locale: string = DEFAULT_LOCALE) {
     const m = await this.prisma.manufacturer.findUnique({ where: { slug } });
-    if (!m) return null;
-    const where = { manufacturerId: m.id };
+    if (!m || m.slug !== slug) return null;
+    const where = { manufacturerId: m.id, status: PUBLISHED_STATUS };
     const skip = (page - 1) * limit;
     const [codes, total] = await Promise.all([
       this.prisma.oBDCode.findMany({ where, skip, take: limit, orderBy: { code: 'asc' }, include: this.listInclude(locale) }),
       this.prisma.oBDCode.count({ where }),
     ]);
+    if (total === 0) return null;
     return {
       manufacturer: { id: m.id, slug: m.slug, name: m.name, isGeneric: m.isGeneric, country: m.country, logoUrl: m.logoUrl },
-      data: this.localizeMany(codes),
+      data: await this.withSeoPolicies(this.localizeMany(codes, locale)),
       total,
       page,
       limit,
@@ -232,6 +233,7 @@ export class ObdCodesService {
     const searchTerm = query.toUpperCase();
     const rows = await this.prisma.oBDCode.findMany({
       where: {
+        status: PUBLISHED_STATUS,
         OR: [
           { code: { startsWith: searchTerm } },
           { code: { contains: searchTerm } },
@@ -255,7 +257,7 @@ export class ObdCodesService {
       }
     }
     const deduped = Array.from(byCode.values()).slice(0, limit).map((r) => {
-      const out = this.localize(r) as Record<string, unknown>;
+      const out = this.localize(r, locale) as Record<string, unknown>;
       const variantCount = counts.get(r.code) ?? 1;
       if (variantCount > 1 || !r.manufacturer?.isGeneric) out.variantCount = variantCount;
       return out;
@@ -291,12 +293,12 @@ export class ObdCodesService {
     if (codeIds.length === 0) return [];
 
     const rows = await this.prisma.oBDCode.findMany({
-      where: { id: { in: codeIds }, manufacturerId: genericId },
+      where: { id: { in: codeIds }, manufacturerId: genericId, status: PUBLISHED_STATUS },
       take: limit,
       orderBy: { code: 'asc' },
       include: this.listInclude(locale),
     });
-    return this.localizeMany(rows);
+    return this.localizeMany(rows, locale);
   }
 
   async findByCategory(category: string, page: number = 1, limit: number = 50, locale: string = DEFAULT_LOCALE) {
@@ -306,7 +308,7 @@ export class ObdCodesService {
     }
     // El catálogo por categoría también muestra solo genéricos (sin duplicar
     // por marca); las variantes OEM se ven por fabricante o desde el detalle.
-    const where = { code: { startsWith: cat }, manufacturerId: await this.genericId() };
+    const where = { code: { startsWith: cat }, manufacturerId: await this.genericId(), status: PUBLISHED_STATUS };
     const skip = (page - 1) * limit;
     const [codes, total] = await Promise.all([
       this.prisma.oBDCode.findMany({
@@ -318,41 +320,47 @@ export class ObdCodesService {
       }),
       this.prisma.oBDCode.count({ where }),
     ]);
-    return { data: this.localizeMany(codes), total, page, limit, pages: Math.ceil(total / limit) };
+    return { data: await this.withSeoPolicies(this.localizeMany(codes, locale)), total, page, limit, pages: Math.ceil(total / limit) };
   }
 
   async findRelated(code: string, limit: number = 6, locale: string = DEFAULT_LOCALE) {
     const category = code.charAt(0).toUpperCase();
     const rows = await this.prisma.oBDCode.findMany({
-      where: { code: { startsWith: category, not: code.toUpperCase() }, manufacturerId: await this.genericId() },
+      where: {
+        code: { startsWith: category, not: code.toUpperCase() },
+        manufacturerId: await this.genericId(),
+        status: PUBLISHED_STATUS,
+      },
       take: limit,
       orderBy: { code: 'asc' },
       include: this.listInclude(locale),
     });
-    return this.localizeMany(rows);
+    return this.localizeMany(rows, locale);
   }
 
   async findAllCategories() {
     return this.prisma.oBDCategory.findMany({
+      where: { codes: { some: { status: PUBLISHED_STATUS } } },
       orderBy: { code: 'asc' },
-      include: { _count: { select: { codes: true } } },
+      include: { _count: { select: { codes: { where: { status: PUBLISHED_STATUS } } } } },
     });
   }
 
   async findAllManufacturers() {
     return this.prisma.manufacturer.findMany({
+      where: { codes: { some: { status: PUBLISHED_STATUS } } },
       orderBy: [{ isGeneric: 'desc' }, { name: 'asc' }],
-      include: { _count: { select: { codes: true } } },
+      include: { _count: { select: { codes: { where: { status: PUBLISHED_STATUS } } } } },
     });
   }
 
   async findStats() {
     const [codes, symptoms, causes, solutions, manufacturers] = await Promise.all([
-      this.prisma.oBDCode.count(),
-      this.prisma.oBDSymptom.count(),
-      this.prisma.oBDCause.count(),
-      this.prisma.oBDSolution.count(),
-      this.prisma.manufacturer.count(),
+      this.prisma.oBDCode.count({ where: { status: PUBLISHED_STATUS } }),
+      this.prisma.oBDSymptom.count({ where: { code: { status: PUBLISHED_STATUS } } }),
+      this.prisma.oBDCause.count({ where: { code: { status: PUBLISHED_STATUS } } }),
+      this.prisma.oBDSolution.count({ where: { code: { status: PUBLISHED_STATUS } } }),
+      this.prisma.manufacturer.count({ where: { codes: { some: { status: PUBLISHED_STATUS } } } }),
     ]);
     return { codes, symptoms, causes, solutions, manufacturers };
   }

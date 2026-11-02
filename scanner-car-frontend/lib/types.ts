@@ -64,6 +64,11 @@ export interface OBDCode {
   symptoms?: OBDSymptom[];
   causes?: OBDCause[];
   solutions?: OBDSolution[];
+  // True only when all required English detail fields are non-empty; never
+  // inferred from the localized text returned by the API.
+  hasEnglishTranslation: boolean;
+  // Internal backend policy signal; it is not rendered as editorial content.
+  seoIndexable: boolean;
   vehicleCompat?: CodeVehicleCompat[];
   // Otras marcas (o el genérico SAE) que también definen este código.
   otherManufacturers?: ManufacturerRef[];
@@ -78,6 +83,8 @@ export interface CodeVariant {
   code: string;
   title: string;
   manufacturer: ManufacturerRef;
+  hasEnglishTranslation: boolean;
+  seoIndexable: boolean;
 }
 
 export interface SearchResult {

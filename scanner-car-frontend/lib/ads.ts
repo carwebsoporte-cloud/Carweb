@@ -15,9 +15,8 @@ export const ADSTERRA_NATIVE = {
   containerId: 'container-ace3ac38db2b383918c1c551ef09ce46',
 };
 
-// Site-wide formats loaded once per page view.
-export const ADSTERRA_POPUNDER_SRC =
-  'https://pl31598093.profitableratecpmnetwork.com/7b/5d/e3/7b5de3516ee3f5c4ebf31de810bca1ad.js';
+// Site-wide format loaded once per page view. Popunder is deliberately not
+// used: it redirects users to another site on any click.
 export const ADSTERRA_SOCIAL_BAR_SRC =
   'https://pl31598094.profitableratecpmnetwork.com/7b/2d/d3/7b2dd31988420276d5f7eaae59a80e2b.js';
 

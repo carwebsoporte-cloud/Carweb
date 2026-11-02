@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/components/LocaleProvider';
-import { getDict, withLocale } from '@/lib/i18n';
+import { withLocale } from '@/lib/i18n';
 
 const CATEGORIES = [
   { code: 'P', color: '#ff8c42' },
@@ -12,10 +12,8 @@ const CATEGORIES = [
 ];
 
 export default function Error({
-  error,
   reset,
 }: {
-  error: Error & { digest?: string };
   reset: () => void;
 }) {
   const locale = useLocale();

@@ -68,7 +68,7 @@ export default function CodeDetailView({
 
   return (
     <>
-      <CodeStructuredData code={code} severityAdvice={sev.advice} locale={locale} />
+      <CodeStructuredData code={code} locale={locale} />
 
       {/* Breadcrumb */}
       <div className="relative border-b border-neon/15 bg-[#040a18]/60">
@@ -183,7 +183,7 @@ export default function CodeDetailView({
               </div>
 
               <AffectedSystemVisual code={code.code} />
-              <VendorAdSpace />
+              <VendorAdSpace locale={locale} />
               <AdsterraBanner format="responsive" />
 
               {/* Síntomas */}

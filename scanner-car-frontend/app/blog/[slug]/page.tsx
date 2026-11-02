@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { normalizeLocale, withLocale, type Locale } from '@/lib/i18n';
 import { getPostBySlug } from '@/lib/api';
-import { localizePost, parseBlogBody, readingTime, formatDate } from '@/lib/blog';
+import { hasEnglishTranslation, localizePost, parseBlogBody, readingTime, formatDate } from '@/lib/blog';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { BreadcrumbJsonLd, ORG_ID } from '@/components/seo/JsonLd';
 
@@ -20,15 +20,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = await getPostBySlug(slug);
   if (!post) return {};
   const locale = await getLocale();
+  const hasEn = hasEnglishTranslation(post);
+  if (locale === 'en' && !hasEn) {
+    return {
+      title: 'Article not found',
+      robots: { index: false, follow: false },
+    };
+  }
   const c = localizePost(post, locale);
   const en = locale === 'en';
   const esUrl = `${SITE_URL}/blog/${slug}`;
   const enUrl = `${SITE_URL}/en/blog/${slug}`;
+  const canonical = en && hasEn ? enUrl : esUrl;
   return {
     title: `${c.title} | CARWEB`,
     description: c.excerpt,
-    alternates: { canonical: en ? enUrl : esUrl, languages: { es: esUrl, en: enUrl, 'x-default': esUrl } },
-    openGraph: { type: 'article', title: c.title, description: c.excerpt, images: c.coverUrl ? [c.coverUrl] : [], url: en ? enUrl : esUrl },
+    alternates: {
+      canonical,
+      languages: hasEn ? { es: esUrl, en: enUrl, 'x-default': esUrl } : { es: esUrl, 'x-default': esUrl },
+    },
+    openGraph: { type: 'article', title: c.title, description: c.excerpt, images: c.coverUrl ? [c.coverUrl] : [], url: canonical },
   };
 }
 
@@ -43,6 +54,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
   if (!post) notFound();
 
   const locale = await getLocale();
+  if (locale === 'en' && !hasEnglishTranslation(post)) notFound();
   const t = UI[locale];
   const c = localizePost(post, locale);
   const blocks = parseBlogBody(c.body);

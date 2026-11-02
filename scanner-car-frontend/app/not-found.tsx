@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { normalizeLocale, withLocale } from '@/lib/i18n';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carweb.com.co';
-
 const CATEGORIES = [
   { code: 'P', color: '#ff8c42' },
   { code: 'B', color: '#00d4ff' },
