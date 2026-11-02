@@ -8,6 +8,8 @@ import VendorAdSpace from '@/components/code/VendorAdSpace';
 import FaqSection from '@/components/FaqSection';
 import { FaqJsonLd } from '@/components/seo/JsonLd';
 import { buildAnswerSummary, buildCodeFaq, type AeoCodeInput } from '@/lib/code-aeo';
+import AdsterraBanner from '@/components/ads/AdsterraBanner';
+import AdsterraNative from '@/components/ads/AdsterraNative';
 
 /* Vista de detalle de un código, compartida por la ruta genérica
    (/code/[codeId]) y la ruta por marca (/code/[codeId]/[manufacturer]). */
@@ -207,6 +209,7 @@ export default function CodeDetailView({
 
               <AffectedSystemVisual code={code.code} />
               <VendorAdSpace locale={locale} />
+              <AdsterraBanner format="responsive" />
 
               {/* Síntomas */}
               {Array.isArray(code.symptoms) && code.symptoms.length > 0 && (
@@ -240,6 +243,7 @@ export default function CodeDetailView({
                 </div>
               )}
 
+              <AdsterraNative />
 
               {/* Soluciones */}
               {Array.isArray(code.solutions) && code.solutions.length > 0 && (
@@ -285,6 +289,7 @@ export default function CodeDetailView({
                 </div>
               </div>
 
+              <AdsterraBanner format="rectangle" />
             </div>
 
             {/* ── SIDEBAR ── */}
@@ -326,6 +331,8 @@ export default function CodeDetailView({
                   </div>
                 </form>
               </div>
+
+              <AdsterraBanner format="rectangle" />
 
               {relatedCodes.length > 0 && (
                 <div className="glass rounded-2xl p-6">
